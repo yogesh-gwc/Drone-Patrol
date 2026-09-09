@@ -1,0 +1,213 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "vehicles": [
+    {
+      "id": 1,
+      "code": "VH-001",
+      "type": "CAR",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.2,
+          12.526
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 1
+    },
+    {
+      "id": 2,
+      "code": "VH-002",
+      "type": "TRUCK",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.18,
+          12.537
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 1
+    },
+    {
+      "id": 3,
+      "code": "VH-003",
+      "type": "BIKE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.16,
+          12.549
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 2
+    },
+    {
+      "id": 4,
+      "code": "VH-004",
+      "type": "BUS",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.14,
+          12.56
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 2
+    },
+    {
+      "id": 5,
+      "code": "VH-005",
+      "type": "CAR",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.12,
+          12.572
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 3
+    },
+    {
+      "id": 6,
+      "code": "VH-006",
+      "type": "TRUCK",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.085,
+          12.592
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 4
+    },
+    {
+      "id": 7,
+      "code": "VH-007",
+      "type": "CAR",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.045,
+          12.615
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 5
+    },
+    {
+      "id": 8,
+      "code": "VH-008",
+      "type": "BIKE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.01,
+          12.636
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 6
+    },
+    {
+      "id": 9,
+      "code": "VH-009",
+      "type": "BUS",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.97,
+          12.658
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 7
+    },
+    {
+      "id": 10,
+      "code": "VH-010",
+      "type": "CAR",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.935,
+          12.68
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 8
+    },
+    {
+      "id": 11,
+      "code": "VH-011",
+      "type": "TRUCK",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.895,
+          12.702
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 9
+    },
+    {
+      "id": 12,
+      "code": "VH-012",
+      "type": "AMBULANCE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.855,
+          12.725
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 10
+    },
+    {
+      "id": 13,
+      "code": "VH-013",
+      "type": "POLICE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.84,
+          12.734
+        ]
+      },
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "status": "STOPPED",
+      "roadSegmentId": 10
+    }
+  ]
+}

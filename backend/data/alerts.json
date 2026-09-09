@@ -1,0 +1,71 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "alerts": [
+    {
+      "id": 1,
+      "level": "CRITICAL",
+      "alertType": "DRONE_OFFLINE",
+      "title": "DR-09 offline",
+      "message": "SIMULATED: DR-09 has stopped reporting. Patrol Zone 09 is uncovered.",
+      "droneId": 9,
+      "vehicleId": null,
+      "incidentId": 1,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.887,
+          12.707
+        ]
+      },
+      "acknowledged": false
+    },
+    {
+      "id": 2,
+      "level": "CRITICAL",
+      "alertType": "COMMUNICATION_FAILURE",
+      "title": "DR-09 telemetry link lost",
+      "message": "SIMULATED: no telemetry received from DR-09. System-level alert with no fixed position.",
+      "droneId": 9,
+      "vehicleId": null,
+      "incidentId": 1,
+      "location": null,
+      "acknowledged": false
+    },
+    {
+      "id": 3,
+      "level": "WARNING",
+      "alertType": "LOW_BATTERY",
+      "title": "DR-06 battery low",
+      "message": "SIMULATED: DR-06 battery at 21 percent. Returning to charging station CS-03.",
+      "droneId": 6,
+      "vehicleId": null,
+      "incidentId": 2,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.001,
+          12.641
+        ]
+      },
+      "acknowledged": false
+    },
+    {
+      "id": 4,
+      "level": "INFO",
+      "alertType": "CHARGING",
+      "title": "DR-03 charging at CS-02",
+      "message": "SIMULATED: DR-03 is charging at CS-02. Camera reported OFFLINE while on the pad.",
+      "droneId": 3,
+      "vehicleId": null,
+      "incidentId": null,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.1,
+          12.586
+        ]
+      },
+      "acknowledged": true
+    }
+  ]
+}

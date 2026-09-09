@@ -1,0 +1,3008 @@
+{
+ "type": "FeatureCollection",
+ "name": "aeroguard-corridor-pois",
+ "metadata": {
+  "description": "Real facilities within 2.5 km of the NH-44 Krishnagiri-Hosur corridor.",
+  "dataClass": "REAL",
+  "source": "OpenStreetMap via Overpass API",
+  "query": "amenity hospital|clinic|fuel|police|fire_station|college|university|school + named industrial, bbox 12.45,77.78,12.80,78.28",
+  "attribution": "© OpenStreetMap contributors",
+  "license": "Open Database License (ODbL)",
+  "retrieved": "2026-09-08",
+  "crs": "EPSG:4326 (WGS 84)",
+  "axisOrder": "[longitude, latitude] per RFC 7946",
+  "note": "chainageMeters is the distance along NH-44 of the nearest route vertex; offsetMeters is the perpendicular distance from the road.",
+  "corridorLengthMeters": 50732
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": 1669937406,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": "Bharat Petroleum",
+    "chainageMeters": 0,
+    "offsetMeters": 801
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.22133,
+     12.50815
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1822761425,
+   "properties": {
+    "name": "Government Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "emergency": true,
+    "chainageMeters": 0,
+    "offsetMeters": 1215
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.219916,
+     12.524644
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1823053790,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 1086
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.225391,
+     12.519549
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1823069343,
+   "properties": {
+    "name": "Krishland Higher Secondary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 462
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.217856,
+     12.518157
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6367892606,
+   "properties": {
+    "name": "TCR Multi Speciality Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 928
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.223766,
+     12.508818
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6928130929,
+   "properties": {
+    "name": "Dr. Agarwals Eye Hospital Ltd., Krishnagiri",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 719
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218986,
+     12.52027
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6934340700,
+   "properties": {
+    "name": "Om Sakthi Hospital, Krishnagiri",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 555
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218174,
+     12.518945
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6936695087,
+   "properties": {
+    "name": "Sre-Vidya Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 551
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218657,
+     12.518789
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7213542264,
+   "properties": {
+    "name": "Joe Hospital",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 799
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.215062,
+     12.52096
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7213550685,
+   "properties": {
+    "name": "Ohm Prakash Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 741
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.215968,
+     12.520632
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7213550686,
+   "properties": {
+    "name": "Nathans Speciality hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 698
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.217426,
+     12.520331
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7213550691,
+   "properties": {
+    "name": "A R K Nursing Home",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 745
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.216617,
+     12.520742
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518690,
+   "properties": {
+    "name": "Padma Poly Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 952
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.219131,
+     12.522401
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518757,
+   "properties": {
+    "name": "Sri Saraswathi Hospital- Ortho Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 502
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.221676,
+     12.51332
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526314,
+   "properties": {
+    "name": "Ganesh Maternity Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 730
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.219842,
+     12.520064
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526318,
+   "properties": {
+    "name": "Sristi Children's Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 685
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.219104,
+     12.519915
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526327,
+   "properties": {
+    "name": "Ramacharan ENT Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 604
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218703,
+     12.519271
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526332,
+   "properties": {
+    "name": "Kaveri Children Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 591
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218505,
+     12.5192
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526346,
+   "properties": {
+    "name": "Sabari Eye Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 596
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.219011,
+     12.519095
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526355,
+   "properties": {
+    "name": "Gokulam Clinic & Scans",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 755
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.216202,
+     12.520798
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526359,
+   "properties": {
+    "name": "Srinivasa Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 783
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.215755,
+     12.520975
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526360,
+   "properties": {
+    "name": "Rangachari Eye Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 614
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.217801,
+     12.519544
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526372,
+   "properties": {
+    "name": "Maharishi Siddha Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 599
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218687,
+     12.519228
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526383,
+   "properties": {
+    "name": "Kalyani ENT Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 719
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.219161,
+     12.520216
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526386,
+   "properties": {
+    "name": "Chennai Diabetic Centre",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 732
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.216883,
+     12.520646
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526393,
+   "properties": {
+    "name": "KMS Child Care",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 688
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218265,
+     12.520149
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526394,
+   "properties": {
+    "name": "Ganesh Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 626
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218255,
+     12.519586
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526397,
+   "properties": {
+    "name": "Rakshana Hearing Aid Centre",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 606
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218876,
+     12.519233
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526401,
+   "properties": {
+    "name": "Dr. Anbalagan Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 762
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.216059,
+     12.520837
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7903002236,
+   "properties": {
+    "name": "Govt Boys High Sec School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 1102
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.220796,
+     12.523304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7903002277,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 674
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.222371,
+     12.510834
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7930461087,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 706
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.22139,
+     12.518857
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688126391,
+   "properties": {
+    "name": "St. Mary's Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 217
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.218689,
+     12.512856
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688126393,
+   "properties": {
+    "name": "Nalanda International Public School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 1762
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.223509,
+     12.499498
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 12144366869,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 0,
+    "offsetMeters": 1378
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.223959,
+     12.50363
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 13097022934,
+   "properties": {
+    "name": "Bharat Petroleum",
+    "kind": "FUEL_STATION",
+    "operator": "Bharat Petroleum",
+    "chainageMeters": 0,
+    "offsetMeters": 1727
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.232965,
+     12.515381
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 13097022935,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 1580
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.231598,
+     12.515467
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 14063442558,
+   "properties": {
+    "name": "Lifecare Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 917
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.222502,
+     12.507708
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 171245087,
+   "properties": {
+    "name": "Padma Pharmacy",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 991
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.219181,
+     12.522746
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 180661128,
+   "properties": {
+    "name": "Government Boys higher secondary school",
+    "kind": "SCHOOL",
+    "operator": "Department of Higher Education",
+    "chainageMeters": 0,
+    "offsetMeters": 1082
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.219312,
+     12.523561
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 238953180,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 0,
+    "offsetMeters": 1528
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.222876,
+     12.501522
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 978382962,
+   "properties": {
+    "name": "Don Bosco School Ground",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 0,
+    "offsetMeters": 1057
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.2222,
+     12.505954
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1337863152,
+   "properties": {
+    "name": "Bharat Petroleum",
+    "kind": "FUEL_STATION",
+    "operator": "Bharat Petroleum",
+    "chainageMeters": 0,
+    "offsetMeters": 2172
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.220872,
+     12.494878
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1822734259,
+   "properties": {
+    "name": "St.Louis Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 679
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.214926,
+     12.525213
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1822757044,
+   "properties": {
+    "name": "Government Girls Higher Secondary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 1016
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.21795,
+     12.524041
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1911051522,
+   "properties": {
+    "name": "Krishnagiri Taluk office, fire station, Police station",
+    "kind": "POLICE",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 924
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.217182,
+     12.525454
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6930461727,
+   "properties": {
+    "name": "Jeeva Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 978
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.21754,
+     12.523671
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518769,
+   "properties": {
+    "name": "Sri Sathiya Sai Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 940
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.217113,
+     12.523345
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526350,
+   "properties": {
+    "name": "Shifa Unani Herbal Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 615
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.204149,
+     12.521901
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526363,
+   "properties": {
+    "name": "Shri Narayana Bone & Joint Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 277
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.210613,
+     12.523617
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526382,
+   "properties": {
+    "name": "AZ Family Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 482
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.212742,
+     12.523494
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526388,
+   "properties": {
+    "name": "Nathan Speciality Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 776
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.215009,
+     12.522006
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7903002233,
+   "properties": {
+    "name": "Vivekananda School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 440
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.212143,
+     12.523194
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7930461086,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 481
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.212637,
+     12.527149
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7930461089,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 996
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.216489,
+     12.529927
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 171245829,
+   "properties": {
+    "name": "Cambridge Higher Secondary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 1491
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.19971,
+     12.515068
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 171246278,
+   "properties": {
+    "name": "St.Annies Girls Higher Secondary school",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 771
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.215724,
+     12.524444
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 180661232,
+   "properties": {
+    "name": "Government Girls higher secondary school",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 1015
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.217945,
+     12.524082
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 180661442,
+   "properties": {
+    "name": "RC Fathima Boys School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 705
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.21514,
+     12.525812
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 846932585,
+   "properties": {
+    "name": "St Anne's Primary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 1544,
+    "offsetMeters": 677
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.214851,
+     12.524457
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6367899485,
+   "properties": {
+    "name": "Arun Ortho Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 1818,
+    "offsetMeters": 642
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.20203,
+     12.524755
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526336,
+   "properties": {
+    "name": "Poorvi Dental Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 1818,
+    "offsetMeters": 710
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.201589,
+     12.524257
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 171245483,
+   "properties": {
+    "name": "TANSI",
+    "kind": "FACTORY",
+    "operator": null,
+    "chainageMeters": 1818,
+    "offsetMeters": 197
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.208769,
+     12.528402
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526325,
+   "properties": {
+    "name": "Krishna Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 414
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.203216,
+     12.526971
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526333,
+   "properties": {
+    "name": "Vedikaa Child Care",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 453
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.202524,
+     12.527522
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526338,
+   "properties": {
+    "name": "Deepavel Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 474
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.202206,
+     12.527843
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526356,
+   "properties": {
+    "name": "Shri Krishna Cardiac Care Centre",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 610
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.201772,
+     12.525904
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526368,
+   "properties": {
+    "name": "KVS Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 166
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.205505,
+     12.527786
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526378,
+   "properties": {
+    "name": "Ga Heart Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 99
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.205534,
+     12.528771
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526387,
+   "properties": {
+    "name": "Lakshmi Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 649
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.201246,
+     12.526052
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526389,
+   "properties": {
+    "name": "Psychiatric Centre",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 157
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.205064,
+     12.529476
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 245766735,
+   "properties": {
+    "name": "Hyder Fuel Station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 2028,
+    "offsetMeters": 514
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.202044,
+     12.527221
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1823070721,
+   "properties": {
+    "name": "Trinity Higher Secondary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 2275,
+    "offsetMeters": 990
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.19702,
+     12.527625
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7825526315,
+   "properties": {
+    "name": "Shree Ramachandra ENT Centre",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 2275,
+    "offsetMeters": 290
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.203736,
+     12.52901
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 171244134,
+   "properties": {
+    "name": "Government Womens Collage",
+    "kind": "COLLEGE",
+    "operator": null,
+    "chainageMeters": 2275,
+    "offsetMeters": 718
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.199542,
+     12.528108
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 180661461,
+   "properties": {
+    "name": "Vijay Vidyalaya Higher Secondary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 2535,
+    "offsetMeters": 965
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.195723,
+     12.533605
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1444123964,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 3657,
+    "offsetMeters": 438
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.202585,
+     12.53904
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1669939263,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 6679,
+    "offsetMeters": 144
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.182889,
+     12.560321
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688153242,
+   "properties": {
+    "name": "Sri Saraswathi Vidyalaya",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 6679,
+    "offsetMeters": 193
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.183049,
+     12.56208
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1006061488,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 7378,
+    "offsetMeters": 181
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.177974,
+     12.563912
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1006061504,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 7378,
+    "offsetMeters": 649
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.181877,
+     12.568837
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 237371392,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 7960,
+    "offsetMeters": 77
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.173958,
+     12.570224
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 12078422685,
+   "properties": {
+    "name": "Nayara",
+    "kind": "FUEL_STATION",
+    "operator": "Nayara",
+    "chainageMeters": 9954,
+    "offsetMeters": 121
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.161107,
+     12.58084
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10197723059,
+   "properties": {
+    "name": "Hindustan Petroleum",
+    "kind": "FUEL_STATION",
+    "operator": "Hindustan Petroleum",
+    "chainageMeters": 10072,
+    "offsetMeters": 171
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.15754,
+     12.581557
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10197723061,
+   "properties": {
+    "name": "Arignar Anna College (Arts & Science)",
+    "kind": "COLLEGE",
+    "operator": null,
+    "chainageMeters": 10783,
+    "offsetMeters": 353
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.154634,
+     12.586925
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1097419961,
+   "properties": {
+    "name": "Bharat Petroleum",
+    "kind": "FUEL_STATION",
+    "operator": "Bharat Petroleum",
+    "chainageMeters": 11904,
+    "offsetMeters": 136
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.144808,
+     12.58758
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1444135083,
+   "properties": {
+    "name": "HP",
+    "kind": "FUEL_STATION",
+    "operator": "Hindustan Petroleum",
+    "chainageMeters": 11986,
+    "offsetMeters": 174
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.142659,
+     12.590306
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688137240,
+   "properties": {
+    "name": "Crescent Matriculation Higher Seconddary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 13755,
+    "offsetMeters": 138
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.132787,
+     12.600372
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 12270717492,
+   "properties": {
+    "name": "Essar",
+    "kind": "FUEL_STATION",
+    "operator": "Essar",
+    "chainageMeters": 13996,
+    "offsetMeters": 585
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.129992,
+     12.605619
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1097419957,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 14472,
+    "offsetMeters": 121
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.124496,
+     12.601578
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688137239,
+   "properties": {
+    "name": "Jeeva College of Nursing",
+    "kind": "COLLEGE",
+    "operator": null,
+    "chainageMeters": 15251,
+    "offsetMeters": 188
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.119194,
+     12.606706
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1097419956,
+   "properties": {
+    "name": "SIPCOT Industrial Park",
+    "kind": "FACTORY",
+    "operator": null,
+    "chainageMeters": 15251,
+    "offsetMeters": 425
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.11837,
+     12.601391
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688137238,
+   "properties": {
+    "name": "Bharat Petroleum",
+    "kind": "FUEL_STATION",
+    "operator": "Bharat Petroleum",
+    "chainageMeters": 17395,
+    "offsetMeters": 144
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.099423,
+     12.607893
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1097419955,
+   "properties": {
+    "name": "Embassy Industrial Park",
+    "kind": "FACTORY",
+    "operator": null,
+    "chainageMeters": 20663,
+    "offsetMeters": 444
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.083147,
+     12.627642
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1394165340,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 22103,
+    "offsetMeters": 56
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.070527,
+     12.636409
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1341394198,
+   "properties": {
+    "name": "Bharat Petroleum",
+    "kind": "FUEL_STATION",
+    "operator": "Bharat Petroleum",
+    "chainageMeters": 22892,
+    "offsetMeters": 264
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.064049,
+     12.640938
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10197656870,
+   "properties": {
+    "name": "HP",
+    "kind": "FUEL_STATION",
+    "operator": "Hindustan Petroleum",
+    "chainageMeters": 24101,
+    "offsetMeters": 59
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.053968,
+     12.643509
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688158137,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 25409,
+    "offsetMeters": 395
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.046331,
+     12.64646
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 237350633,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 25730,
+    "offsetMeters": 563
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.035145,
+     12.649712
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10197724625,
+   "properties": {
+    "name": "HP",
+    "kind": "FUEL_STATION",
+    "operator": "Hindustan Petroleum",
+    "chainageMeters": 27284,
+    "offsetMeters": 188
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.025196,
+     12.653994
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688139355,
+   "properties": {
+    "name": "New Little Flower Matriculation Higher Secondary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 28847,
+    "offsetMeters": 223
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.016901,
+     12.660792
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518791,
+   "properties": {
+    "name": "Shoolagiri Government Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 28968,
+    "offsetMeters": 610
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.015584,
+     12.666905
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1097419947,
+   "properties": {
+    "name": "HP",
+    "kind": "FUEL_STATION",
+    "operator": "Hindustan Petroleum",
+    "chainageMeters": 30259,
+    "offsetMeters": 73
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.002771,
+     12.666298
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1422346232,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 30259,
+    "offsetMeters": 151
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     78.003863,
+     12.664812
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 237274013,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": "Reliance",
+    "chainageMeters": 32708,
+    "offsetMeters": 183
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.979636,
+     12.670588
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 239063792,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 35934,
+    "offsetMeters": 181
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.952385,
+     12.68076
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1422346293,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 35934,
+    "offsetMeters": 314
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.9568,
+     12.680215
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 237245656,
+   "properties": {
+    "name": "Jio Bp",
+    "kind": "FUEL_STATION",
+    "operator": "Reliance",
+    "chainageMeters": 39469,
+    "offsetMeters": 444
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.926901,
+     12.688102
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1422346236,
+   "properties": {
+    "name": "HP",
+    "kind": "FUEL_STATION",
+    "operator": "Hindustan Petroleum",
+    "chainageMeters": 39469,
+    "offsetMeters": 409
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.926216,
+     12.687069
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 237241820,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 43176,
+    "offsetMeters": 53
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.897194,
+     12.710081
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 215385427,
+   "properties": {
+    "name": "TVSundram Iyangar",
+    "kind": "FUEL_STATION",
+    "operator": "TVSundaram Iyangar ",
+    "chainageMeters": 43395,
+    "offsetMeters": 58
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.895781,
+     12.711715
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 239308722,
+   "properties": {
+    "name": "HP",
+    "kind": "FUEL_STATION",
+    "operator": "Hindustan Petroleum",
+    "chainageMeters": 44897,
+    "offsetMeters": 88
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.883871,
+     12.715752
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 520727509,
+   "properties": {
+    "name": "Waste Sewage treatment",
+    "kind": "FACTORY",
+    "operator": null,
+    "chainageMeters": 46045,
+    "offsetMeters": 588
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.87134,
+     12.713269
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 103301699,
+   "properties": {
+    "name": "Sipcot Phase II Industrial Complex",
+    "kind": "FACTORY",
+    "operator": null,
+    "chainageMeters": 46401,
+    "offsetMeters": 1189
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.876492,
+     12.728489
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 159129156,
+   "properties": {
+    "name": "Adhiyamaan College of Engineering",
+    "kind": "COLLEGE",
+    "operator": null,
+    "chainageMeters": 46401,
+    "offsetMeters": 565
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.867872,
+     12.715213
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10688149980,
+   "properties": {
+    "name": "HUDCO Police Station",
+    "kind": "POLICE",
+    "operator": null,
+    "chainageMeters": 48117,
+    "offsetMeters": 227
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.857972,
+     12.725805
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 12270691057,
+   "properties": {
+    "name": "Lions Eye Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 48117,
+    "offsetMeters": 206
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.85765,
+     12.726437
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1300236208,
+   "properties": {
+    "name": "MS Dhoni Global School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 48117,
+    "offsetMeters": 1596
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.855061,
+     12.711445
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 239309636,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 48352,
+    "offsetMeters": 72
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.854013,
+     12.725749
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 237201456,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 48816,
+    "offsetMeters": 201
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.851366,
+     12.727175
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1324067273,
+   "properties": {
+    "name": "HP",
+    "kind": "FUEL_STATION",
+    "operator": "Hindustan Petroleum",
+    "chainageMeters": 48816,
+    "offsetMeters": 2382
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.845115,
+     12.705857
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1468043843,
+   "properties": {
+    "name": "Velammal Vidyalaya",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 49572,
+    "offsetMeters": 1432
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.83919,
+     12.715946
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 12564709358,
+   "properties": {
+    "name": "Auto LPG",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 49810,
+    "offsetMeters": 60
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.84114,
+     12.728851
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 13059749471,
+   "properties": {
+    "name": "Government Higher Secondary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 49810,
+    "offsetMeters": 1477
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.83501,
+     12.717228
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 13059749479,
+   "properties": {
+    "name": "Bharat Petroleum",
+    "kind": "FUEL_STATION",
+    "operator": "Bharat Petroleum",
+    "chainageMeters": 49810,
+    "offsetMeters": 1079
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.833527,
+     12.722624
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 14133768895,
+   "properties": {
+    "name": "Meera Multi-speciality Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 49810,
+    "offsetMeters": 1183
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.833553,
+     12.721288
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1473289798,
+   "properties": {
+    "name": "Bharathi Vidhyalaya Matriculation School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50353,
+    "offsetMeters": 1323
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.846077,
+     12.74004
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 1444160667,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 50486,
+    "offsetMeters": 40
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.835542,
+     12.732499
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 389493285,
+   "properties": {
+    "name": "Government Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1036
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.825313,
+     12.728929
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344385045,
+   "properties": {
+    "name": "Parimalam School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1010
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.826236,
+     12.728
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344385363,
+   "properties": {
+    "name": "Trafic Police Station",
+    "kind": "POLICE",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 946
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.827051,
+     12.727932
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344388827,
+   "properties": {
+    "name": "Vailankanni School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1575
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.819075,
+     12.733601
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344389314,
+   "properties": {
+    "name": "Seventh-day Adventists School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1849
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.816758,
+     12.731006
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344395621,
+   "properties": {
+    "name": "Vijay Vidyalaya School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 749
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.830843,
+     12.739724
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344405295,
+   "properties": {
+    "name": "Panchayat Union School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 673
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.829672,
+     12.728863
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344410073,
+   "properties": {
+    "name": "Hosur Town Police Station",
+    "kind": "POLICE",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1020
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.827283,
+     12.726755
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344410830,
+   "properties": {
+    "name": "Government Boys School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 404
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.832216,
+     12.730183
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344411808,
+   "properties": {
+    "name": "Government Girls School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 456
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.831192,
+     12.730193
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344414017,
+   "properties": {
+    "name": "Don Bosco School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1210
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.824266,
+     12.727588
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344429240,
+   "properties": {
+    "name": "Fuel station",
+    "kind": "FUEL_STATION",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 829
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.825982,
+     12.734135
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2344448404,
+   "properties": {
+    "name": "Maharishi Vidhya Mandir Primary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 698
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.832417,
+     12.739725
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2696697568,
+   "properties": {
+    "name": "Vinova Energy Systems Private Limited",
+    "kind": "FACTORY",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1097
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.824204,
+     12.729914
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 2696699678,
+   "properties": {
+    "name": "Gunam Super Speciality Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1067
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.824647,
+     12.72957
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6914894012,
+   "properties": {
+    "name": "Meera Nursing Home, Krishnagiri",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 480
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.829279,
+     12.732618
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6926417861,
+   "properties": {
+    "name": "Narayana Hrudayalaya Superspecialty Clinic",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1284
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.824295,
+     12.726408
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6928806172,
+   "properties": {
+    "name": "Surya Multispeciality Hospitals Ind Pvt Ltd",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 837
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.825909,
+     12.732934
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6932152153,
+   "properties": {
+    "name": "Velnath Maternity Home",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 828
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.826193,
+     12.735345
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6932414107,
+   "properties": {
+    "name": "Dr Agarwals Eye Hospital Ltd, Hosur",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1615
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.82058,
+     12.740589
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6934864238,
+   "properties": {
+    "name": "Thangam Nursing Home",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1698
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.818139,
+     12.735971
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6936359951,
+   "properties": {
+    "name": "Lakshmi Hospital, Krishnagiri",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 889
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.825436,
+     12.732821
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6936492063,
+   "properties": {
+    "name": "Vijay Hospital, Krishnagiri",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 893
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.825517,
+     12.735068
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 6936696212,
+   "properties": {
+    "name": "Uma Kumar Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1052
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.824305,
+     12.736254
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7184228803,
+   "properties": {
+    "name": "Amma Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 653
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.832698,
+     12.739355
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257289109,
+   "properties": {
+    "name": "Krishna Medical Centre",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1210
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.825359,
+     12.74089
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518689,
+   "properties": {
+    "name": "Lakshmi Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 880
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.825522,
+     12.732798
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518695,
+   "properties": {
+    "name": "Andal Private Nursing Home",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 911
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.82532,
+     12.7322
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518720,
+   "properties": {
+    "name": "S.B.S Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 832
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.825934,
+     12.733892
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518725,
+   "properties": {
+    "name": "Sri Venkat Sai Private Hospital",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1639
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.818506,
+     12.732793
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 7257518767,
+   "properties": {
+    "name": "Thangam Private Nursing Home",
+    "kind": "CLINIC",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1676
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.818564,
+     12.737023
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10564237918,
+   "properties": {
+    "name": "Bharat Petroleum",
+    "kind": "FUEL_STATION",
+    "operator": "Bharat Petroleum",
+    "chainageMeters": 50732,
+    "offsetMeters": 2004
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.822112,
+     12.719437
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 10564863563,
+   "properties": {
+    "name": "Sree Ramakrishna Paramahamsa Matriculation Higher Secondary School",
+    "kind": "SCHOOL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 2264
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.821633,
+     12.716876
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 14133768896,
+   "properties": {
+    "name": "Hosur Town Police Station",
+    "kind": "POLICE",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 516
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.832369,
+     12.729066
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 135131211,
+   "properties": {
+    "name": "Titan Watches",
+    "kind": "FACTORY",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 2168
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.822012,
+     12.749441
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 225571357,
+   "properties": {
+    "name": "Vasan Eye Care Hospital-Hosur",
+    "kind": "HOSPITAL",
+    "operator": null,
+    "chainageMeters": 50732,
+    "offsetMeters": 1835
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.818773,
+     12.7415
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 239317095,
+   "properties": {
+    "name": "Indian Oil",
+    "kind": "FUEL_STATION",
+    "operator": "Indian Oil",
+    "chainageMeters": 50732,
+    "offsetMeters": 1557
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.820485,
+     12.739241
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": 534821003,
+   "properties": {
+    "name": "Sishya school",
+    "kind": "SCHOOL",
+    "operator": "Vasanthi Thiagarajan",
+    "chainageMeters": 50732,
+    "offsetMeters": 2222
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.814506,
+     12.726309
+    ]
+   }
+  }
+ ]
+}

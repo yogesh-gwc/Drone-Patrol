@@ -1,0 +1,39 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "incidents": [
+    {
+      "id": 1,
+      "incidentType": "DRONE",
+      "severity": "CRITICAL",
+      "title": "DR-09 offline in Patrol Zone 09",
+      "description": "SIMULATED: DR-09 reports zero battery and GPS lock lost. Zone 09 has no active patrol cover.",
+      "status": "OPEN",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.887,
+          12.707
+        ]
+      },
+      "assignedDroneId": 9,
+      "vehicleId": null
+    },
+    {
+      "id": 2,
+      "incidentType": "CHARGING",
+      "severity": "WARNING",
+      "title": "DR-06 returning to CS-03 on low battery",
+      "description": "SIMULATED: DR-06 battery at 21 percent, routed to charging station CS-03.",
+      "status": "IN_PROGRESS",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.001,
+          12.641
+        ]
+      },
+      "assignedDroneId": 6,
+      "vehicleId": null
+    }
+  ]
+}

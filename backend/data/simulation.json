@@ -1,0 +1,13 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "simulation": {
+    "status": "STOPPED",
+    "speedMultiplier": 1,
+    "supportedSpeeds": [
+      1,
+      5,
+      10,
+      60
+    ]
+  }
+}

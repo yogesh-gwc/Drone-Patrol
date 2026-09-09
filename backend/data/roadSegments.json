@@ -1,0 +1,285 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "segments": [
+    {
+      "id": 1,
+      "roadName": "NH-44 (placeholder segment 01)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.21,
+            12.52
+          ],
+          [
+            78.191,
+            12.531
+          ],
+          [
+            78.172,
+            12.542
+          ]
+        ]
+      },
+      "distanceMeters": 4793.76,
+      "speedLimitKmh": 100,
+      "zoneId": 1,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 2,
+      "roadName": "NH-44 (placeholder segment 02)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.172,
+            12.542
+          ],
+          [
+            78.153,
+            12.553
+          ],
+          [
+            78.134,
+            12.564
+          ]
+        ]
+      },
+      "distanceMeters": 4793.46,
+      "speedLimitKmh": 100,
+      "zoneId": 2,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 3,
+      "roadName": "NH-44 (placeholder segment 03)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.134,
+            12.564
+          ],
+          [
+            78.115,
+            12.575
+          ],
+          [
+            78.096,
+            12.586
+          ]
+        ]
+      },
+      "distanceMeters": 4793.16,
+      "speedLimitKmh": 100,
+      "zoneId": 3,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 4,
+      "roadName": "NH-44 (placeholder segment 04)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.096,
+            12.586
+          ],
+          [
+            78.077,
+            12.597
+          ],
+          [
+            78.058,
+            12.608
+          ]
+        ]
+      },
+      "distanceMeters": 4792.86,
+      "speedLimitKmh": 100,
+      "zoneId": 4,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 5,
+      "roadName": "NH-44 (placeholder segment 05)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.058,
+            12.608
+          ],
+          [
+            78.039,
+            12.619
+          ],
+          [
+            78.02,
+            12.63
+          ]
+        ]
+      },
+      "distanceMeters": 4792.56,
+      "speedLimitKmh": 100,
+      "zoneId": 5,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 6,
+      "roadName": "NH-44 (placeholder segment 06)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.02,
+            12.63
+          ],
+          [
+            78.001,
+            12.641
+          ],
+          [
+            77.982,
+            12.652
+          ]
+        ]
+      },
+      "distanceMeters": 4792.26,
+      "speedLimitKmh": 100,
+      "zoneId": 6,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 7,
+      "roadName": "NH-44 (placeholder segment 07)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.982,
+            12.652
+          ],
+          [
+            77.963,
+            12.663
+          ],
+          [
+            77.944,
+            12.674
+          ]
+        ]
+      },
+      "distanceMeters": 4791.95,
+      "speedLimitKmh": 100,
+      "zoneId": 7,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 8,
+      "roadName": "NH-44 (placeholder segment 08)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.944,
+            12.674
+          ],
+          [
+            77.925,
+            12.685
+          ],
+          [
+            77.906,
+            12.696
+          ]
+        ]
+      },
+      "distanceMeters": 4791.65,
+      "speedLimitKmh": 100,
+      "zoneId": 8,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 9,
+      "roadName": "NH-44 (placeholder segment 09)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.906,
+            12.696
+          ],
+          [
+            77.887,
+            12.707
+          ],
+          [
+            77.868,
+            12.718
+          ]
+        ]
+      },
+      "distanceMeters": 4791.35,
+      "speedLimitKmh": 100,
+      "zoneId": 9,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 10,
+      "roadName": "NH-44 (placeholder segment 10)",
+      "roadType": "NATIONAL_HIGHWAY",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.868,
+            12.718
+          ],
+          [
+            77.849,
+            12.729
+          ],
+          [
+            77.83,
+            12.74
+          ]
+        ]
+      },
+      "distanceMeters": 4791.04,
+      "speedLimitKmh": 100,
+      "zoneId": 10,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    }
+  ]
+}

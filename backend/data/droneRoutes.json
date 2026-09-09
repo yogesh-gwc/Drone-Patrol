@@ -1,0 +1,265 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "routes": [
+    {
+      "id": 1,
+      "name": "Patrol Route 01 - Krishnagiri sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.21,
+            12.52
+          ],
+          [
+            78.191,
+            12.531
+          ],
+          [
+            78.172,
+            12.542
+          ]
+        ]
+      },
+      "zoneId": 1,
+      "distanceMeters": 4793.76,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 2,
+      "name": "Patrol Route 02 - Krishnagiri sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.172,
+            12.542
+          ],
+          [
+            78.153,
+            12.553
+          ],
+          [
+            78.134,
+            12.564
+          ]
+        ]
+      },
+      "zoneId": 2,
+      "distanceMeters": 4793.46,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 3,
+      "name": "Patrol Route 03 - Kundarapalli sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.134,
+            12.564
+          ],
+          [
+            78.115,
+            12.575
+          ],
+          [
+            78.096,
+            12.586
+          ]
+        ]
+      },
+      "zoneId": 3,
+      "distanceMeters": 4793.16,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 4,
+      "name": "Patrol Route 04 - Kundarapalli sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.096,
+            12.586
+          ],
+          [
+            78.077,
+            12.597
+          ],
+          [
+            78.058,
+            12.608
+          ]
+        ]
+      },
+      "zoneId": 4,
+      "distanceMeters": 4792.86,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 5,
+      "name": "Patrol Route 05 - Kurubarapalli sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.058,
+            12.608
+          ],
+          [
+            78.039,
+            12.619
+          ],
+          [
+            78.02,
+            12.63
+          ]
+        ]
+      },
+      "zoneId": 5,
+      "distanceMeters": 4792.56,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 6,
+      "name": "Patrol Route 06 - Kurubarapalli sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            78.02,
+            12.63
+          ],
+          [
+            78.001,
+            12.641
+          ],
+          [
+            77.982,
+            12.652
+          ]
+        ]
+      },
+      "zoneId": 6,
+      "distanceMeters": 4792.26,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 7,
+      "name": "Patrol Route 07 - Shoolagiri sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.982,
+            12.652
+          ],
+          [
+            77.963,
+            12.663
+          ],
+          [
+            77.944,
+            12.674
+          ]
+        ]
+      },
+      "zoneId": 7,
+      "distanceMeters": 4791.95,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 8,
+      "name": "Patrol Route 08 - Shoolagiri sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.944,
+            12.674
+          ],
+          [
+            77.925,
+            12.685
+          ],
+          [
+            77.906,
+            12.696
+          ]
+        ]
+      },
+      "zoneId": 8,
+      "distanceMeters": 4791.65,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 9,
+      "name": "Patrol Route 09 - Hosur sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.906,
+            12.696
+          ],
+          [
+            77.887,
+            12.707
+          ],
+          [
+            77.868,
+            12.718
+          ]
+        ]
+      },
+      "zoneId": 9,
+      "distanceMeters": 4791.35,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 10,
+      "name": "Patrol Route 10 - Hosur sector",
+      "routeType": "PATROL",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.868,
+            12.718
+          ],
+          [
+            77.849,
+            12.729
+          ],
+          [
+            77.83,
+            12.74
+          ]
+        ]
+      },
+      "zoneId": 10,
+      "distanceMeters": 4791.04,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    }
+  ]
+}

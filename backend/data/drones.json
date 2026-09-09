@@ -1,0 +1,235 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "drones": [
+    {
+      "id": 1,
+      "code": "DR-01",
+      "name": "Aeroguard DR-01",
+      "status": "PATROLLING",
+      "batteryPercentage": 87,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.191,
+          12.531
+        ]
+      },
+      "altitudeMeters": 120,
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "cameraStatus": "LIVE",
+      "speakerStatus": "IDLE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 1,
+      "routeId": 1,
+      "chargingStationId": null
+    },
+    {
+      "id": 2,
+      "code": "DR-02",
+      "name": "Aeroguard DR-02",
+      "status": "PATROLLING",
+      "batteryPercentage": 76.5,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.153,
+          12.553
+        ]
+      },
+      "altitudeMeters": 120,
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "cameraStatus": "LIVE",
+      "speakerStatus": "IDLE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 2,
+      "routeId": 2,
+      "chargingStationId": null
+    },
+    {
+      "id": 3,
+      "code": "DR-03",
+      "name": "Aeroguard DR-03",
+      "status": "CHARGING",
+      "batteryPercentage": 34,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.1,
+          12.586
+        ]
+      },
+      "altitudeMeters": 0,
+      "speedKmh": 0,
+      "headingDegrees": 0,
+      "cameraStatus": "OFFLINE",
+      "speakerStatus": "OFFLINE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 3,
+      "routeId": 3,
+      "chargingStationId": 2
+    },
+    {
+      "id": 4,
+      "code": "DR-04",
+      "name": "Aeroguard DR-04",
+      "status": "PATROLLING",
+      "batteryPercentage": 92,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.077,
+          12.597
+        ]
+      },
+      "altitudeMeters": 120,
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "cameraStatus": "LIVE",
+      "speakerStatus": "IDLE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 4,
+      "routeId": 4,
+      "chargingStationId": null
+    },
+    {
+      "id": 5,
+      "code": "DR-05",
+      "name": "Aeroguard DR-05",
+      "status": "PATROLLING",
+      "batteryPercentage": 68,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.039,
+          12.619
+        ]
+      },
+      "altitudeMeters": 120,
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "cameraStatus": "LIVE",
+      "speakerStatus": "IDLE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 5,
+      "routeId": 5,
+      "chargingStationId": null
+    },
+    {
+      "id": 6,
+      "code": "DR-06",
+      "name": "Aeroguard DR-06",
+      "status": "RETURNING",
+      "batteryPercentage": 21,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.001,
+          12.641
+        ]
+      },
+      "altitudeMeters": 100,
+      "speedKmh": 0,
+      "headingDegrees": 125,
+      "cameraStatus": "LIVE",
+      "speakerStatus": "IDLE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 6,
+      "routeId": 6,
+      "chargingStationId": 3
+    },
+    {
+      "id": 7,
+      "code": "DR-07",
+      "name": "Aeroguard DR-07",
+      "status": "PATROLLING",
+      "batteryPercentage": 81,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.963,
+          12.663
+        ]
+      },
+      "altitudeMeters": 120,
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "cameraStatus": "LIVE",
+      "speakerStatus": "IDLE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 7,
+      "routeId": 7,
+      "chargingStationId": null
+    },
+    {
+      "id": 8,
+      "code": "DR-08",
+      "name": "Aeroguard DR-08",
+      "status": "PATROLLING",
+      "batteryPercentage": 55,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.925,
+          12.685
+        ]
+      },
+      "altitudeMeters": 120,
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "cameraStatus": "LIVE",
+      "speakerStatus": "IDLE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 8,
+      "routeId": 8,
+      "chargingStationId": null
+    },
+    {
+      "id": 9,
+      "code": "DR-09",
+      "name": "Aeroguard DR-09",
+      "status": "OFFLINE",
+      "batteryPercentage": 0,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.887,
+          12.707
+        ]
+      },
+      "altitudeMeters": 0,
+      "speedKmh": 0,
+      "headingDegrees": 0,
+      "cameraStatus": "OFFLINE",
+      "speakerStatus": "OFFLINE",
+      "gpsStatus": "LOST",
+      "zoneId": 9,
+      "routeId": 9,
+      "chargingStationId": null
+    },
+    {
+      "id": 10,
+      "code": "DR-10",
+      "name": "Aeroguard DR-10",
+      "status": "PATROLLING",
+      "batteryPercentage": 73,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.849,
+          12.729
+        ]
+      },
+      "altitudeMeters": 120,
+      "speedKmh": 0,
+      "headingDegrees": 305,
+      "cameraStatus": "LIVE",
+      "speakerStatus": "IDLE",
+      "gpsStatus": "LOCKED",
+      "zoneId": 10,
+      "routeId": 10,
+      "chargingStationId": null
+    }
+  ]
+}

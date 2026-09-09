@@ -1,0 +1,95 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "stations": [
+    {
+      "id": 1,
+      "code": "CS-01",
+      "name": "Charging Station 01 - Krishnagiri sector",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.176,
+          12.542
+        ]
+      },
+      "capacity": 3,
+      "occupiedSlots": 0,
+      "powerStatus": "ONLINE",
+      "status": "AVAILABLE",
+      "dataSource": "SIMULATED",
+      "notes": "Placeholder position; serves zones Z-01 and Z-02."
+    },
+    {
+      "id": 2,
+      "code": "CS-02",
+      "name": "Charging Station 02 - Kundarapalli sector",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.1,
+          12.586
+        ]
+      },
+      "capacity": 2,
+      "occupiedSlots": 1,
+      "powerStatus": "ONLINE",
+      "status": "AVAILABLE",
+      "dataSource": "SIMULATED",
+      "notes": "Placeholder position; serves zones Z-03 and Z-04."
+    },
+    {
+      "id": 3,
+      "code": "CS-03",
+      "name": "Charging Station 03 - Kurubarapalli sector",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.024,
+          12.63
+        ]
+      },
+      "capacity": 3,
+      "occupiedSlots": 0,
+      "powerStatus": "ONLINE",
+      "status": "AVAILABLE",
+      "dataSource": "SIMULATED",
+      "notes": "Placeholder position; serves zones Z-05 and Z-06."
+    },
+    {
+      "id": 4,
+      "code": "CS-04",
+      "name": "Charging Station 04 - Shoolagiri sector",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.948,
+          12.674
+        ]
+      },
+      "capacity": 2,
+      "occupiedSlots": 0,
+      "powerStatus": "ONLINE",
+      "status": "AVAILABLE",
+      "dataSource": "SIMULATED",
+      "notes": "Placeholder position; serves zones Z-07 and Z-08."
+    },
+    {
+      "id": 5,
+      "code": "CS-05",
+      "name": "Charging Station 05 - Hosur sector",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.872,
+          12.718
+        ]
+      },
+      "capacity": 3,
+      "occupiedSlots": 0,
+      "powerStatus": "ONLINE",
+      "status": "AVAILABLE",
+      "dataSource": "SIMULATED",
+      "notes": "Placeholder position; serves zones Z-09 and Z-10."
+    }
+  ]
+}

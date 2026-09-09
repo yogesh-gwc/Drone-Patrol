@@ -1,0 +1,114 @@
+{
+  "type": "FeatureCollection",
+  "name": "aeroguard-corridor-settlements",
+  "metadata": {
+    "description": "Operational settlements along the AEROGUARD NH-44 corridor.",
+    "dataClass": "REAL",
+    "note": "REAL geographic reference data, distinct from SIMULATED drone/vehicle/incident data.",
+    "source": "MapTiler Geocoding API (OpenStreetMap-derived)",
+    "attribution": "© MapTiler © OpenStreetMap contributors",
+    "license": "OpenStreetMap data is available under the Open Database License (ODbL).",
+    "retrieved": "2026-09-08",
+    "crs": "EPSG:4326 (WGS 84)",
+    "axisOrder": "[longitude, latitude] per RFC 7946",
+    "ordering": "corridorOrder follows travel direction Krishnagiri -> Hosur. Kurubarapalli precedes Shoolagiri geographically.",
+    "bbox": [
+      77.83095,
+      12.51888,
+      78.22065,
+      12.73288
+    ]
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": 1,
+      "properties": {
+        "name": "Krishnagiri",
+        "corridorOrder": 1,
+        "geocoderMatchType": "place",
+        "confidence": "high",
+        "note": "Corridor start."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          78.22065,
+          12.51888
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      "properties": {
+        "name": "Kurubarapalli",
+        "corridorOrder": 2,
+        "geocoderMatchType": "place",
+        "confidence": "high",
+        "note": "Corridor node."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          78.13306,
+          12.60074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3,
+      "properties": {
+        "name": "Shoolagiri",
+        "corridorOrder": 3,
+        "geocoderMatchType": "place",
+        "confidence": "high",
+        "note": "Corridor node."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          78.01063,
+          12.66476
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 4,
+      "properties": {
+        "name": "Perandapalli",
+        "corridorOrder": 4,
+        "geocoderMatchType": "place",
+        "confidence": "high",
+        "note": "Corridor node. Replaces the earlier Kundarapalli entry, which had no settlement match."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.88938,
+          12.71237
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 5,
+      "properties": {
+        "name": "Hosur",
+        "corridorOrder": 5,
+        "geocoderMatchType": "place",
+        "confidence": "high",
+        "note": "Corridor end."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.83095,
+          12.73288
+        ]
+      }
+    }
+  ]
+}

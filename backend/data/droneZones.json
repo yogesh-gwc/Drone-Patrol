@@ -1,0 +1,515 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "zones": [
+    {
+      "id": 1,
+      "code": "Z-01",
+      "name": "Patrol Zone 01 - Krishnagiri sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.172,
+              12.49
+            ],
+            [
+              78.21,
+              12.49
+            ],
+            [
+              78.21,
+              12.572
+            ],
+            [
+              78.172,
+              12.572
+            ],
+            [
+              78.172,
+              12.49
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 1,
+      "routeId": 1,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.21,
+          12.52
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.172,
+          12.542
+        ]
+      },
+      "chargingStationId": 1,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 2,
+      "code": "Z-02",
+      "name": "Patrol Zone 02 - Krishnagiri sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.134,
+              12.512
+            ],
+            [
+              78.172,
+              12.512
+            ],
+            [
+              78.172,
+              12.594
+            ],
+            [
+              78.134,
+              12.594
+            ],
+            [
+              78.134,
+              12.512
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 2,
+      "routeId": 2,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.172,
+          12.542
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.134,
+          12.564
+        ]
+      },
+      "chargingStationId": 1,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 3,
+      "code": "Z-03",
+      "name": "Patrol Zone 03 - Kundarapalli sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.096,
+              12.534
+            ],
+            [
+              78.134,
+              12.534
+            ],
+            [
+              78.134,
+              12.616
+            ],
+            [
+              78.096,
+              12.616
+            ],
+            [
+              78.096,
+              12.534
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 3,
+      "routeId": 3,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.134,
+          12.564
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.096,
+          12.586
+        ]
+      },
+      "chargingStationId": 2,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 4,
+      "code": "Z-04",
+      "name": "Patrol Zone 04 - Kundarapalli sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.058,
+              12.556
+            ],
+            [
+              78.096,
+              12.556
+            ],
+            [
+              78.096,
+              12.638
+            ],
+            [
+              78.058,
+              12.638
+            ],
+            [
+              78.058,
+              12.556
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 4,
+      "routeId": 4,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.096,
+          12.586
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.058,
+          12.608
+        ]
+      },
+      "chargingStationId": 2,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 5,
+      "code": "Z-05",
+      "name": "Patrol Zone 05 - Kurubarapalli sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.02,
+              12.578
+            ],
+            [
+              78.058,
+              12.578
+            ],
+            [
+              78.058,
+              12.66
+            ],
+            [
+              78.02,
+              12.66
+            ],
+            [
+              78.02,
+              12.578
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 5,
+      "routeId": 5,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.058,
+          12.608
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.02,
+          12.63
+        ]
+      },
+      "chargingStationId": 3,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 6,
+      "code": "Z-06",
+      "name": "Patrol Zone 06 - Kurubarapalli sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.982,
+              12.6
+            ],
+            [
+              78.02,
+              12.6
+            ],
+            [
+              78.02,
+              12.682
+            ],
+            [
+              77.982,
+              12.682
+            ],
+            [
+              77.982,
+              12.6
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 6,
+      "routeId": 6,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          78.02,
+          12.63
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.982,
+          12.652
+        ]
+      },
+      "chargingStationId": 3,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 7,
+      "code": "Z-07",
+      "name": "Patrol Zone 07 - Shoolagiri sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.944,
+              12.622
+            ],
+            [
+              77.982,
+              12.622
+            ],
+            [
+              77.982,
+              12.704
+            ],
+            [
+              77.944,
+              12.704
+            ],
+            [
+              77.944,
+              12.622
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 7,
+      "routeId": 7,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.982,
+          12.652
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.944,
+          12.674
+        ]
+      },
+      "chargingStationId": 4,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 8,
+      "code": "Z-08",
+      "name": "Patrol Zone 08 - Shoolagiri sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.906,
+              12.644
+            ],
+            [
+              77.944,
+              12.644
+            ],
+            [
+              77.944,
+              12.726
+            ],
+            [
+              77.906,
+              12.726
+            ],
+            [
+              77.906,
+              12.644
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 8,
+      "routeId": 8,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.944,
+          12.674
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.906,
+          12.696
+        ]
+      },
+      "chargingStationId": 4,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 9,
+      "code": "Z-09",
+      "name": "Patrol Zone 09 - Hosur sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.868,
+              12.666
+            ],
+            [
+              77.906,
+              12.666
+            ],
+            [
+              77.906,
+              12.748
+            ],
+            [
+              77.868,
+              12.748
+            ],
+            [
+              77.868,
+              12.666
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 9,
+      "routeId": 9,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.906,
+          12.696
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.868,
+          12.718
+        ]
+      },
+      "chargingStationId": 5,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    },
+    {
+      "id": 10,
+      "code": "Z-10",
+      "name": "Patrol Zone 10 - Hosur sector",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.83,
+              12.688
+            ],
+            [
+              77.868,
+              12.688
+            ],
+            [
+              77.868,
+              12.77
+            ],
+            [
+              77.83,
+              12.77
+            ],
+            [
+              77.83,
+              12.688
+            ]
+          ]
+        ]
+      },
+      "assignedDroneId": 10,
+      "routeId": 10,
+      "startLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.868,
+          12.718
+        ]
+      },
+      "endLocation": {
+        "type": "Point",
+        "coordinates": [
+          77.83,
+          12.74
+        ]
+      },
+      "chargingStationId": 5,
+      "status": "ACTIVE",
+      "dataSource": "SIMULATED"
+    }
+  ]
+}

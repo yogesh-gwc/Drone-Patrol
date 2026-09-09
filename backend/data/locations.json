@@ -1,0 +1,260 @@
+{
+  "note": "SIMULATED prototype data. Seeded from the Phase 2 MySQL schema; placeholder geography, not surveyed positions. The real OSM NH-44 alignment lives in map-data/roads/.",
+  "locations": [
+    {
+      "id": 1,
+      "name": "Krishnagiri",
+      "type": "CITY",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.21,
+          12.52
+        ]
+      },
+      "description": "Corridor start. Approximate coordinate (~1 km), pending OpenStreetMap import in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 2,
+      "name": "Kundarapalli",
+      "type": "VILLAGE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.1,
+          12.6
+        ]
+      },
+      "description": "Approximate coordinate (~1 km), pending OpenStreetMap import in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 3,
+      "name": "Kurubarapalli",
+      "type": "VILLAGE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.02,
+          12.65
+        ]
+      },
+      "description": "Approximate coordinate (~1 km), pending OpenStreetMap import in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 4,
+      "name": "Shoolagiri",
+      "type": "CITY",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.98,
+          12.74
+        ]
+      },
+      "description": "Approximate coordinate (~1 km), pending OpenStreetMap import in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 5,
+      "name": "Hosur",
+      "type": "CITY",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.83,
+          12.74
+        ]
+      },
+      "description": "Corridor end. Approximate coordinate (~1 km), pending OpenStreetMap import in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 6,
+      "name": "Placeholder Hospital A (Krishnagiri sector)",
+      "type": "HOSPITAL",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.191,
+          12.531
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 7,
+      "name": "Placeholder Hospital B (Shoolagiri sector)",
+      "type": "HOSPITAL",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.963,
+          12.663
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 8,
+      "name": "Placeholder Police Station A (Kundarapalli sector)",
+      "type": "POLICE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.115,
+          12.575
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 9,
+      "name": "Placeholder Police Station B (Hosur sector)",
+      "type": "POLICE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.849,
+          12.729
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 10,
+      "name": "Placeholder Fire Station (Kurubarapalli sector)",
+      "type": "FIRE_STATION",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.039,
+          12.619
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 11,
+      "name": "Placeholder School A (Krishnagiri sector)",
+      "type": "SCHOOL",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.153,
+          12.553
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 12,
+      "name": "Placeholder School B (Shoolagiri sector)",
+      "type": "SCHOOL",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.925,
+          12.685
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 13,
+      "name": "Placeholder College (Kundarapalli sector)",
+      "type": "COLLEGE",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.077,
+          12.597
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 14,
+      "name": "Placeholder Industrial Unit A (Hosur sector)",
+      "type": "FACTORY",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.887,
+          12.707
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 15,
+      "name": "Placeholder Industrial Unit B (Kurubarapalli sector)",
+      "type": "FACTORY",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.001,
+          12.641
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 16,
+      "name": "Placeholder Fuel Station A (Krishnagiri sector)",
+      "type": "FUEL_STATION",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          78.172,
+          12.542
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    },
+    {
+      "id": 17,
+      "name": "Placeholder Fuel Station B (Shoolagiri sector)",
+      "type": "FUEL_STATION",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          77.944,
+          12.674
+        ]
+      },
+      "description": "SIMULATED placeholder. Not a real facility. Replaced by OpenStreetMap data in Phase 3.",
+      "dataSource": "SIMULATED",
+      "osmId": null
+    }
+  ]
+}
