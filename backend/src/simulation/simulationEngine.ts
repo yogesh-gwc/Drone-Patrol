@@ -64,8 +64,8 @@ const STATION_CAPACITY = 2
  */
 const RETURN_ARRIVAL_M = 70
 
-/** Metres the escort drone holds ahead of the ambulance. */
-const ESCORT_LEAD_M = 500
+/** Metres the escort drone holds ahead of the ambulance (~100m gap). */
+const ESCORT_LEAD_M = 100
 /** Shortest ambulance run, so a random start still has somewhere to go. */
 const MIN_AMBULANCE_RUN_M = 12000
 /** Start positions are cycled through this many corridor segments. */
@@ -236,7 +236,7 @@ function idleAmbulance(): AmbulanceEmergencyState {
     startName: 'Krishnagiri',
     speakerMessage: null,
     startedAtIso: null,
-    stage: 'EN_ROUTE',
+    stage: 'DISPATCHED',
     distanceRemainingMeters: 0,
     etaSeconds: null,
   }
@@ -678,15 +678,8 @@ export class SimulationEngine {
     if (drone) {
       drone.mode = 'ESCORTING'
       drone.escortingVehicleCode = ambulance.code
-      drone.speakerStatus = 'ACTIVE'
+      drone.speakerStatus = 'IDLE'
       drone.patrolResumeMeters = drone.distanceAlongMeters
-      // Take up station immediately rather than chasing from wherever the
-      // drone happened to be patrolling. The escort is DEFINED as 500 m ahead,
-      // so that is where it starts; closing from a random patrol position took
-      // 20 seconds and read as the drone being late.
-      drone.distanceAlongMeters = Math.min(CORRIDOR.lengthMeters, startDistance + ESCORT_LEAD_M)
-      drone.position = positionAtDistance(drone.distanceAlongMeters)
-      drone.headingDegrees = headingAtDistance(drone.distanceAlongMeters)
       drone.stationCode = null
     }
 
@@ -701,9 +694,9 @@ export class SimulationEngine {
       destinationKind: hospital ? 'HOSPITAL' : 'CORRIDOR',
       destinationPosition: hospital ? hospital.position : positionAtDistance(destinationDistance),
       startName: nodeNameAt(startDistance),
-      speakerMessage: SPEAKER_MESSAGE,
+      speakerMessage: null,
       startedAtIso: new Date().toISOString(),
-      stage: 'EN_ROUTE',
+      stage: 'DISPATCHED',
       distanceRemainingMeters: Math.round(destinationDistance - startDistance),
       etaSeconds: Math.round((destinationDistance - startDistance) / (96 / 3.6)),
     }
@@ -1053,7 +1046,7 @@ export class SimulationEngine {
       return
     }
 
-    if (this.ambulance.stage === 'EN_ROUTE') {
+    if (this.ambulance.stage === 'DISPATCHED' || this.ambulance.stage === 'EN_ROUTE') {
       const vehicle = this.vehicles.find((v) => v.code === this.ambulance.vehicleCode)
       if (!vehicle) {
         return
@@ -1244,10 +1237,10 @@ export class SimulationEngine {
             drone.speakerStatus = 'IDLE'
             break
           }
-          // Hold station 500 m ahead of the ambulance along the corridor.
+          // Hold station ESCORT_LEAD_M (~100m) ahead of the ambulance along the corridor.
           const target = Math.min(
             CORRIDOR.lengthMeters,
-            ambulance.distanceAlongMeters + ESCORT_LEAD_M * ambulance.direction,
+            Math.max(0, ambulance.distanceAlongMeters + ESCORT_LEAD_M * ambulance.direction),
           )
           drone.distanceAlongMeters = this.approach(
             drone.distanceAlongMeters,
@@ -1255,6 +1248,21 @@ export class SimulationEngine {
             ESCORT_SPEED_MPS * dt,
           )
           drone.batteryPercentage = Math.max(0, drone.batteryPercentage - DRAIN_PER_MINUTE * minutes * 1.4)
+          drone.speedKmh = ESCORT_SPEED_MPS * 3.6
+
+          const gapToTarget = Math.abs(drone.distanceAlongMeters - target)
+          if (gapToTarget <= 80) {
+            drone.speakerStatus = 'ACTIVE'
+            if (this.ambulance.active && this.ambulance.stage === 'DISPATCHED') {
+              this.ambulance.stage = 'EN_ROUTE'
+              this.ambulance.speakerMessage = SPEAKER_MESSAGE
+            }
+          } else {
+            drone.speakerStatus = 'IDLE'
+            if (this.ambulance.active && this.ambulance.stage === 'DISPATCHED') {
+              this.ambulance.speakerMessage = null
+            }
+          }
           break
         }
 

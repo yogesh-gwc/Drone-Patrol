@@ -72,11 +72,12 @@ export interface VehicleState {
 }
 
 /**
- * EN_ROUTE  - running to the hospital.
- * ARRIVED   - stopped at the hospital, handing the patient over.
- * COMPLETED - run finished; the panel shows the outcome before clearing.
+ * DISPATCHED - drone assigned and en route to intercept the ambulance.
+ * EN_ROUTE   - drone on station leading ahead and actively escorting.
+ * ARRIVED    - stopped at the hospital, handing the patient over.
+ * COMPLETED  - run finished; the panel shows the outcome before clearing.
  */
-export type AmbulanceStage = 'EN_ROUTE' | 'ARRIVED' | 'COMPLETED'
+export type AmbulanceStage = 'DISPATCHED' | 'EN_ROUTE' | 'ARRIVED' | 'COMPLETED'
 
 export interface AmbulanceEmergencyState {
   active: boolean

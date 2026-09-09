@@ -201,6 +201,17 @@ export class FleetRenderer {
     }
     // Amber body, mode-coloured accent: findable and still readable.
     tracked.handle.accent.material = droneAccentFor(tracked.mode)
+
+    // Status ring: Yellow for ESCORTING, Purple for RETURNING to patrol zone.
+    if (tracked.mode === 'ESCORTING') {
+      tracked.handle.statusRing.material = MATERIALS.escortRing
+      tracked.handle.statusRing.visible = true
+    } else if (tracked.mode === 'RETURNING') {
+      tracked.handle.statusRing.material = MATERIALS.returningRing
+      tracked.handle.statusRing.visible = true
+    } else {
+      tracked.handle.statusRing.visible = false
+    }
   }
 
   private applyScales(): void {

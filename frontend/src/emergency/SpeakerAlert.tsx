@@ -25,6 +25,9 @@ const ESCORT_MESSAGE = 'Attention. Emergency vehicle approaching. Please clear t
  */
 export function SpeakerAlert() {
   const snapshot = useSimulationStore((state) => state.snapshot)
+  const following = useSimulationStore((state) => state.followAmbulance)
+  const selectedDroneCode = useSimulationStore((state) => state.selectedDroneCode)
+  const selectedVehicleCode = useSimulationStore((state) => state.selectedVehicleCode)
   const [muted, setMuted] = useState(false)
   const [spokenCount, setSpokenCount] = useState(0)
   const lastSpokeAt = useRef(0)
@@ -34,13 +37,21 @@ export function SpeakerAlert() {
     ? snapshot?.drones.find((d) => d.code === ambulance.assignedDroneCode)
     : undefined
 
-  // The speaker is live only while a drone is actually escorting a running
-  // ambulance: not during the handover at the hospital, not after it clears.
-  const active =
+  // Operator is actively observing the ambulance or escort drone.
+  const isObservingAmbulance =
+    following ||
+    (selectedDroneCode !== null && selectedDroneCode === ambulance?.assignedDroneCode) ||
+    (selectedVehicleCode !== null && selectedVehicleCode === ambulance?.vehicleCode)
+
+  // The speaker is physically active on the drone only while actually escorting.
+  const isEscorting =
     ambulance?.active === true &&
     ambulance.stage === 'EN_ROUTE' &&
     drone?.mode === 'ESCORTING' &&
     drone.speakerStatus === 'ACTIVE'
+
+  // Only broadcast audio to the operator's speakers if escorting AND actively observing.
+  const active = isEscorting && isObservingAmbulance
 
   useEffect(() => {
     const synth = typeof window !== 'undefined' ? window.speechSynthesis : undefined
@@ -48,7 +59,7 @@ export function SpeakerAlert() {
       return
     }
     if (!active || muted) {
-      // Ending the escort must silence anything already queued.
+      // Unfollowing the ambulance or ending the escort must immediately silence speech.
       synth.cancel()
       return
     }
@@ -70,7 +81,7 @@ export function SpeakerAlert() {
       // Speech synthesis is unavailable or refused; the visual alert below
       // still carries the message.
     }
-  }, [active, muted, snapshot?.tick])
+  }, [active, muted, isObservingAmbulance, snapshot?.tick])
 
   // Belt and braces: silence on unmount too.
   useEffect(() => {
@@ -79,7 +90,7 @@ export function SpeakerAlert() {
     }
   }, [])
 
-  if (!active) {
+  if (!isEscorting) {
     return null
   }
 
@@ -102,8 +113,18 @@ export function SpeakerAlert() {
         <div className="mt-2 flex items-center justify-between gap-2">
           <span className="text-[9px] tracking-[0.14em] text-slate-500 uppercase">
             Speaker{' '}
-            <span className="font-mono text-red-600 dark:text-red-400">
-              {muted ? 'MUTED' : 'ACTIVE'}
+            <span
+              className={`font-mono ${
+                active && !muted
+                  ? 'text-red-600 dark:text-red-400'
+                  : 'text-slate-500 dark:text-slate-400'
+              }`}
+            >
+              {muted
+                ? 'MUTED'
+                : !isObservingAmbulance
+                  ? 'STANDBY (NOT FOLLOWING)'
+                  : 'ACTIVE'}
             </span>
           </span>
           <span className="font-mono text-[9px] text-slate-500">
