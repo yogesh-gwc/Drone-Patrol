@@ -1,4 +1,5 @@
 import { ThemeToggle } from './components/ThemeToggle'
+import { BigScreenCameraOverlay } from './dashboard/BigScreenCameraOverlay'
 import { DroneCameraPanel } from './dashboard/DroneCameraPanel'
 import { DronePanel } from './dashboard/DronePanel'
 import { OperationsPanel } from './dashboard/OperationsPanel'
@@ -78,6 +79,9 @@ export default function App() {
         <div className="pointer-events-none absolute bottom-12 left-4 z-10">
           <CameraReadout />
         </div>
+
+        {/* Big screen drone camera overlay */}
+        <BigScreenCameraOverlay />
       </main>
     </div>
   )

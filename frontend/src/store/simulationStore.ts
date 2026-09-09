@@ -15,6 +15,8 @@ import type { SimulationSnapshot } from '../types/simulation'
  */
 const RESTART_TICK_DROP = 100
 
+import type { CameraDirection } from '../dashboard/cameraFeeds'
+
 interface SimulationStoreState {
   snapshot: SimulationSnapshot | null
   connected: boolean
@@ -23,6 +25,8 @@ interface SimulationStoreState {
   selectedVehicleCode: string | null
   /** True while the camera is locked on the ambulance. */
   followAmbulance: boolean
+  /** Active camera direction expanded into the big screen overlay, or null. */
+  expandedFeedDirection: CameraDirection | null
 
   applySnapshot: (snapshot: SimulationSnapshot) => void
   setConnected: (connected: boolean) => void
@@ -30,6 +34,7 @@ interface SimulationStoreState {
   selectStation: (code: string | null) => void
   selectVehicle: (code: string | null) => void
   setFollowAmbulance: (following: boolean) => void
+  setExpandedFeedDirection: (direction: CameraDirection | null) => void
 }
 
 export const useSimulationStore = create<SimulationStoreState>((set) => ({
@@ -39,6 +44,7 @@ export const useSimulationStore = create<SimulationStoreState>((set) => ({
   selectedStationCode: null,
   selectedVehicleCode: null,
   followAmbulance: false,
+  expandedFeedDirection: null,
 
   applySnapshot: (snapshot) =>
     set((state) => {
@@ -58,10 +64,26 @@ export const useSimulationStore = create<SimulationStoreState>((set) => ({
   setConnected: (connected) => set({ connected }),
   // Only one thing is inspected at a time, so selecting clears the others.
   selectDrone: (selectedDroneCode) =>
-    set({ selectedDroneCode, selectedStationCode: null, selectedVehicleCode: null }),
+    set((state) => ({
+      selectedDroneCode,
+      selectedStationCode: null,
+      selectedVehicleCode: null,
+      expandedFeedDirection: selectedDroneCode === null ? null : state.expandedFeedDirection,
+    })),
   selectStation: (selectedStationCode) =>
-    set({ selectedStationCode, selectedDroneCode: null, selectedVehicleCode: null }),
+    set({
+      selectedStationCode,
+      selectedDroneCode: null,
+      selectedVehicleCode: null,
+      expandedFeedDirection: null,
+    }),
   selectVehicle: (selectedVehicleCode) =>
-    set({ selectedVehicleCode, selectedDroneCode: null, selectedStationCode: null }),
+    set({
+      selectedVehicleCode,
+      selectedDroneCode: null,
+      selectedStationCode: null,
+      expandedFeedDirection: null,
+    }),
   setFollowAmbulance: (followAmbulance) => set({ followAmbulance }),
+  setExpandedFeedDirection: (expandedFeedDirection) => set({ expandedFeedDirection }),
 }))

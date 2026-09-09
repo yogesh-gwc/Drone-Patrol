@@ -5,6 +5,8 @@ interface CameraFeedTileProps {
   feed: CameraFeed
   /** Set when the camera cannot be shown; the reason is displayed instead. */
   unavailable: string | null
+  /** Callback when the user clicks the video tile to expand to big screen. */
+  onExpand?: () => void
 }
 
 /**
@@ -19,10 +21,9 @@ interface CameraFeedTileProps {
  *
  * Each falls back to a readable placeholder rather than a dead black square.
  */
-export function CameraFeedTile({ feed, unavailable }: CameraFeedTileProps) {
+export function CameraFeedTile({ feed, unavailable, onExpand }: CameraFeedTileProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [failed, setFailed] = useState(false)
-  const [blocked, setBlocked] = useState(false)
 
   useEffect(() => {
     if (unavailable) {
@@ -33,7 +34,8 @@ export function CameraFeedTile({ feed, unavailable }: CameraFeedTileProps) {
       return
     }
     setFailed(false)
-    setBlocked(false)
+    video.muted = true
+    video.defaultMuted = true
 
     // Start the rear pane part-way in so the two panes are never showing the
     // same frame. Guarded: seeking past the end leaves some browsers stalled.
@@ -48,31 +50,43 @@ export function CameraFeedTile({ feed, unavailable }: CameraFeedTileProps) {
       video.addEventListener('loadedmetadata', seek, { once: true })
     }
 
-    // Muted autoplay is normally allowed, but policies differ; a rejection is
-    // reported rather than swallowed so the operator knows why it is still.
-    void video.play().catch(() => setBlocked(true))
+    const tryPlay = () => {
+      video.muted = true
+      const playPromise = video.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Retry playback once metadata is loaded
+          video.addEventListener(
+            'loadeddata',
+            () => {
+              video.muted = true
+              void video.play().catch(() => {})
+            },
+            { once: true },
+          )
+        })
+      }
+    }
+
+    tryPlay()
 
     return () => {
       video.removeEventListener('loadedmetadata', seek)
-      // Stop decoding as soon as the pane goes away: ten drones' worth of
-      // simultaneous streams is exactly what this panel must not create.
       video.pause()
     }
   }, [feed.src, feed.startSeconds, unavailable])
 
-  const resume = () => {
-    const video = videoRef.current
-    if (!video) return
-    void video
-      .play()
-      .then(() => setBlocked(false))
-      .catch(() => setBlocked(true))
-  }
-
   const message = unavailable ?? (failed ? 'Camera feed unavailable' : null)
 
   return (
-    <figure className="relative m-0 overflow-hidden rounded-sm border border-slate-300 bg-slate-900 dark:border-slate-800">
+    <figure
+      onClick={message ? undefined : onExpand}
+      title={message ? undefined : 'Click to open on big screen'}
+      data-camera-feed-tile="true"
+      className={`group relative m-0 overflow-hidden rounded-sm border border-slate-300 bg-slate-900 transition-all dark:border-slate-800 ${
+        message ? '' : 'cursor-pointer hover:border-sky-500 hover:ring-1 hover:ring-sky-500/80'
+      }`}
+    >
       <div className="relative aspect-video w-full">
         {message ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-slate-100 px-2 text-center dark:bg-slate-900">
@@ -89,7 +103,7 @@ export function CameraFeedTile({ feed, unavailable }: CameraFeedTileProps) {
             loop
             playsInline
             autoPlay
-            preload="metadata"
+            preload="auto"
             onError={() => setFailed(true)}
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -107,14 +121,13 @@ export function CameraFeedTile({ feed, unavailable }: CameraFeedTileProps) {
           </span>
         )}
 
-        {blocked && !message && (
-          <button
-            type="button"
-            onClick={resume}
-            className="absolute inset-0 flex items-center justify-center bg-slate-950/60 text-[10px] tracking-[0.14em] text-slate-100 uppercase"
-          >
-            Tap to start feed
-          </button>
+        {/* Hover hint for big screen expand */}
+        {!message && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-slate-950/30 opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="rounded bg-slate-950/80 px-2 py-1 text-[10px] font-medium tracking-wider text-sky-300 uppercase shadow backdrop-blur-sm">
+              ⤢ Big Screen
+            </span>
+          </div>
         )}
       </div>
     </figure>

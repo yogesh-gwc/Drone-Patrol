@@ -27,6 +27,8 @@ export function DronePanel() {
   const snapshot = useSimulationStore((state) => state.snapshot)
   const selectedDroneCode = useSimulationStore((state) => state.selectedDroneCode)
   const selectDrone = useSimulationStore((state) => state.selectDrone)
+  const followAmbulance = useSimulationStore((state) => state.followAmbulance)
+  const setFollowAmbulance = useSimulationStore((state) => state.setFollowAmbulance)
 
   const drones = snapshot?.drones ?? []
   const charging = drones.filter((d) => d.mode === 'CHARGING').length
@@ -35,6 +37,9 @@ export function DronePanel() {
 
   // Selecting is enough: MapScene flies the camera and then locks onto it.
   const select = (code: string) => {
+    if (followAmbulance && code !== snapshot?.ambulance.assignedDroneCode) {
+      setFollowAmbulance(false)
+    }
     selectDrone(code)
   }
 
