@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { chargingStationRouter } from './chargingStationRoutes.js'
+import { dashboardRouter } from './dashboardRoutes.js'
 import { droneRouter } from './droneRoutes.js'
 import { emergencyRouter } from './emergencyRoutes.js'
 import { healthRouter } from './healthRoutes.js'
@@ -28,3 +29,4 @@ apiRouter.use('/pois', poiRouter)
 apiRouter.use('/vehicles', vehicleRouter)
 apiRouter.use('/simulation', simulationRouter)
 apiRouter.use('/emergency', emergencyRouter)
+apiRouter.use('/dashboard', dashboardRouter)

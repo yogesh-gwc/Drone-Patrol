@@ -16,7 +16,7 @@ simulation.start()
 startBroadcasting(io)
 
 httpServer.listen(env.port, () => {
-  logger.info(`AEROGUARD 3D backend listening on http://localhost:${env.port} (${env.nodeEnv})`)
+  logger.info(`Drone Patrol 3D backend listening on http://localhost:${env.port} (${env.nodeEnv})`)
   logger.info(`Health check: http://localhost:${env.port}/api/health`)
   logger.info(`Allowed client origin: ${env.clientUrl}`)
 })
