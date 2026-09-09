@@ -564,9 +564,10 @@ export class SimulationEngine {
         )
       : 8000
 
+    const randomTag = Math.floor(1000 + Math.random() * 9000)
     const speed = 155
     const vehicle: VehicleRuntime = {
-      code: `VH-SPEED-${pad(this.nextVehicleId++)}`,
+      code: `VH-SPEED-${randomTag}`,
       kind: 'CAR',
       direction,
       lane: 0,

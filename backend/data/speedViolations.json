@@ -964,5 +964,47 @@
         12.533388
       ]
     }
+  },
+  {
+    "violationId": "ECH-20260909-47",
+    "timestamp": "2026-09-09T13:00:43.877Z",
+    "capturedDroneId": "DR-01",
+    "capturedDroneName": "Drone Patrol DR-01",
+    "vehicleCode": "VH-SPEED-221",
+    "vehicleKind": "CAR",
+    "measuredSpeedKmh": 155,
+    "speedLimitKmh": 80,
+    "excessSpeedKmh": 75,
+    "fineAmount": "₹2,000",
+    "section": "Section 183(2) & 184 - Motor Vehicles Act (Dangerous Overspeeding: >40 km/h)",
+    "location": {
+      "chainageMeters": 4947,
+      "sectorName": "Krishnagiri",
+      "coordinates": [
+        78.193447,
+        12.550639
+      ]
+    }
+  },
+  {
+    "violationId": "ECH-20260909-48",
+    "timestamp": "2026-09-09T13:04:14.798Z",
+    "capturedDroneId": "DR-01",
+    "capturedDroneName": "Drone Patrol DR-01",
+    "vehicleCode": "VH-SPEED-9652",
+    "vehicleKind": "CAR",
+    "measuredSpeedKmh": 155,
+    "speedLimitKmh": 80,
+    "excessSpeedKmh": 75,
+    "fineAmount": "₹2,000",
+    "section": "Section 183(2) & 184 - Motor Vehicles Act (Dangerous Overspeeding: >40 km/h)",
+    "location": {
+      "chainageMeters": 1681,
+      "sectorName": "Krishnagiri",
+      "coordinates": [
+        78.207997,
+        12.526279
+      ]
+    }
   }
 ]
