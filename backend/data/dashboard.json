@@ -1,0 +1,71 @@
+{
+  "_comment": "SIMULATED DEMO DATA. These are the opening balances the Drone Patrol dashboard starts from so the command view is not empty on a cold start. They are invented figures for a demonstration of the NH-44 Krishnagiri to Hosur corridor and are NOT real government statistics, real enforcement records or real emergency-service data. Live simulation events are added on top of these baselines at runtime; nothing here is ever written back.",
+  "simulated": true,
+  "baselineLabel": "Seeded demonstration baseline",
+  "emergency": {
+    "ambulancesEscorted": 12,
+    "completedTrips": 11,
+    "activeEscorts": 1,
+    "sosResponses": 8,
+    "averageEscortResponseSeconds": 138
+  },
+  "traffic": {
+    "vehiclesMonitored": 125,
+    "speedViolations": 37,
+    "simulatedFines": 18500,
+    "longStoppedVehicles": 4,
+    "speedLimitKmh": 80,
+    "fineAmount": 500
+  },
+  "publicSafety": {
+    "sosRequests": 8,
+    "resolvedSos": 8,
+    "suspiciousVehicles": 6,
+    "activeInvestigations": 1,
+    "policeDispatches": 2
+  },
+  "droneOperations": {
+    "totalFlightHours": 486,
+    "sortiesFlown": 214
+  },
+  "seedActivity": [
+    { "minutesAgo": 8, "kind": "AMBULANCE", "title": "Ambulance escort completed", "detail": "AMB-012 Krishnagiri to Hosur" },
+    { "minutesAgo": 12, "kind": "VIOLATION", "title": "Speed violation recorded", "detail": "VH-042 at Perandapalli, 104 km/h" },
+    { "minutesAgo": 19, "kind": "SOS", "title": "SOS resolved", "detail": "SOS-008 near Shoolagiri" },
+    { "minutesAgo": 25, "kind": "SUSPICIOUS", "title": "Suspicious vehicle under observation", "detail": "VH-087 stopped 83 min at Shoolagiri" },
+    { "minutesAgo": 38, "kind": "CHARGING", "title": "Drone docked to charge", "detail": "DR-07 at CS-03" },
+    { "minutesAgo": 51, "kind": "AMBULANCE", "title": "Ambulance escort completed", "detail": "AMB-011 Shoolagiri to Hosur" }
+  ],
+  "seedEscorts": [
+    { "code": "AMB-012", "route": "Krishnagiri to Hosur", "status": "COMPLETED", "responseSeconds": 132 },
+    { "code": "AMB-011", "route": "Shoolagiri to Hosur", "status": "COMPLETED", "responseSeconds": 148 },
+    { "code": "AMB-010", "route": "Kurubarapalli to Hosur", "status": "COMPLETED", "responseSeconds": 121 },
+    { "code": "AMB-009", "route": "Krishnagiri to Shoolagiri", "status": "COMPLETED", "responseSeconds": 155 }
+  ],
+  "seedSosEvents": [
+    { "code": "SOS-008", "location": "Perandapalli", "status": "RESOLVED" },
+    { "code": "SOS-007", "location": "Shoolagiri", "status": "RESOLVED" },
+    { "code": "SOS-006", "location": "Kurubarapalli", "status": "RESOLVED" }
+  ],
+  "seedViolations": [
+    { "code": "VH-042", "speedKmh": 104, "location": "Perandapalli", "fine": 500 },
+    { "code": "VH-071", "speedKmh": 96, "location": "Shoolagiri", "fine": 500 },
+    { "code": "VH-118", "speedKmh": 91, "location": "Kurubarapalli", "fine": 500 }
+  ],
+  "seedSuspicious": [
+    {
+      "code": "VH-042",
+      "stoppedMinutes": 46,
+      "location": "Perandapalli",
+      "reason": "Possible vehicle breakdown",
+      "status": "UNDER DRONE OBSERVATION"
+    },
+    {
+      "code": "VH-087",
+      "stoppedMinutes": 83,
+      "location": "Shoolagiri",
+      "reason": "Unknown / prolonged roadside stop",
+      "status": "POLICE DISPATCH SIMULATED"
+    }
+  ]
+}

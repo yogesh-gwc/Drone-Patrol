@@ -17,7 +17,7 @@ import type { GeoLineString, GeoPoint, GeoPolygon } from '../types/geo.js'
 /**
  * Prototype datasets.
  *
- * AEROGUARD is deployed as a hosted demo, so runtime no longer depends on
+ * Drone Patrol is deployed as a hosted demo, so runtime no longer depends on
  * MySQL. These JSON files were exported from the Phase 2 schema and keep the
  * same ids and relationships, which is why the REST responses are unchanged
  * and the frontend needed no rewrite.

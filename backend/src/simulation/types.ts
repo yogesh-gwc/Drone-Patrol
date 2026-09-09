@@ -100,6 +100,124 @@ export interface AmbulanceEmergencyState {
   etaSeconds: number | null
 }
 
+// --- dashboard ---------------------------------------------------------------
+
+/**
+ * Command dashboard state.
+ *
+ * SIMULATED THROUGHOUT. Every figure is either an invented opening balance
+ * from `backend/data/dashboard.json` or a count of events this simulation
+ * generated. None of it is real government data, real enforcement action or
+ * real emergency-service activity, and nothing here reaches an external
+ * system. Counters are baseline + live, so the dashboard is populated on a
+ * cold start and then moves as the corridor is worked.
+ */
+
+export type ActivityKind =
+  | 'AMBULANCE'
+  | 'SOS'
+  | 'VIOLATION'
+  | 'SUSPICIOUS'
+  | 'POLICE'
+  | 'CHARGING'
+
+export interface ActivityEvent {
+  id: number
+  /** Simulation clock time, ISO. */
+  atIso: string
+  kind: ActivityKind
+  title: string
+  detail: string
+}
+
+export interface EscortRecord {
+  code: string
+  route: string
+  status: 'ACTIVE' | 'COMPLETED'
+  responseSeconds: number
+}
+
+export interface SosRecord {
+  code: string
+  location: string
+  status: string
+}
+
+export interface ViolationRecord {
+  code: string
+  speedKmh: number
+  location: string
+  fine: number
+  /** Always true: this is a demonstration record, not an enforcement action. */
+  simulated: boolean
+}
+
+export interface SuspiciousRecord {
+  code: string
+  stoppedMinutes: number
+  location: string
+  reason: string
+  status: string
+}
+
+export interface ZoneCoverage {
+  name: string
+  droneCount: number
+}
+
+export interface DashboardState {
+  /** Always true. Rendered in the UI so the figures cannot be mistaken. */
+  simulated: boolean
+  baselineLabel: string
+
+  emergency: {
+    ambulancesEscorted: number
+    activeEscorts: number
+    completedTrips: number
+    averageEscortResponseSeconds: number
+    sosResponses: number
+    activeSos: number
+    recentEscorts: EscortRecord[]
+    recentSos: SosRecord[]
+  }
+
+  traffic: {
+    vehiclesMonitored: number
+    speedViolations: number
+    simulatedFines: number
+    vehiclesStopped: number
+    averageSpeedKmh: number
+    congestion: 'LIGHT' | 'MODERATE' | 'HEAVY'
+    speedLimitKmh: number
+    recentViolations: ViolationRecord[]
+  }
+
+  publicSafety: {
+    sosRequests: number
+    resolvedSos: number
+    suspiciousVehicles: number
+    activeInvestigations: number
+    longStoppedVehicles: number
+    policeDispatches: number
+    watchlist: SuspiciousRecord[]
+  }
+
+  droneOperations: {
+    total: number
+    patrolling: number
+    charging: number
+    escorting: number
+    available: number
+    averageBatteryPercentage: number
+    chargingStations: number
+    chargingPadsOccupied: number
+    chargingPadsTotal: number
+    zones: ZoneCoverage[]
+  }
+
+  activity: ActivityEvent[]
+}
+
 export type SosStatus = 'ACTIVE' | 'TRACKING' | 'RESOLVED'
 
 /**
@@ -193,4 +311,5 @@ export interface SimulationSnapshot {
   ambulance: AmbulanceEmergencyState
   sos: SosState | null
   suspicious: SuspiciousVehicleState | null
+  dashboard: DashboardState
 }

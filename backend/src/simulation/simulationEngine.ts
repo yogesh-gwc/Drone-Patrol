@@ -12,8 +12,17 @@ import {
   nearestNodeName,
   positionAtDistance,
 } from './corridor.js'
+import { DASHBOARD_BASELINE } from './dashboardBaseline.js'
 import { hospitalAhead, nearestHospitalTo } from './pois.js'
 import type {
+  ActivityEvent,
+  ActivityKind,
+  DashboardState,
+  EscortRecord,
+  SosRecord,
+  SuspiciousRecord,
+  ViolationRecord,
+  ZoneCoverage,
   SosStage,
   AmbulanceEmergencyState,
   SosState,
@@ -26,7 +35,7 @@ import type {
 } from './types.js'
 
 /**
- * Authoritative AEROGUARD simulation.
+ * Authoritative Drone Patrol simulation.
  *
  * The backend owns all moving state; the frontend renders snapshots and
  * interpolates between them. Everything is expressed as a distance along the
@@ -114,6 +123,34 @@ const ESCALATION_THRESHOLD_MIN = 80
 const MONITOR_ARRIVAL_M = 90
 /** Drone transit speed when responding to a stopped vehicle, m/s. */
 const MONITOR_SPEED_MPS = 40
+
+/**
+ * Simulated speed enforcement.
+ *
+ * A violation is recorded when a speeding vehicle passes close to a patrolling
+ * drone, which is both how enforcement actually works and what keeps the count
+ * plausible: flagging every vehicle over the limit on every tick would book
+ * most of the 220-vehicle fleet within a second. The cooldown stops the same
+ * vehicle being booked repeatedly by the same drone.
+ *
+ * SIMULATED ONLY: no fine is issued, no registration is looked up and no
+ * enforcement or payment system is contacted.
+ */
+const ENFORCEMENT_RANGE_M = 140
+const ENFORCEMENT_COOLDOWN_MIN = 18
+/**
+ * Shortest gap between any two bookings, in simulated seconds.
+ *
+ * Without this the corridor books dozens of vehicles a second: with ten drones
+ * and 220 vehicles there is nearly always somebody speeding within 140 m of a
+ * patrol. One booking every 90 simulated seconds is roughly 40 an hour across
+ * 50 km, which reads as plausible enforcement activity rather than a counter
+ * spinning like an odometer.
+ */
+const MIN_VIOLATION_GAP_MS = 90_000
+
+/** Entries kept in the rolling activity feed. */
+const ACTIVITY_LIMIT = 40
 
 const SUSPICIOUS_SPEAKER_MESSAGE =
   'Please move your vehicle if stopped on the highway. Emergency monitoring is active.'
@@ -263,6 +300,35 @@ export class SimulationEngine {
   private nextSosId = 1
   private suspicious: SuspiciousVehicleState | null = null
   private nextIncidentId = 1
+
+  /**
+   * Live dashboard counters, on top of the seeded baseline.
+   *
+   * Kept separately from the baseline so the two are never confused: the
+   * baseline is invented demonstration data, these are events this run really
+   * produced.
+   */
+  private counters = {
+    ambulancesEscorted: 0,
+    completedTrips: 0,
+    sosRequests: 0,
+    resolvedSos: 0,
+    suspiciousRaised: 0,
+    policeDispatches: 0,
+    speedViolations: 0,
+    fines: 0,
+  }
+  private escortStartedAtSimMs: number | null = null
+  private readonly escortResponses: number[] = []
+  private readonly escorts: EscortRecord[] = []
+  private readonly sosRecords: SosRecord[] = []
+  private readonly violations: ViolationRecord[] = []
+  private readonly activity: ActivityEvent[] = []
+  private nextActivityId = 1
+  /** Vehicle code -> simulated ms when it may next be booked. */
+  private readonly enforcementCooldown = new Map<string, number>()
+  /** Simulated-clock ms of the most recent booking. */
+  private lastViolationSimMs = 0
   /** Rotates the ambulance start across the corridor between runs. */
   private nextAmbulanceSegment = Math.floor(Math.random() * AMBULANCE_START_SEGMENTS)
 
@@ -276,6 +342,7 @@ export class SimulationEngine {
     // The corridor should never look dead: traffic runs from start-up rather
     // than waiting for an operator to switch it on.
     this.startTraffic()
+    this.seedDashboard()
   }
 
   // --- lifecycle ------------------------------------------------------------
@@ -309,6 +376,8 @@ export class SimulationEngine {
     // Traffic is a permanent feature of the corridor, not an opt-in: a reset
     // repopulates it rather than leaving an empty highway.
     this.startTraffic()
+    // Back to the seeded demonstration baseline, not to zero.
+    this.seedDashboard()
   }
 
   stop(): void {
@@ -567,6 +636,12 @@ export class SimulationEngine {
       // SIMULATED ONLY. No call is placed and no external service is contacted.
       incident.stage = 'POLICE_DISPATCH'
       incident.policeDispatchSimulated = true
+      this.counters.policeDispatches += 1
+      this.recordActivity(
+        'POLICE',
+        'Police dispatch simulated',
+        incident.vehicleCode + ' stopped ' + Math.round(vehicle.stoppedMinutes) + ' min at ' + incident.sectorName,
+      )
     }
   }
 
@@ -599,6 +674,13 @@ export class SimulationEngine {
       policeDispatchSimulated: false,
       startedAtIso: new Date().toISOString(),
     }
+
+    this.counters.suspiciousRaised += 1
+    this.recordActivity(
+      'SUSPICIOUS',
+      'Suspicious vehicle flagged',
+      vehicle.code + ' stopped ' + Math.round(vehicle.stoppedMinutes) + ' min at ' + this.suspicious.sectorName,
+    )
   }
 
   /**
@@ -709,6 +791,23 @@ export class SimulationEngine {
     }
     this.ambulanceStageSeconds = 0
 
+    this.counters.ambulancesEscorted += 1
+    this.escortStartedAtSimMs = this.simulatedTime.getTime()
+    this.escorts.unshift({
+      code: ambulance.code,
+      route: this.ambulance.startName + ' to ' + this.ambulance.destinationName,
+      status: 'ACTIVE',
+      responseSeconds: 0,
+    })
+    if (this.escorts.length > 8) {
+      this.escorts.length = 8
+    }
+    this.recordActivity(
+      'AMBULANCE',
+      'Ambulance priority corridor opened',
+      ambulance.code + ' ' + this.ambulance.startName + ' to ' + this.ambulance.destinationName,
+    )
+
     this.start()
     return this.ambulance
   }
@@ -769,6 +868,21 @@ export class SimulationEngine {
       simulated: true,
     }
     this.sosStageSeconds = 0
+
+    this.counters.sosRequests += 1
+    this.sosRecords.unshift({
+      code: this.sos.id,
+      location: nearestNodeName(distanceAtPosition(position)),
+      status: 'ACTIVE',
+    })
+    if (this.sosRecords.length > 8) {
+      this.sosRecords.length = 8
+    }
+    this.recordActivity(
+      'SOS',
+      'SOS request received',
+      this.sos.id + ' near ' + this.sosRecords[0]!.location,
+    )
 
     this.start()
     return { sos: this.sos }
@@ -905,6 +1019,16 @@ export class SimulationEngine {
 
     // Closing the response releases the drone immediately; the incident card
     // lingers for SOS_RESOLVED_HOLD_S so the outcome is readable.
+    // Reaching here means the incident was not already resolved: the resolved
+    // hold returns early above. So this is the transition, counted once.
+    if (stage === 'RESOLVED') {
+      this.counters.resolvedSos += 1
+      const record = this.sosRecords.find((r) => r.code === sos.id)
+      if (record) {
+        record.status = 'RESOLVED'
+      }
+      this.recordActivity('SOS', 'SOS resolved', sos.id + ' casualty in medical care')
+    }
     if (stage === 'RESOLVED') {
       for (const d of this.drones) {
         if (d.mode === 'SOS_TRACKING') {
@@ -1021,6 +1145,29 @@ export class SimulationEngine {
     vehicle.headingDegrees = headingAtDistance(vehicle.distanceAlongMeters)
     vehicle.speedKmh = 0
 
+    this.counters.completedTrips += 1
+    const elapsed =
+      this.escortStartedAtSimMs === null
+        ? 0
+        : Math.round((this.simulatedTime.getTime() - this.escortStartedAtSimMs) / 1000)
+    if (elapsed > 0) {
+      this.escortResponses.unshift(elapsed)
+      if (this.escortResponses.length > 12) {
+        this.escortResponses.length = 12
+      }
+    }
+    this.escortStartedAtSimMs = null
+    const record = this.escorts.find((e) => e.code === vehicle.code)
+    if (record) {
+      record.status = 'COMPLETED'
+      record.responseSeconds = elapsed
+    }
+    this.recordActivity(
+      'AMBULANCE',
+      'Ambulance escort completed',
+      vehicle.code + ' arrived at ' + this.ambulance.destinationName,
+    )
+
     this.ambulance = {
       ...this.ambulance,
       stage: 'ARRIVED',
@@ -1099,6 +1246,242 @@ export class SimulationEngine {
     }
   }
 
+  /**
+   * Fills the activity feed with the seeded demonstration events.
+   *
+   * SIMULATED: these are invented entries from `backend/data/dashboard.json`,
+   * back-dated against the simulation clock so the operator does not land on
+   * an empty feed. Live events are pushed in front of them as they happen.
+   */
+  private seedDashboard(): void {
+    this.activity.length = 0
+    this.nextActivityId = 1
+    this.counters = {
+      ambulancesEscorted: 0,
+      completedTrips: 0,
+      sosRequests: 0,
+      resolvedSos: 0,
+      suspiciousRaised: 0,
+      policeDispatches: 0,
+      speedViolations: 0,
+      fines: 0,
+    }
+    this.escorts.length = 0
+    this.sosRecords.length = 0
+    this.violations.length = 0
+    this.escortResponses.length = 0
+    this.enforcementCooldown.clear()
+    this.lastViolationSimMs = 0
+    this.escortStartedAtSimMs = null
+
+    const now = this.simulatedTime.getTime()
+    // Oldest first so the newest seeded entry ends up at the top.
+    const seeds = [...DASHBOARD_BASELINE.seedActivity].sort((a, b) => b.minutesAgo - a.minutesAgo)
+    for (const seed of seeds) {
+      this.activity.unshift({
+        id: this.nextActivityId++,
+        atIso: new Date(now - seed.minutesAgo * 60000).toISOString(),
+        kind: seed.kind as ActivityKind,
+        title: seed.title,
+        detail: seed.detail,
+      })
+    }
+  }
+
+  // --- dashboard ------------------------------------------------------------
+
+  /** Appends to the rolling activity feed, newest first. */
+  private recordActivity(kind: ActivityKind, title: string, detail: string): void {
+    this.activity.unshift({
+      id: this.nextActivityId++,
+      atIso: this.simulatedTime.toISOString(),
+      kind,
+      title,
+      detail,
+    })
+    if (this.activity.length > ACTIVITY_LIMIT) {
+      this.activity.length = ACTIVITY_LIMIT
+    }
+  }
+
+  /**
+   * Books speeding vehicles that pass a patrolling drone.
+   *
+   * SIMULATED: produces a demonstration record only. No fine is issued, no
+   * registration is looked up and no enforcement or payment system exists
+   * behind this.
+   */
+  private stepEnforcement(): void {
+    const limit = DASHBOARD_BASELINE.traffic.speedLimitKmh
+    const fine = DASHBOARD_BASELINE.traffic.fineAmount
+    const nowMs = this.simulatedTime.getTime()
+    if (nowMs - this.lastViolationSimMs < MIN_VIOLATION_GAP_MS) {
+      return
+    }
+
+    for (const drone of this.drones) {
+      if (drone.mode !== 'PATROLLING' && drone.mode !== 'ESCORTING') {
+        continue
+      }
+      for (const vehicle of this.vehicles) {
+        if (vehicle.kind === 'AMBULANCE' || vehicle.stopped || vehicle.speedKmh <= limit) {
+          continue
+        }
+        const gap = Math.abs(vehicle.distanceAlongMeters - drone.distanceAlongMeters)
+        if (gap > ENFORCEMENT_RANGE_M) {
+          continue
+        }
+        const readyAt = this.enforcementCooldown.get(vehicle.code) ?? 0
+        if (nowMs < readyAt) {
+          continue
+        }
+        this.enforcementCooldown.set(vehicle.code, nowMs + ENFORCEMENT_COOLDOWN_MIN * 60000)
+        this.lastViolationSimMs = nowMs
+
+        const location = nearestNodeName(vehicle.distanceAlongMeters)
+        const speed = Math.round(vehicle.speedKmh)
+        this.counters.speedViolations += 1
+        this.counters.fines += fine
+        this.violations.unshift({ code: vehicle.code, speedKmh: speed, location, fine, simulated: true })
+        if (this.violations.length > 12) {
+          this.violations.length = 12
+        }
+        this.recordActivity(
+          'VIOLATION',
+          'Speed violation recorded',
+          vehicle.code + ' at ' + location + ', ' + speed + ' km/h',
+        )
+        return
+      }
+    }
+  }
+
+  /** How many drones are working near each of the five corridor settlements. */
+  private zoneCoverage(): ZoneCoverage[] {
+    const counts = new Map<string, number>()
+    for (const node of CORRIDOR_NODES) {
+      counts.set(node.name, 0)
+    }
+    for (const drone of this.drones) {
+      const name = nearestNodeName(drone.distanceAlongMeters)
+      counts.set(name, (counts.get(name) ?? 0) + 1)
+    }
+    return CORRIDOR_NODES.map((node) => ({
+      name: node.name,
+      droneCount: counts.get(node.name) ?? 0,
+    }))
+  }
+
+  /**
+   * Builds the dashboard view: seeded baseline plus everything this run has
+   * produced. Entirely simulated - see `backend/data/dashboard.json`.
+   */
+  private dashboard(): DashboardState {
+    const base = DASHBOARD_BASELINE
+    const moving = this.vehicles.filter((v) => !v.stopped && v.kind !== 'AMBULANCE')
+    const stopped = this.vehicles.filter((v) => v.stopped)
+    const averageSpeed =
+      moving.length > 0
+        ? Math.round(moving.reduce((sum, v) => sum + v.speedKmh, 0) / moving.length)
+        : 0
+
+    const congested = moving.filter((v) => v.speedKmh < 45).length
+    const share = moving.length > 0 ? congested / moving.length : 0
+    const congestion: 'LIGHT' | 'MODERATE' | 'HEAVY' =
+      share > 0.5 ? 'HEAVY' : share > 0.2 ? 'MODERATE' : 'LIGHT'
+
+    const activeEscorts = this.ambulance.active && this.ambulance.stage === 'EN_ROUTE' ? 1 : 0
+    const responses = [...this.escortResponses, base.emergency.averageEscortResponseSeconds]
+    const averageResponse = Math.round(responses.reduce((a, b) => a + b, 0) / responses.length)
+
+    const patrolling = this.drones.filter((d) => d.mode === 'PATROLLING').length
+    const charging = this.drones.filter((d) => d.mode === 'CHARGING').length
+    const escorting = this.drones.filter((d) => d.mode === 'ESCORTING').length
+    const padsOccupied = this.stations.reduce((sum, st) => sum + st.occupiedSlots, 0)
+    const padsTotal = this.stations.reduce((sum, st) => sum + st.capacity, 0)
+    const longStopped = this.vehicles.filter((v) => v.stopped && v.stoppedMinutes >= 20).length
+
+    const watchlist: SuspiciousRecord[] = base.seedSuspicious.map((entry) => ({ ...entry }))
+    if (this.suspicious) {
+      watchlist.unshift({
+        code: this.suspicious.vehicleCode,
+        stoppedMinutes: Math.round(this.suspicious.stoppedMinutes),
+        location: this.suspicious.sectorName,
+        reason:
+          this.suspicious.stage === 'POLICE_DISPATCH'
+            ? 'Unknown / prolonged roadside stop'
+            : 'Possible vehicle breakdown',
+        status:
+          this.suspicious.stage === 'POLICE_DISPATCH'
+            ? 'POLICE DISPATCH SIMULATED'
+            : 'UNDER DRONE OBSERVATION',
+      })
+    }
+
+    return {
+      simulated: true,
+      baselineLabel: base.baselineLabel,
+      emergency: {
+        ambulancesEscorted: base.emergency.ambulancesEscorted + this.counters.ambulancesEscorted,
+        activeEscorts,
+        completedTrips: base.emergency.completedTrips + this.counters.completedTrips,
+        averageEscortResponseSeconds: averageResponse,
+        sosResponses: base.emergency.sosResponses + this.counters.sosRequests,
+        activeSos: this.sos && this.sos.stage !== 'RESOLVED' ? 1 : 0,
+        recentEscorts: [
+          ...this.escorts,
+          ...base.seedEscorts.map((e) => ({
+            code: e.code,
+            route: e.route,
+            status: e.status as 'ACTIVE' | 'COMPLETED',
+            responseSeconds: e.responseSeconds,
+          })),
+        ].slice(0, 8),
+        recentSos: [...this.sosRecords, ...base.seedSosEvents.map((e) => ({ ...e }))].slice(0, 8),
+      },
+      traffic: {
+        vehiclesMonitored: this.vehicles.length,
+        speedViolations: base.traffic.speedViolations + this.counters.speedViolations,
+        simulatedFines: base.traffic.simulatedFines + this.counters.fines,
+        vehiclesStopped: stopped.length,
+        averageSpeedKmh: averageSpeed,
+        congestion,
+        speedLimitKmh: base.traffic.speedLimitKmh,
+        recentViolations: [
+          ...this.violations,
+          ...base.seedViolations.map((v) => ({ ...v, simulated: true })),
+        ].slice(0, 10),
+      },
+      publicSafety: {
+        sosRequests: base.publicSafety.sosRequests + this.counters.sosRequests,
+        resolvedSos: base.publicSafety.resolvedSos + this.counters.resolvedSos,
+        suspiciousVehicles: base.publicSafety.suspiciousVehicles + this.counters.suspiciousRaised,
+        activeInvestigations: this.suspicious ? 1 : 0,
+        longStoppedVehicles: base.traffic.longStoppedVehicles + longStopped,
+        policeDispatches: base.publicSafety.policeDispatches + this.counters.policeDispatches,
+        watchlist: watchlist.slice(0, 6),
+      },
+      droneOperations: {
+        total: this.drones.length,
+        patrolling,
+        charging,
+        escorting,
+        available: patrolling,
+        averageBatteryPercentage:
+          this.drones.length > 0
+            ? Math.round(
+                this.drones.reduce((sum, d) => sum + d.batteryPercentage, 0) / this.drones.length,
+              )
+            : 0,
+        chargingStations: this.stations.length,
+        chargingPadsOccupied: padsOccupied,
+        chargingPadsTotal: padsTotal,
+        zones: this.zoneCoverage(),
+      },
+      activity: this.activity.slice(0, 20),
+    }
+  }
+
   // --- tick -----------------------------------------------------------------
 
   private step(): void {
@@ -1114,6 +1497,7 @@ export class SimulationEngine {
     this.stepAmbulancePhase(dt)
     this.stepSos(dt)
     this.stepSuspicious()
+    this.stepEnforcement()
   }
 
   private stepVehicles(dt: number): void {
@@ -1538,6 +1922,7 @@ export class SimulationEngine {
     }
     drone.mode = 'CHARGING'
     drone.cameraStatus = 'UNAVAILABLE'
+    this.recordActivity('CHARGING', 'Drone docked to charge', drone.code + ' at ' + station.code)
   }
 
   private undock(drone: DroneRuntime): void {
@@ -1611,6 +1996,7 @@ export class SimulationEngine {
       ambulance: { ...this.ambulance, droneLeadMeters: Math.round(lead) },
       sos: this.sos ? { ...this.sos } : null,
       suspicious: this.suspicious ? { ...this.suspicious } : null,
+      dashboard: this.dashboard(),
     }
   }
 }
