@@ -1,6 +1,6 @@
 import { useSimulationStore } from '../store/simulationStore'
 import { CameraFeedTile } from './CameraFeedTile'
-import { CAMERA_FEEDS, cameraUnavailableReason, missionLabel } from './cameraFeeds'
+import { cameraUnavailableReason, getCameraFeeds, missionLabel } from './cameraFeeds'
 
 function Row({ label, value, tone }: { label: string; value: string; tone?: string }) {
   return (
@@ -25,6 +25,8 @@ export function DroneCameraPanel() {
   const snapshot = useSimulationStore((state) => state.snapshot)
   const droneCode = useSimulationStore((state) => state.selectedDroneCode)
   const selectDrone = useSimulationStore((state) => state.selectDrone)
+  const followAmbulance = useSimulationStore((state) => state.followAmbulance)
+  const setExpandedFeedDirection = useSimulationStore((state) => state.setExpandedFeedDirection)
 
   const drone = droneCode ? snapshot?.drones.find((d) => d.code === droneCode) : undefined
   if (!drone) {
@@ -39,6 +41,13 @@ export function DroneCameraPanel() {
 
   const speaker =
     unavailable !== null ? 'UNAVAILABLE' : drone.speakerStatus === 'ACTIVE' ? 'ACTIVE' : 'READY'
+
+  const isEscortingDrone =
+    (drone.mode === 'ESCORTING' || drone.code === ambulance?.assignedDroneCode) &&
+    ambulance?.active === true
+
+  const showAmbulanceFeeds = followAmbulance && isEscortingDrone
+  const feeds = getCameraFeeds(showAmbulanceFeeds)
 
   return (
     <div className="pointer-events-auto w-full shrink-0 rounded-md border border-slate-300 bg-white/95 shadow-md backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/90">
@@ -69,8 +78,13 @@ export function DroneCameraPanel() {
 
       {/* Two feeds side by side: front and rear. */}
       <div className="grid grid-cols-2 gap-1.5 p-1.5">
-        {CAMERA_FEEDS.map((feed) => (
-          <CameraFeedTile key={feed.direction} feed={feed} unavailable={unavailable} />
+        {feeds.map((feed) => (
+          <CameraFeedTile
+            key={`${feed.direction}-${feed.src}`}
+            feed={feed}
+            unavailable={unavailable}
+            onExpand={() => setExpandedFeedDirection(feed.direction)}
+          />
         ))}
       </div>
 

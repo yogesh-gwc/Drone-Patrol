@@ -9,10 +9,8 @@ import type { DroneMode } from '../types/simulation'
  * camera. The perspective belongs to the drone TYPE, so all ten drones share
  * the same two files rather than shipping twenty clips.
  *
- * TO ADD A REAL REAR CLIP: drop it in `frontend/public/` and change the `src`
- * on the REAR entry below. Nothing else needs to change. Until then both
- * feeds play the same file, offset in time so the two panes never show an
- * identical frame and cannot be mistaken for one duplicated view.
+ * TO ADD OR REPLACE CLIPS: drop them in `frontend/public/` and update
+ * the paths below.
  */
 
 export type CameraDirection = 'FRONT' | 'REAR'
@@ -23,19 +21,29 @@ export interface CameraFeed {
   src: string
   /**
    * Seconds into the clip this pane starts at.
-   *
-   * The rear pane is deliberately offset. If a dedicated rear clip is added
-   * later, set this back to 0.
    */
   startSeconds: number
 }
 
-const SHARED_CLIP = '/i_need_sec_video.mp4'
+const FRONT_CLIP = '/drone_front.mp4'
+const REAR_CLIP = '/drone_rear.mp4'
+const AMBULANCE_FRONT_CLIP = '/front_view.mp4'
+const AMBULANCE_REAR_CLIP = '/rear_view.mp4'
 
-export const CAMERA_FEEDS: CameraFeed[] = [
-  { direction: 'FRONT', label: 'Front camera', src: SHARED_CLIP, startSeconds: 0 },
-  { direction: 'REAR', label: 'Rear camera', src: SHARED_CLIP, startSeconds: 6 },
-]
+export function getCameraFeeds(isTrackingAmbulance: boolean): CameraFeed[] {
+  if (isTrackingAmbulance) {
+    return [
+      { direction: 'FRONT', label: 'Front camera (Ambulance)', src: AMBULANCE_FRONT_CLIP, startSeconds: 0 },
+      { direction: 'REAR', label: 'Rear camera (Ambulance)', src: AMBULANCE_REAR_CLIP, startSeconds: 0 },
+    ]
+  }
+  return [
+    { direction: 'FRONT', label: 'Front camera', src: FRONT_CLIP, startSeconds: 0 },
+    { direction: 'REAR', label: 'Rear camera', src: REAR_CLIP, startSeconds: 0 },
+  ]
+}
+
+export const CAMERA_FEEDS: CameraFeed[] = getCameraFeeds(false)
 
 /**
  * Why a drone's cameras are unavailable, or null when they are live.
