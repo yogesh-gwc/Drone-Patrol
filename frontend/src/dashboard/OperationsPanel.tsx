@@ -93,7 +93,10 @@ export function OperationsPanel() {
         <button
           type="button"
           disabled={snapshot?.ambulance.active}
-          onClick={() => void postSimulationCommand('/api/emergency/ambulance')}
+          onClick={() => {
+            void postSimulationCommand('/api/emergency/ambulance')
+            useSimulationStore.getState().setFollowAmbulance(true)
+          }}
           className="mt-1.5 w-full rounded-sm border border-red-300 bg-red-50 px-2 py-1.5 text-[11px] font-medium tracking-wide text-red-700 transition-colors hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-40 dark:border-red-900/60 dark:bg-red-500/10 dark:text-red-300"
           title="Simulated only. No emergency service is contacted."
         >

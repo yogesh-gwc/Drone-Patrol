@@ -58,9 +58,19 @@ export const useSimulationStore = create<SimulationStoreState>((set) => ({
   setConnected: (connected) => set({ connected }),
   // Only one thing is inspected at a time, so selecting clears the others.
   selectDrone: (selectedDroneCode) =>
-    set({ selectedDroneCode, selectedStationCode: null, selectedVehicleCode: null }),
+    set((state) => ({
+      selectedDroneCode,
+      selectedStationCode: null,
+      selectedVehicleCode: null,
+      // If user clicks a different drone, detach ambulance camera tracking
+      followAmbulance:
+        selectedDroneCode !== null &&
+        selectedDroneCode === state.snapshot?.ambulance.assignedDroneCode
+          ? state.followAmbulance
+          : false,
+    })),
   selectStation: (selectedStationCode) =>
-    set({ selectedStationCode, selectedDroneCode: null, selectedVehicleCode: null }),
+    set({ selectedStationCode, selectedDroneCode: null, selectedVehicleCode: null, followAmbulance: false }),
   selectVehicle: (selectedVehicleCode) =>
     set({ selectedVehicleCode, selectedDroneCode: null, selectedStationCode: null }),
   setFollowAmbulance: (followAmbulance) => set({ followAmbulance }),

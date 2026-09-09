@@ -17,13 +17,15 @@ export function AmbulancePanel() {
   const vehicle = snapshot?.vehicles.find((v) => v.code === ambulance.vehicleCode)
   const drone = snapshot?.drones.find((d) => d.code === ambulance.assignedDroneCode)
 
-  const arrived = ambulance.stage !== 'EN_ROUTE'
+  const arrived = ambulance.stage === 'ARRIVED' || ambulance.stage === 'COMPLETED'
   const heading =
     ambulance.stage === 'ARRIVED'
       ? 'Ambulance arrived'
       : ambulance.stage === 'COMPLETED'
         ? 'Emergency completed'
-        : 'Ambulance priority active'
+        : ambulance.stage === 'DISPATCHED'
+          ? 'Drone dispatched (intercepting)'
+          : 'Ambulance priority active'
   const eta =
     ambulance.etaSeconds === null
       ? '-'
@@ -36,7 +38,9 @@ export function AmbulancePanel() {
       className={`pointer-events-auto w-full shrink-0 rounded-md border bg-white/95 shadow-md backdrop-blur dark:bg-slate-950/90 ${
         arrived
           ? 'border-emerald-300 dark:border-emerald-900/60'
-          : 'border-red-300 dark:border-red-900/60'
+          : ambulance.stage === 'DISPATCHED'
+            ? 'border-amber-300 dark:border-amber-900/60'
+            : 'border-red-300 dark:border-red-900/60'
       }`}
     >
       <header className="flex items-center justify-between border-b border-red-200 px-3 py-2 dark:border-red-900/50">
@@ -44,7 +48,9 @@ export function AmbulancePanel() {
           className={`text-[11px] font-semibold tracking-[0.18em] uppercase ${
             arrived
               ? 'text-emerald-700 dark:text-emerald-300'
-              : 'text-red-700 dark:text-red-300'
+              : ambulance.stage === 'DISPATCHED'
+                ? 'text-amber-700 dark:text-amber-300'
+                : 'text-red-700 dark:text-red-300'
           }`}
         >
           {heading}
@@ -55,7 +61,9 @@ export function AmbulancePanel() {
       </header>
 
       <div className="flex items-baseline justify-between gap-2 border-b border-slate-200 px-3 py-1.5 text-[10px] dark:border-slate-800">
-        <span className="tracking-[0.14em] text-slate-500 uppercase">{ambulance.stage}</span>
+        <span className="tracking-[0.14em] text-slate-500 uppercase">
+          {ambulance.stage === 'DISPATCHED' ? 'EN ROUTE TO INTERCEPT' : ambulance.stage}
+        </span>
         <span className="font-mono text-slate-700 dark:text-slate-300">
           {arrived
             ? 'at hospital'
@@ -118,13 +126,21 @@ export function AmbulancePanel() {
           <div className="flex justify-between gap-2">
             <dt className="text-slate-500">Lead</dt>
             <dd className="font-mono text-slate-800 dark:text-slate-200">
-              {ambulance.droneLeadMeters} m ahead
+              {ambulance.stage === 'DISPATCHED'
+                ? 'Intercepting...'
+                : `${ambulance.droneLeadMeters} m ahead`}
             </dd>
           </div>
           <div className="flex justify-between gap-2">
             <dt className="text-slate-500">Speaker</dt>
-            <dd className="font-mono text-red-600 dark:text-red-400">
-              {drone?.speakerStatus ?? '-'}
+            <dd
+              className={`font-mono ${
+                drone?.speakerStatus === 'ACTIVE'
+                  ? 'font-semibold text-red-600 dark:text-red-400'
+                  : 'text-slate-500 dark:text-slate-400'
+              }`}
+            >
+              {drone?.speakerStatus === 'ACTIVE' ? 'ACTIVE' : 'IDLE (Standby)'}
             </dd>
           </div>
           <div className="flex justify-between gap-2">

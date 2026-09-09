@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 /* Class-driven theming. Dark is the default; the toggle adds `.dark` or not. */
-@custom-variant dark (&:where(.dark, .dark *));
+@variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans:

@@ -114,6 +114,28 @@ export const MATERIALS = {
       opacity: 0.9,
     }),
   ),
+  /** Yellow ring when actively escorting an ambulance. */
+  escortRing: mat(
+    new MeshStandardMaterial({
+      color: 0xfacc15,
+      emissive: 0xeab308,
+      emissiveIntensity: 0.9,
+      roughness: 0.3,
+      transparent: true,
+      opacity: 0.92,
+    }),
+  ),
+  /** Purple ring when returning to assigned patrol zone. */
+  returningRing: mat(
+    new MeshStandardMaterial({
+      color: 0xa855f7,
+      emissive: 0x9333ea,
+      emissiveIntensity: 0.9,
+      roughness: 0.3,
+      transparent: true,
+      opacity: 0.92,
+    }),
+  ),
   dark: mat(new MeshStandardMaterial({ color: 0x1b2027, roughness: 0.7, metalness: 0.2 })),
   car: mat(new MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.4, metalness: 0.3 })),
   bus: mat(new MeshStandardMaterial({ color: 0x2f7bbf, roughness: 0.5, metalness: 0.15 })),
@@ -240,8 +262,10 @@ export interface DroneHandle {
   accent: Mesh
   /** Body and arm meshes, recoloured for the zoomed-out high-visibility mode. */
   shell: Mesh[]
-  /** Ring shown around the drone the operator has selected. */
+  /** Ring shown around the drone the operator has selected (cyan). */
   selectionRing: Mesh
+  /** Status ring for operational modes: ESCORTING (yellow) and RETURNING (purple). */
+  statusRing: Mesh
 }
 
 export function createDrone(): DroneHandle {
@@ -298,14 +322,20 @@ export function createDrone(): DroneHandle {
   nav.position.set(DRONE.bodyL * 0.5, 0, 0)
   group.add(nav)
 
-  // Selection ring, hidden until the drone is picked.
+  // Status ring for mode highlights (Yellow for Escorting, Purple for Returning).
+  const statusRing = new Mesh(GEO.selectionRing, MATERIALS.escortRing)
+  statusRing.position.z = -DRONE.bodyH
+  statusRing.visible = false
+  group.add(statusRing)
+
+  // Selection ring, hidden until the drone is picked (Cyan).
   const selectionRing = new Mesh(GEO.selectionRing, MATERIALS.selection)
   selectionRing.position.z = -DRONE.bodyH
   selectionRing.visible = false
   group.add(selectionRing)
 
   group.frustumCulled = false
-  return { group, rotors, accent, shell, selectionRing }
+  return { group, rotors, accent, shell, selectionRing, statusRing }
 }
 
 export interface VehicleHandle {
