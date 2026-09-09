@@ -1006,5 +1006,68 @@
         12.526279
       ]
     }
+  },
+  {
+    "violationId": "ECH-20260909-01",
+    "timestamp": "2026-09-09T14:30:32.529Z",
+    "capturedDroneId": "DR-01",
+    "capturedDroneName": "Drone Patrol DR-01",
+    "vehicleCode": "VH-SPEED-6536",
+    "vehicleKind": "CAR",
+    "measuredSpeedKmh": 155,
+    "speedLimitKmh": 80,
+    "excessSpeedKmh": 75,
+    "fineAmount": "₹2,000",
+    "section": "Section 183(2) & 184 - Motor Vehicles Act (Dangerous Overspeeding: >40 km/h)",
+    "location": {
+      "chainageMeters": 1205,
+      "sectorName": "Krishnagiri",
+      "coordinates": [
+        78.210524,
+        12.522781
+      ]
+    }
+  },
+  {
+    "violationId": "ECH-20260909-02",
+    "timestamp": "2026-09-09T14:30:32.660Z",
+    "capturedDroneId": "DR-04",
+    "capturedDroneName": "Drone Patrol DR-04",
+    "vehicleCode": "AMB-221",
+    "vehicleKind": "AMBULANCE",
+    "measuredSpeedKmh": 96,
+    "speedLimitKmh": 80,
+    "excessSpeedKmh": 16,
+    "fineAmount": "₹1,000",
+    "section": "Section 183(1) - Motor Vehicles Act (Speed Limit Exceeded: +1-20 km/h)",
+    "location": {
+      "chainageMeters": 16948,
+      "sectorName": "Kurubarapalli",
+      "coordinates": [
+        78.104162,
+        12.60591
+      ]
+    }
+  },
+  {
+    "violationId": "ECH-20260909-03",
+    "timestamp": "2026-09-09T14:33:22.287Z",
+    "capturedDroneId": "DR-01",
+    "capturedDroneName": "Drone Patrol DR-01",
+    "vehicleCode": "VH-SPEED-8958",
+    "vehicleKind": "CAR",
+    "measuredSpeedKmh": 155,
+    "speedLimitKmh": 80,
+    "excessSpeedKmh": 75,
+    "fineAmount": "₹2,000",
+    "section": "Section 183(2) & 184 - Motor Vehicles Act (Dangerous Overspeeding: >40 km/h)",
+    "location": {
+      "chainageMeters": 4560,
+      "sectorName": "Krishnagiri",
+      "coordinates": [
+        78.196594,
+        12.549053
+      ]
+    }
   }
 ]
