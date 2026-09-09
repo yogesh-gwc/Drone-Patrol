@@ -1,5 +1,5 @@
 /**
- * Shared shape of every AEROGUARD 3D REST response.
+ * Shared shape of every Drone Patrol REST response.
  * Mirrors `backend/src/types/api.ts`.
  */
 export interface ApiResponse<T = undefined> {

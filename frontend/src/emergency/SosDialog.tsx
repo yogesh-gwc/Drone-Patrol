@@ -50,7 +50,7 @@ export function SosDialog({ open, onClose }: SosDialogProps) {
       return
     }
     if (lat < BOUNDS.south || lat > BOUNDS.north || lon < BOUNDS.west || lon > BOUNDS.east) {
-      setError('Location is outside the AEROGUARD operational area.')
+      setError('Location is outside the Drone Patrol operational area.')
       return
     }
 
@@ -89,7 +89,7 @@ export function SosDialog({ open, onClose }: SosDialogProps) {
       >
         <header className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-800">
           <h2 className="text-sm font-semibold tracking-[0.18em] text-slate-900 uppercase dark:text-slate-100">
-            Aeroguard SOS
+            Drone Patrol SOS
           </h2>
           <span className="rounded-sm border border-amber-400 bg-amber-50 px-1.5 py-0.5 text-[9px] tracking-widest text-amber-700 uppercase dark:border-amber-600/50 dark:bg-amber-500/10 dark:text-amber-300">
             Simulated

@@ -50,7 +50,7 @@ export const useConnectionStore = create<ConnectionState>((set) => ({
       const message =
         error instanceof ApiError
           ? error.message
-          : 'Backend unreachable. Is the AEROGUARD 3D server running?'
+          : 'Backend unreachable. Is the Drone Patrol server running?'
       set({
         apiStatus: 'offline',
         apiMessage: message,

@@ -155,8 +155,20 @@ const SPEAKER_MESSAGE =
  * which put them on the median and the shoulder rather than in a lane.
  */
 const LANE_CENTRES = [7.1, 10.75, 14.4]
-/** Multiplier that moves a stopped vehicle onto the hard shoulder. */
-const SHOULDER_FACTOR = 0.62
+
+/**
+ * Where a stopped vehicle parks, in metres from the corridor centreline.
+ *
+ * The carriageway runs from the median edge at 2.75 m out to 18.7 m: a 2.5 m
+ * median-side shoulder, three 3.65 m lanes ending at 16.2 m, then the 2.5 m
+ * OUTER shoulder. India drives on the left, so a broken-down vehicle pulls
+ * left - which is the outer edge - and this is the centre of that shoulder.
+ *
+ * This used to be `laneOffset(direction, 0) * 0.62`, which works out at 4.4 m:
+ * INBOARD of lane one, on the median side. A parked car appeared to be
+ * standing in the middle of the highway rather than off it.
+ */
+const SHOULDER_OFFSET_M = 17.45
 /** Positive offsets carry traffic toward Hosur, negative toward Krishnagiri. */
 function laneOffset(direction: 1 | -1, lane: number): number {
   return LANE_CENTRES[lane % LANE_CENTRES.length]! * direction
@@ -341,7 +353,7 @@ export class SimulationEngine {
 
       this.drones.push({
         code: `DR-${pad(i + 1)}`,
-        name: `Aeroguard DR-${pad(i + 1)}`,
+        name: `Drone Patrol DR-${pad(i + 1)}`,
         zoneCode: `Z-${pad(i + 1)}`,
         zoneStartMeters: zoneStart,
         zoneEndMeters: zoneEnd,
@@ -462,9 +474,9 @@ export class SimulationEngine {
     vehicle.stoppedAtSimMs = this.simulatedTime.getTime()
     vehicle.stoppedMinutes = 0
     vehicle.speedKmh = 0
-    // Pull onto the hard shoulder rather than blocking a running lane.
-    vehicle.lane = 0
-    vehicle.laneOffsetMeters = laneOffset(vehicle.direction, 0) * SHOULDER_FACTOR
+    // Pull onto the outer hard shoulder rather than blocking a running lane.
+    vehicle.lane = LANE_CENTRES.length - 1
+    vehicle.laneOffsetMeters = SHOULDER_OFFSET_M * vehicle.direction
     this.start()
     return { ok: true }
   }
@@ -712,7 +724,7 @@ export class SimulationEngine {
    */
   startSos(position: Position): { sos: SosState } | { error: string } {
     if (!isInsideOperationalArea(position)) {
-      return { error: 'Location is outside the AEROGUARD operational area.' }
+      return { error: 'Location is outside the Drone Patrol operational area.' }
     }
     if (this.sos) {
       return { sos: this.sos }

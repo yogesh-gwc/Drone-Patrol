@@ -29,5 +29,5 @@
     "typescript": "~6.0.2",
     "vite": "^8.2.2"
   },
-  "description": "AEROGUARD 3D frontend - React + TypeScript + Vite command-centre client."
+  "description": "Drone Patrol frontend - React + TypeScript + Vite command-centre client."
 }

@@ -141,6 +141,26 @@ export const MATERIALS = {
       opacity: 0.45,
     }),
   ),
+  padDeck: mat(new MeshStandardMaterial({ color: 0x3f4854, roughness: 0.9, metalness: 0.05 })),
+  padSteel: mat(new MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.45, metalness: 0.65 })),
+  padSolar: mat(
+    new MeshStandardMaterial({
+      color: 0x1e3a5f,
+      roughness: 0.25,
+      metalness: 0.55,
+      emissive: 0x0b1d33,
+      emissiveIntensity: 0.25,
+    }),
+  ),
+  padMarking: mat(new MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.85 })),
+  padBeacon: mat(
+    new MeshStandardMaterial({
+      color: 0xef4444,
+      emissive: 0xdc2626,
+      emissiveIntensity: 0.85,
+      roughness: 0.4,
+    }),
+  ),
   padRing: mat(
     new MeshStandardMaterial({
       color: 0x10b981,
@@ -197,9 +217,21 @@ const GEO = {
   selectionRing: geo(new TorusGeometry(46, 3.2, 8, 32)),
   warningRing: geo(new TorusGeometry(30, 2.6, 8, 28)),
 
-  padBase: geo(new CylinderGeometry(70, 70, 4, 20)),
+  // Charging station. The landing deck stays at ground level because a docked
+  // drone reports altitude 0 - the "tower" is the mast, canopy and equipment
+  // around the deck, not the deck itself.
+  padApron: geo(new CylinderGeometry(78, 82, 3, 24)),
+  padDeck: geo(new CylinderGeometry(62, 66, 6, 24)),
   padRing: geo(new TorusGeometry(58, 4, 6, 26)),
-  padMast: geo(new CylinderGeometry(4, 4, 60, 8)),
+  padMast: geo(new CylinderGeometry(3.4, 4.6, 120, 8)),
+  padMastBrace: geo(new BoxGeometry(2.2, 2.2, 26)),
+  padBeaconHousing: geo(new CylinderGeometry(6, 7, 9, 8)),
+  padCanopyPost: geo(new CylinderGeometry(2.4, 2.4, 46, 6)),
+  padCanopy: geo(new TorusGeometry(44, 2.6, 6, 24)),
+  padSolar: geo(new BoxGeometry(54, 30, 2)),
+  padCabinet: geo(new BoxGeometry(26, 18, 22)),
+  padCabinetVent: geo(new BoxGeometry(20, 1.5, 12)),
+  padMarking: geo(new BoxGeometry(46, 5, 0.6)),
 }
 
 export interface DroneHandle {
@@ -336,24 +368,82 @@ export interface StationHandle {
 export function createChargingStation(): StationHandle {
   const group = new Group()
 
-  const base = new Mesh(GEO.padBase, MATERIALS.pad)
-  base.rotation.x = Math.PI / 2
-  base.position.z = 2
-  group.add(base)
+  // Ground works: a concrete apron with the raised landing deck on top. The
+  // deck stays low - a docked drone sits at altitude 0, so anything taller
+  // would leave the drone parked at the foot of its own station.
+  const apron = new Mesh(GEO.padApron, MATERIALS.pad)
+  apron.rotation.x = Math.PI / 2
+  apron.position.z = 1.5
+  group.add(apron)
+
+  const deck = new Mesh(GEO.padDeck, MATERIALS.padDeck)
+  deck.rotation.x = Math.PI / 2
+  deck.position.z = 6
+  group.add(deck)
+
+  // Touchdown cross painted on the deck.
+  for (let i = 0; i < 2; i++) {
+    const marking = new Mesh(GEO.padMarking, MATERIALS.padMarking)
+    marking.position.z = 9.2
+    marking.rotation.z = i * (Math.PI / 2)
+    group.add(marking)
+  }
 
   // Ring colour tracks occupancy; see FleetRenderer.
   const ring = new Mesh(GEO.padRing, MATERIALS.padRing)
-  ring.position.z = 6
+  ring.position.z = 10
   group.add(ring)
 
-  const mast = new Mesh(GEO.padMast, MATERIALS.dark)
+  // Approach canopy: four posts carrying a guide hoop the drone descends
+  // through, which is what gives the station its vertical presence.
+  for (let i = 0; i < 4; i++) {
+    const angle = (Math.PI / 4) + i * (Math.PI / 2)
+    const post = new Mesh(GEO.padCanopyPost, MATERIALS.padSteel)
+    post.rotation.x = Math.PI / 2
+    post.position.set(Math.cos(angle) * 44, Math.sin(angle) * 44, 29)
+    group.add(post)
+  }
+  const canopy = new Mesh(GEO.padCanopy, MATERIALS.padSteel)
+  canopy.position.z = 52
+  group.add(canopy)
+
+  // Communications and beacon mast, braced against the apron.
+  const mast = new Mesh(GEO.padMast, MATERIALS.padSteel)
   mast.rotation.x = Math.PI / 2
-  mast.position.set(-52, 0, 30)
+  mast.position.set(-64, 0, 62)
   group.add(mast)
 
-  const head = new Mesh(GEO.navLight, MATERIALS.padRing)
-  head.position.set(-52, 0, 62)
-  group.add(head)
+  for (let i = 0; i < 3; i++) {
+    const brace = new Mesh(GEO.padMastBrace, MATERIALS.padSteel)
+    brace.position.set(-64, 0, 26 + i * 34)
+    brace.rotation.y = Math.PI / 2
+    group.add(brace)
+  }
+
+  const housing = new Mesh(GEO.padBeaconHousing, MATERIALS.dark)
+  housing.rotation.x = Math.PI / 2
+  housing.position.set(-64, 0, 126)
+  group.add(housing)
+
+  // Obstruction light: red, as any structure near a flight path carries.
+  const beacon = new Mesh(GEO.navLight, MATERIALS.padBeacon)
+  beacon.position.set(-64, 0, 134)
+  group.add(beacon)
+
+  // Power cabinet with a solar canopy over it - this is what makes it read as
+  // a charging installation rather than a helipad.
+  const cabinet = new Mesh(GEO.padCabinet, MATERIALS.dark)
+  cabinet.position.set(72, 0, 14)
+  group.add(cabinet)
+
+  const vent = new Mesh(GEO.padCabinetVent, MATERIALS.padSteel)
+  vent.position.set(72, -9.4, 16)
+  group.add(vent)
+
+  const solar = new Mesh(GEO.padSolar, MATERIALS.padSolar)
+  solar.position.set(74, 0, 30)
+  solar.rotation.y = -0.34
+  group.add(solar)
 
   group.frustumCulled = false
   return { group, ring }

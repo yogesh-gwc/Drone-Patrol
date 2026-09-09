@@ -12,7 +12,7 @@ export class ApiError extends Error {
 }
 
 /**
- * Minimal typed GET helper for the AEROGUARD 3D REST API.
+ * Minimal typed GET helper for the Drone Patrol REST API.
  *
  * Kept deliberately small: the backend owns all business logic, the frontend
  * only transports and renders it.

@@ -29,7 +29,7 @@ export default function App() {
       <header className="z-30 flex shrink-0 items-center justify-between gap-4 border-b border-slate-300 bg-white px-5 py-2.5 shadow-sm dark:border-slate-800 dark:bg-slate-950">
         <div className="flex items-baseline gap-3">
           <h1 className="text-sm font-semibold tracking-[0.2em] text-slate-900 uppercase dark:text-slate-100">
-            Aeroguard 3D
+            Drone Patrol
           </h1>
           <span className="text-[11px] tracking-wider text-slate-500 uppercase dark:text-slate-500">
             Krishnagiri &rarr; Hosur Corridor
