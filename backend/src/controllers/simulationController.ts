@@ -153,3 +153,15 @@ export function stopSos(_req: Request, res: SnapshotResponse): void {
   simulation.stopSos()
   sendItem(res, simulation.snapshot(), 'SOS resolved; drone returning to patrol')
 }
+
+/** Spawns a high-speed vehicle (~135 km/h) heading toward the nearest drone. */
+export function triggerOverspeedVehicle(_req: Request, res: SnapshotResponse): void {
+  simulation.triggerOverspeedVehicle()
+  sendItem(res, simulation.snapshot(), 'Overspeeding test vehicle dispatched')
+}
+
+/** Retrieves all recorded speed violations from local JSON file. */
+export async function getViolations(_req: Request, res: Response): Promise<void> {
+  const list = await simulation.getViolations()
+  sendItem(res, list, `${list.length} speed violations recorded`)
+}

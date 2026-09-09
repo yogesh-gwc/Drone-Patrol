@@ -51,26 +51,18 @@ const MEDIAN_WIDTH = 5.5
 /**
  * Metres the surface is lifted above the sampled terrain.
  *
- * Just enough to beat DEM z-fighting and no more. This was 6 m, which read as
- * a bridge deck floating over the hillside for the entire 50 km; a real
- * highway sits ON the terrain. NH-44 does cross viaducts, but nothing in the
- * OSM data marks them, so no bridge is modelled.
+ * Lifted slightly higher to eliminate DEM terrain z-fighting, hill clipping,
+ * and broken road segments over undulating topography.
  */
-const SURFACE_LIFT = 1.2
+const SURFACE_LIFT = 2.8
 
 /**
  * Spacing of the resampled road centreline, in metres.
  *
- * The OSM route has vertices roughly 360 m apart, which is plenty to describe
- * the alignment but far too coarse to follow terrain: with the surface sitting
- * close to the ground, hillsides between two vertices punch straight through
- * the road and it disappears in patches. Resampling to a fixed short spacing
- * gives each part of the surface its own terrain sample.
- *
- * 40 m over 50 km is about 1,270 cross-sections - a few thousand triangles,
- * still trivial for the GPU.
+ * High-density resampling (15m) contours closely to rolling terrain without
+ * hillside ridges cutting through the road ribbon.
  */
-const CENTRELINE_SPACING_M = 40
+const CENTRELINE_SPACING_M = 15
 /**
  * The median sits fractionally below the running surface.
  *
@@ -162,18 +154,53 @@ export class HighwayCorridor {
    */
   updateTerrain(map: MapLibreMap): boolean {
     let changed = false
+    const sampled: (number | null)[] = []
 
     for (let i = 0; i < this.centreLngLat.length; i++) {
       const elevation = map.queryTerrainElevation(this.centreLngLat[i]!)
-      if (elevation === null) {
-        continue
+      sampled.push(elevation)
+    }
+
+    let firstValid: number | null = null
+    for (const val of sampled) {
+      if (val !== null) {
+        firstValid = val
+        break
       }
-      // Sub-decimetre DEM jitter is not worth a rebuild.
-      if (Math.abs(elevation - this.ground[i]!) < 0.1) {
-        continue
+    }
+
+    if (firstValid === null) {
+      return false
+    }
+
+    // Interpolate across missing / un-streamed DEM vertices so the road never drops to 0
+    let lastValid = firstValid
+    for (let i = 0; i < sampled.length; i++) {
+      if (sampled[i] !== null) {
+        lastValid = sampled[i]!
+      } else {
+        let nextValid = lastValid
+        for (let j = i + 1; j < sampled.length; j++) {
+          if (sampled[j] !== null) {
+            nextValid = sampled[j]!
+            break
+          }
+        }
+        sampled[i] = (lastValid + nextValid) / 2
       }
-      this.ground[i] = elevation
-      changed = true
+    }
+
+    // Smooth heights along the corridor to prevent abrupt steps and terrain punching
+    for (let i = 0; i < this.centreLngLat.length; i++) {
+      const prev = sampled[Math.max(0, i - 1)]!
+      const curr = sampled[i]!
+      const next = sampled[Math.min(sampled.length - 1, i + 1)]!
+      const smoothElevation = prev * 0.25 + curr * 0.5 + next * 0.25
+
+      if (Math.abs(smoothElevation - this.ground[i]!) >= 0.08) {
+        this.ground[i] = smoothElevation
+        changed = true
+      }
     }
 
     if (changed) {
@@ -272,9 +299,25 @@ export class HighwayCorridor {
 
     const material = new MeshStandardMaterial(
       texture
-        ? { map: texture, roughness: 0.92, metalness: 0.02, side: DoubleSide }
+        ? {
+            map: texture,
+            roughness: 0.92,
+            metalness: 0.02,
+            side: DoubleSide,
+            polygonOffset: true,
+            polygonOffsetFactor: -2,
+            polygonOffsetUnits: -2,
+          }
         : // Median: unpainted, slightly greener than asphalt.
-          { color: 0x2a3128, roughness: 0.95, metalness: 0.0, side: DoubleSide },
+          {
+            color: 0x2a3128,
+            roughness: 0.95,
+            metalness: 0.0,
+            side: DoubleSide,
+            polygonOffset: true,
+            polygonOffsetFactor: -2,
+            polygonOffsetUnits: -2,
+          },
     )
     if (texture) {
       // One texture instance is shared, so the repeat is set per material via

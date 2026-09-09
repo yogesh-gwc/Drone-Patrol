@@ -1,3 +1,6 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import {
   CORRIDOR,
   CORRIDOR_NODES,
@@ -32,7 +35,21 @@ import type {
   StationState,
   VehicleState,
   VehicleKind,
+  SpeedViolationRecord,
 } from './types.js'
+
+const VIOLATIONS_FILE = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+  '..',
+  'data',
+  'speedViolations.json',
+)
+
+/** Highway legal speed limit in km/h. Fines apply above 80 km/h. */
+const SPEED_LIMIT_KMH = 80
+/** Drone optical speedometer pass-by detection zone along corridor chainage in metres (triggered when passing drone). */
+const PASSBY_DETECTION_RANGE_M = 20
 
 /**
  * Authoritative Drone Patrol simulation.
@@ -123,31 +140,6 @@ const ESCALATION_THRESHOLD_MIN = 80
 const MONITOR_ARRIVAL_M = 90
 /** Drone transit speed when responding to a stopped vehicle, m/s. */
 const MONITOR_SPEED_MPS = 40
-
-/**
- * Simulated speed enforcement.
- *
- * A violation is recorded when a speeding vehicle passes close to a patrolling
- * drone, which is both how enforcement actually works and what keeps the count
- * plausible: flagging every vehicle over the limit on every tick would book
- * most of the 220-vehicle fleet within a second. The cooldown stops the same
- * vehicle being booked repeatedly by the same drone.
- *
- * SIMULATED ONLY: no fine is issued, no registration is looked up and no
- * enforcement or payment system is contacted.
- */
-const ENFORCEMENT_RANGE_M = 140
-const ENFORCEMENT_COOLDOWN_MIN = 18
-/**
- * Shortest gap between any two bookings, in simulated seconds.
- *
- * Without this the corridor books dozens of vehicles a second: with ten drones
- * and 220 vehicles there is nearly always somebody speeding within 140 m of a
- * patrol. One booking every 90 simulated seconds is roughly 40 an hour across
- * 50 km, which reads as plausible enforcement activity rather than a counter
- * spinning like an odometer.
- */
-const MIN_VIOLATION_GAP_MS = 90_000
 
 /** Entries kept in the rolling activity feed. */
 const ACTIVITY_LIMIT = 40
@@ -253,6 +245,22 @@ interface VehicleRuntime extends VehicleState {
    * pulling over.
    */
   yieldShiftMeters: number
+  ticketedAtMs: number | null
+  ticketedAtSimMs: number | null
+  ticketedDroneCode: string | null
+}
+
+/**
+ * Rupee amount from an E-Challan fine string such as "\u20b91,500".
+ *
+ * The record carries the fine pre-formatted for display; the dashboard needs
+ * it as a number to total. Falls back to 0 rather than NaN, which would
+ * poison the running total.
+ */
+function parseFineAmount(formatted: string): number {
+  const digits = formatted.replace(/[^0-9]/g, '')
+  const value = Number(digits)
+  return Number.isFinite(value) ? value : 0
 }
 
 function pad(value: number): string {
@@ -326,23 +334,36 @@ export class SimulationEngine {
   private readonly activity: ActivityEvent[] = []
   private nextActivityId = 1
   /** Vehicle code -> simulated ms when it may next be booked. */
-  private readonly enforcementCooldown = new Map<string, number>()
-  /** Simulated-clock ms of the most recent booking. */
-  private lastViolationSimMs = 0
   /** Rotates the ambulance start across the corridor between runs. */
   private nextAmbulanceSegment = Math.floor(Math.random() * AMBULANCE_START_SEGMENTS)
 
   private timer: NodeJS.Timeout | null = null
   private nextVehicleId = 1
   private congestionCentreMeters: number | null = null
+  private latestViolation: SpeedViolationRecord | null = null
+  private violationsCount = 0
 
   constructor() {
     this.buildStations()
     this.buildDrones()
+    void this.initViolationsCount()
     // The corridor should never look dead: traffic runs from start-up rather
     // than waiting for an operator to switch it on.
     this.startTraffic()
     this.seedDashboard()
+  }
+
+  private async initViolationsCount(): Promise<void> {
+    try {
+      const raw = await fs.promises.readFile(VIOLATIONS_FILE, 'utf8').catch(() => '[]')
+      const list: SpeedViolationRecord[] = JSON.parse(raw || '[]')
+      this.violationsCount = list.length
+      if (list.length > 0) {
+        this.latestViolation = list[list.length - 1] ?? null
+      }
+    } catch {
+      this.violationsCount = 0
+    }
   }
 
   // --- lifecycle ------------------------------------------------------------
@@ -484,9 +505,10 @@ export class SimulationEngine {
   }
 
   private spawnVehicle(kind: VehicleKind, distance: number, direction: 1 | -1, lane: number): void {
-    const base = kind === 'CAR' ? 92 : kind === 'BUS' ? 74 : 66
-    // Spread speeds so faster vehicles catch slower ones and overtake.
-    const jitter = ((this.nextVehicleId * 37) % 21) - 8
+    // Normal traffic speed limit is 80 km/h; regular traffic runs at legal highway speeds
+    const base = kind === 'CAR' ? 73 : kind === 'BUS' ? 62 : 55
+    // Spread speeds so faster vehicles catch slower ones and overtake
+    const jitter = ((this.nextVehicleId * 37) % 9) - 4
     this.vehicles.push({
       code: `VH-${pad(this.nextVehicleId++)}`,
       kind,
@@ -505,6 +527,9 @@ export class SimulationEngine {
       stoppedAtSimMs: null,
       yieldShiftMeters: 0,
       spawnSeq: 0,
+      ticketedAtMs: null,
+      ticketedAtSimMs: null,
+      ticketedDroneCode: null,
     })
   }
 
@@ -565,6 +590,184 @@ export class SimulationEngine {
       this.clearSuspicious()
     }
     return { ok: true }
+  }
+
+  /**
+   * Spawns an overspeeding test vehicle (~135 km/h) placed ~160m upstream
+   * heading toward DR-01 (or nearest patrolling drone) to test radar capture and JSON logging.
+   */
+  triggerOverspeedVehicle(): VehicleState {
+    const drone = this.drones.find((d) => d.code === 'DR-01') ?? this.drones.find((d) => d.mode === 'PATROLLING') ?? this.drones[0]
+    if (drone && (drone.mode === 'CHARGING' || drone.mode === 'OFFLINE')) {
+      if (drone.mode === 'CHARGING') {
+        this.undock(drone)
+      }
+      drone.mode = 'PATROLLING'
+      drone.batteryPercentage = Math.max(drone.batteryPercentage, 80)
+      drone.altitudeMeters = PATROL_ALTITUDE_M
+      drone.stationCode = null
+      drone.cameraStatus = 'LIVE'
+      drone.speedKmh = DRONE_SPEED_MPS * 3.6
+    }
+
+    const direction: 1 | -1 = drone ? drone.direction : 1
+    const spawnDist = drone
+      ? Math.max(
+          50,
+          Math.min(CORRIDOR.lengthMeters - 50, drone.distanceAlongMeters - 160 * direction),
+        )
+      : 8000
+
+    const speed = 155
+    const vehicle: VehicleRuntime = {
+      code: `VH-SPEED-${pad(this.nextVehicleId++)}`,
+      kind: 'CAR',
+      direction,
+      lane: 0,
+      laneCooldown: 0,
+      distanceAlongMeters: spawnDist,
+      position: positionAtDistance(spawnDist),
+      headingDegrees: headingAtDistance(spawnDist),
+      baseSpeedKmh: speed,
+      speedKmh: speed,
+      laneOffsetMeters: laneOffset(direction, 0),
+      yielding: false,
+      stopped: false,
+      stoppedMinutes: 0,
+      stoppedAtSimMs: null,
+      yieldShiftMeters: 0,
+      spawnSeq: 0,
+      ticketedAtMs: null,
+      ticketedAtSimMs: null,
+      ticketedDroneCode: null,
+    }
+
+    this.vehicles.push(vehicle)
+    this.start()
+    return vehicle
+  }
+
+  /**
+   * Scans moving traffic against active patrol drones.
+   * If a vehicle speed exceeds SPEED_LIMIT_KMH (80 km/h) and passes within
+   * drone radar range (100m), an automated E-Challan is calculated and saved.
+   *
+   * A 4-hour cooldown across the entire drone fleet is enforced so a vehicle
+   * is not repeatedly fined by multiple drones along the corridor.
+   */
+  private stepSpeedEnforcement(): void {
+    const nowSimMs = this.simulatedTime.getTime()
+    const nowWallMs = Date.now()
+    const COOLDOWN_SIM_MS = 2 * 60 * 60 * 1000 // 2 hours in simulation clock
+    const COOLDOWN_WALL_MS = 2 * 60 * 60 * 1000 // 2 hours in wall clock
+
+    for (const vehicle of this.vehicles) {
+      if (vehicle.speedKmh <= SPEED_LIMIT_KMH || vehicle.stopped) {
+        continue
+      }
+      // Check if this vehicle was already ticketed by ANY drone within the 4-hour cooldown window
+      const lastSim = vehicle.ticketedAtSimMs ?? 0
+      const lastWall = vehicle.ticketedAtMs ?? 0
+      if (
+        (lastSim > 0 && nowSimMs - lastSim < COOLDOWN_SIM_MS) ||
+        (lastWall > 0 && nowWallMs - lastWall < COOLDOWN_WALL_MS)
+      ) {
+        continue
+      }
+
+      for (const drone of this.drones) {
+        if (drone.mode === 'CHARGING' || drone.mode === 'OFFLINE') {
+          continue
+        }
+        const gap = Math.abs(drone.distanceAlongMeters - vehicle.distanceAlongMeters)
+        if (gap <= PASSBY_DETECTION_RANGE_M) {
+          vehicle.ticketedAtMs = nowWallMs
+          vehicle.ticketedAtSimMs = nowSimMs
+          vehicle.ticketedDroneCode = drone.code
+          this.recordViolation(drone, vehicle)
+          break
+        }
+      }
+    }
+  }
+
+  private recordViolation(drone: DroneRuntime, vehicle: VehicleRuntime): void {
+    const speed = Math.round(vehicle.speedKmh)
+    const excess = speed - SPEED_LIMIT_KMH
+    let fine = '₹1,000'
+    let section = 'Section 183(1) - Motor Vehicles Act (Speed Limit Exceeded: +1-20 km/h)'
+    if (speed > 120) {
+      fine = '₹2,000'
+      section = 'Section 183(2) & 184 - Motor Vehicles Act (Dangerous Overspeeding: >40 km/h)'
+    } else if (speed > 100) {
+      fine = '₹1,500'
+      section = 'Section 183(2) - Motor Vehicles Act (Excess Speed Violation: +21-40 km/h)'
+    }
+
+    const violation: SpeedViolationRecord = {
+      violationId: `ECH-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${pad(this.violationsCount + 1)}`,
+      timestamp: new Date().toISOString(),
+      capturedDroneId: drone.code,
+      capturedDroneName: drone.name,
+      vehicleCode: vehicle.code,
+      vehicleKind: vehicle.kind,
+      measuredSpeedKmh: speed,
+      speedLimitKmh: SPEED_LIMIT_KMH,
+      excessSpeedKmh: excess,
+      fineAmount: fine,
+      section,
+      location: {
+        chainageMeters: Math.round(vehicle.distanceAlongMeters),
+        sectorName: nodeNameAt(vehicle.distanceAlongMeters),
+        coordinates: SimulationEngine.coord(vehicle.position),
+      },
+    }
+
+    this.latestViolation = violation
+    this.violationsCount += 1
+
+    // Keep the command dashboard in step with the E-Challan log. Both used to
+    // count independently, so the two views disagreed about the same corridor.
+    this.counters.speedViolations += 1
+    this.counters.fines += parseFineAmount(violation.fineAmount)
+    this.violations.unshift({
+      code: violation.vehicleCode,
+      speedKmh: violation.measuredSpeedKmh,
+      location: violation.location.sectorName,
+      fine: parseFineAmount(violation.fineAmount),
+      simulated: true,
+    })
+    if (this.violations.length > 12) {
+      this.violations.length = 12
+    }
+    this.recordActivity(
+      'VIOLATION',
+      'Speed violation recorded',
+      violation.vehicleCode + ' at ' + violation.location.sectorName + ', ' +
+        violation.measuredSpeedKmh + ' km/h',
+    )
+
+    void this.saveViolationToFile(violation)
+  }
+
+  private async saveViolationToFile(violation: SpeedViolationRecord): Promise<void> {
+    try {
+      const raw = await fs.promises.readFile(VIOLATIONS_FILE, 'utf8').catch(() => '[]')
+      const list: SpeedViolationRecord[] = JSON.parse(raw || '[]')
+      list.push(violation)
+      await fs.promises.writeFile(VIOLATIONS_FILE, JSON.stringify(list, null, 2), 'utf8')
+    } catch (err) {
+      console.error('Failed to write violation to speedViolations.json:', err)
+    }
+  }
+
+  async getViolations(): Promise<SpeedViolationRecord[]> {
+    try {
+      const raw = await fs.promises.readFile(VIOLATIONS_FILE, 'utf8').catch(() => '[]')
+      return JSON.parse(raw || '[]')
+    } catch {
+      return []
+    }
   }
 
   /** Resolves the active stopped-vehicle incident and releases its drone. */
@@ -753,6 +956,9 @@ export class SimulationEngine {
       stoppedAtSimMs: null,
       yieldShiftMeters: 0,
       spawnSeq: 0,
+      ticketedAtMs: null,
+      ticketedAtSimMs: null,
+      ticketedDroneCode: null,
     }
     this.vehicles.push(ambulance)
 
@@ -1263,8 +1469,6 @@ export class SimulationEngine {
     this.sosRecords.length = 0
     this.violations.length = 0
     this.escortResponses.length = 0
-    this.enforcementCooldown.clear()
-    this.lastViolationSimMs = 0
     this.escortStartedAtSimMs = null
 
     const now = this.simulatedTime.getTime()
@@ -1294,58 +1498,6 @@ export class SimulationEngine {
     })
     if (this.activity.length > ACTIVITY_LIMIT) {
       this.activity.length = ACTIVITY_LIMIT
-    }
-  }
-
-  /**
-   * Books speeding vehicles that pass a patrolling drone.
-   *
-   * SIMULATED: produces a demonstration record only. No fine is issued, no
-   * registration is looked up and no enforcement or payment system exists
-   * behind this.
-   */
-  private stepEnforcement(): void {
-    const limit = DASHBOARD_BASELINE.traffic.speedLimitKmh
-    const fine = DASHBOARD_BASELINE.traffic.fineAmount
-    const nowMs = this.simulatedTime.getTime()
-    if (nowMs - this.lastViolationSimMs < MIN_VIOLATION_GAP_MS) {
-      return
-    }
-
-    for (const drone of this.drones) {
-      if (drone.mode !== 'PATROLLING' && drone.mode !== 'ESCORTING') {
-        continue
-      }
-      for (const vehicle of this.vehicles) {
-        if (vehicle.kind === 'AMBULANCE' || vehicle.stopped || vehicle.speedKmh <= limit) {
-          continue
-        }
-        const gap = Math.abs(vehicle.distanceAlongMeters - drone.distanceAlongMeters)
-        if (gap > ENFORCEMENT_RANGE_M) {
-          continue
-        }
-        const readyAt = this.enforcementCooldown.get(vehicle.code) ?? 0
-        if (nowMs < readyAt) {
-          continue
-        }
-        this.enforcementCooldown.set(vehicle.code, nowMs + ENFORCEMENT_COOLDOWN_MIN * 60000)
-        this.lastViolationSimMs = nowMs
-
-        const location = nearestNodeName(vehicle.distanceAlongMeters)
-        const speed = Math.round(vehicle.speedKmh)
-        this.counters.speedViolations += 1
-        this.counters.fines += fine
-        this.violations.unshift({ code: vehicle.code, speedKmh: speed, location, fine, simulated: true })
-        if (this.violations.length > 12) {
-          this.violations.length = 12
-        }
-        this.recordActivity(
-          'VIOLATION',
-          'Speed violation recorded',
-          vehicle.code + ' at ' + location + ', ' + speed + ' km/h',
-        )
-        return
-      }
     }
   }
 
@@ -1383,7 +1535,12 @@ export class SimulationEngine {
     const congestion: 'LIGHT' | 'MODERATE' | 'HEAVY' =
       share > 0.5 ? 'HEAVY' : share > 0.2 ? 'MODERATE' : 'LIGHT'
 
-    const activeEscorts = this.ambulance.active && this.ambulance.stage === 'EN_ROUTE' ? 1 : 0
+    // An escort is under way from the moment the drone is committed, not only
+    // once it has taken station. The dashboard read 0 for the whole DISPATCHED
+    // transit, which is exactly when an operator is watching it happen.
+    const escortUnderWay =
+      this.ambulance.stage === 'DISPATCHED' || this.ambulance.stage === 'EN_ROUTE'
+    const activeEscorts = this.ambulance.active && escortUnderWay ? 1 : 0
     const responses = [...this.escortResponses, base.emergency.averageEscortResponseSeconds]
     const averageResponse = Math.round(responses.reduce((a, b) => a + b, 0) / responses.length)
 
@@ -1490,7 +1647,10 @@ export class SimulationEngine {
     this.stepAmbulancePhase(dt)
     this.stepSos(dt)
     this.stepSuspicious()
-    this.stepEnforcement()
+    // Single enforcement pass. This branch and main each grew a speed
+    // detector; Yuvan's issues real E-Challan records, so it is the one that
+    // runs and the dashboard counters below are fed from it.
+    this.stepSpeedEnforcement()
   }
 
   private stepVehicles(dt: number): void {
@@ -1531,6 +1691,8 @@ export class SimulationEngine {
         Math.sign(shiftTarget - vehicle.yieldShiftMeters) *
         Math.min(shiftStep, Math.abs(shiftTarget - vehicle.yieldShiftMeters))
 
+      const isOverspeed = vehicle.code.startsWith('VH-SPEED-')
+
       // --- car following, overtaking and congestion --------------------
       let target = vehicle.baseSpeedKmh
       if (vehicle.yielding) {
@@ -1545,7 +1707,7 @@ export class SimulationEngine {
           target = AMBULANCE_ARRIVAL_KMH + (target - AMBULANCE_ARRIVAL_KMH) * t
         }
       }
-      if (this.inCongestion(vehicle.distanceAlongMeters) && !isAmbulance) {
+      if (this.inCongestion(vehicle.distanceAlongMeters) && !isAmbulance && !isOverspeed) {
         target *= CONGESTION_SPEED_FACTOR
       }
 
@@ -1556,10 +1718,10 @@ export class SimulationEngine {
         if (ahead && ahead.gap < OVERTAKE_TRIGGER_M) {
           // Try to pull out; otherwise fall in behind at the leader's speed.
           const overtaken = this.tryOvertake(vehicle)
-          if (!overtaken) {
+          if (!overtaken && !isOverspeed) {
             target = Math.min(target, ahead.vehicle.speedKmh * 0.92)
           }
-        } else if (vehicle.lane > 0 && vehicle.laneCooldown === 0) {
+        } else if (vehicle.lane > 0 && vehicle.laneCooldown === 0 && !isOverspeed) {
           // Drift back toward the inside lane once the road ahead is clear.
           const inner = this.vehicleAhead(vehicle, vehicle.lane - 1)
           if (!inner || inner.gap > OVERTAKE_CLEARANCE_M * 1.6) {
@@ -2005,6 +2167,8 @@ export class SimulationEngine {
       sos: this.sos ? { ...this.sos } : null,
       suspicious: this.suspicious ? { ...this.suspicious } : null,
       dashboard: this.dashboard(),
+      latestViolation: this.latestViolation ? { ...this.latestViolation } : null,
+      violationsCount: this.violationsCount,
     }
   }
 }

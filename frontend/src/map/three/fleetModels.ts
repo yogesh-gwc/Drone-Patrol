@@ -138,6 +138,25 @@ export const MATERIALS = {
   ),
   dark: mat(new MeshStandardMaterial({ color: 0x1b2027, roughness: 0.7, metalness: 0.2 })),
   car: mat(new MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.4, metalness: 0.3 })),
+  speedingCar: mat(
+    new MeshStandardMaterial({
+      color: 0xff1e00,
+      emissive: 0xff2200,
+      emissiveIntensity: 0.75,
+      roughness: 0.2,
+      metalness: 0.6,
+    }),
+  ),
+  speedingRing: mat(
+    new MeshStandardMaterial({
+      color: 0xff0033,
+      emissive: 0xff0022,
+      emissiveIntensity: 1.0,
+      roughness: 0.2,
+      transparent: true,
+      opacity: 0.95,
+    }),
+  ),
   bus: mat(new MeshStandardMaterial({ color: 0x2f7bbf, roughness: 0.5, metalness: 0.15 })),
   truck: mat(new MeshStandardMaterial({ color: 0x6b7280, roughness: 0.6, metalness: 0.2 })),
   ambulance: mat(new MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.35, metalness: 0.2 })),
@@ -340,16 +359,20 @@ export function createDrone(): DroneHandle {
 
 export interface VehicleHandle {
   group: Group
-  /** Warning ring, hidden unless the vehicle is flagged suspicious. */
+  /** Warning ring, hidden unless the vehicle is flagged suspicious or speeding. */
   warningRing: Mesh
+  /** Body mesh for dynamic paint / speeding livery. */
+  bodyMesh: Mesh
 }
 
 export function createVehicle(kind: 'CAR' | 'BUS' | 'TRUCK' | 'AMBULANCE'): VehicleHandle {
   const group = new Group()
+  let bodyMesh: Mesh
 
   if (kind === 'CAR') {
     const body = new Mesh(GEO.carBody, MATERIALS.car)
     body.position.z = 5
+    bodyMesh = body
     const cabin = new Mesh(GEO.carCabin, MATERIALS.glass)
     cabin.position.set(-2, 0, 10.5)
     group.add(body, cabin)
@@ -362,18 +385,21 @@ export function createVehicle(kind: 'CAR' | 'BUS' | 'TRUCK' | 'AMBULANCE'): Vehi
   } else if (kind === 'BUS') {
     const body = new Mesh(GEO.busBody, MATERIALS.bus)
     body.position.z = 10
+    bodyMesh = body
     const windows = new Mesh(GEO.busWindow, MATERIALS.glass)
     windows.position.set(0, 0, 14)
     group.add(body, windows)
   } else if (kind === 'TRUCK') {
     const body = new Mesh(GEO.truckBody, MATERIALS.truck)
     body.position.set(-8, 0, 10)
+    bodyMesh = body
     const cab = new Mesh(GEO.truckCab, MATERIALS.bus)
     cab.position.set(22, 0, 9)
     group.add(body, cab)
   } else {
     const body = new Mesh(GEO.ambBody, MATERIALS.ambulance)
     body.position.z = 9
+    bodyMesh = body
     const stripe = new Mesh(GEO.ambStripe, MATERIALS.ambulanceStripe)
     stripe.position.z = 8
     const beacon = new Mesh(GEO.ambBeacon, MATERIALS.ambulanceStripe)
@@ -387,7 +413,7 @@ export function createVehicle(kind: 'CAR' | 'BUS' | 'TRUCK' | 'AMBULANCE'): Vehi
   group.add(warningRing)
 
   group.frustumCulled = false
-  return { group, warningRing }
+  return { group, warningRing, bodyMesh }
 }
 
 export interface StationHandle {
