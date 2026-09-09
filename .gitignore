@@ -10,9 +10,14 @@ build/
 
 # Environment files - never commit real credentials
 .env
+.env.*
 .env.local
 .env.*.local
+*.env
+env*
+*env*
 !.env.example
+!**/.env.example
 
 # Logs
 logs/
@@ -32,6 +37,12 @@ test-results/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Python virtual environment & caches
+.venv/
+__pycache__/
+*.pyc
+*.pyo
 
 # Large local map exports and 3D assets are pulled in per phase, not committed
 map-data/**/*.pbf

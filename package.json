@@ -1,0 +1,21 @@
+{
+  "name": "aeroguard-3d",
+  "version": "1.0.0",
+  "description": "AEROGUARD 3D - Autonomous Drone Corridor Surveillance System with LangGraph Multi-Agent Architecture",
+  "scripts": {
+    "start": "python start.py",
+    "dev": "python start.py",
+    "test:agents": "python -m ai_service.test_agents",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build"
+  },
+  "keywords": [
+    "aeroguard",
+    "drone-surveillance",
+    "langgraph",
+    "langchain",
+    "gemini",
+    "digital-twin"
+  ],
+  "author": "",
+  "license": "ISC"
+}

@@ -9,6 +9,7 @@ import { routeRouter } from './routeRoutes.js'
 import { simulationRouter } from './simulationRoutes.js'
 import { vehicleRouter } from './vehicleRoutes.js'
 import { zoneRouter } from './zoneRoutes.js'
+import { agentRouter } from './agentRoutes.js'
 
 /**
  * Root router for everything mounted under `/api`.
@@ -28,3 +29,4 @@ apiRouter.use('/pois', poiRouter)
 apiRouter.use('/vehicles', vehicleRouter)
 apiRouter.use('/simulation', simulationRouter)
 apiRouter.use('/emergency', emergencyRouter)
+apiRouter.use('/agents', agentRouter)

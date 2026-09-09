@@ -611,6 +611,98 @@ export class SimulationEngine {
     return best
   }
 
+  /**
+   * Explicitly assigns a drone to a mission (invoked by the Intelligent Drone Assignment Agent).
+   */
+  assignDroneMission(
+    droneCode: string,
+    mode: 'MONITORING' | 'SOS_TRACKING' | 'PATROLLING',
+    targetPosition: Position,
+    targetEntityCode?: string,
+  ): boolean {
+    const drone = this.drones.find((d) => d.code === droneCode)
+    if (!drone) {
+      return false
+    }
+
+    if (drone.stationCode) {
+      this.undock(drone)
+      drone.stationCode = null
+    }
+
+    drone.mode = mode
+    drone.cameraStatus = 'LIVE'
+    drone.patrolResumeMeters = drone.distanceAlongMeters
+
+    if (mode === 'MONITORING') {
+      drone.monitorTarget = targetPosition
+      if (this.suspicious && (!targetEntityCode || targetEntityCode === this.suspicious.vehicleCode)) {
+        this.suspicious.assignedDroneCode = drone.code
+        this.suspicious.stage = 'SUSPICIOUS'
+      }
+    } else if (mode === 'SOS_TRACKING') {
+      drone.sosTarget = targetPosition
+      if (this.sos) {
+        this.sos.assignedDroneCode = drone.code
+      }
+    }
+
+    this.start()
+    return true
+  }
+
+  /**
+   * Relays ambulance escort to a fresh or better-positioned drone.
+   * Invoked when the AI Agent determines current drone battery is insufficient
+   * to reach the destination hospital, or by operator command.
+   */
+  relayAmbulanceEscort(newDroneCode: string, previousDroneCode?: string): { ok: boolean; message?: string } {
+    if (!this.ambulance.active) {
+      return { ok: false, message: 'No active ambulance emergency to relay' }
+    }
+
+    const newDrone = this.drones.find((d) => d.code === newDroneCode)
+    if (!newDrone) {
+      return { ok: false, message: `Drone ${newDroneCode} not found` }
+    }
+
+    const prevCode = previousDroneCode || this.ambulance.assignedDroneCode
+    const prevDrone = this.drones.find((d) => d.code === prevCode)
+
+    if (prevDrone) {
+      prevDrone.mode = 'RETURNING'
+      prevDrone.speakerStatus = 'IDLE'
+      prevDrone.escortingVehicleCode = null
+    }
+
+    if (newDrone.stationCode) {
+      this.undock(newDrone)
+      newDrone.stationCode = null
+    }
+
+    const ambVehicle = this.vehicles.find((v) => v.code === this.ambulance.vehicleCode)
+    const ambDistance = ambVehicle
+      ? ambVehicle.distanceAlongMeters
+      : Math.max(0, this.ambulance.destinationChainageMeters - this.ambulance.distanceRemainingMeters)
+
+    newDrone.mode = 'ESCORTING'
+    newDrone.escortingVehicleCode = this.ambulance.vehicleCode
+    newDrone.speakerStatus = 'ACTIVE'
+    newDrone.cameraStatus = 'LIVE'
+    newDrone.patrolResumeMeters = newDrone.distanceAlongMeters
+    newDrone.distanceAlongMeters = Math.min(
+      CORRIDOR.lengthMeters,
+      ambDistance + ESCORT_LEAD_M * (ambVehicle?.direction || 1),
+    )
+    newDrone.position = positionAtDistance(newDrone.distanceAlongMeters)
+    newDrone.headingDegrees = headingAtDistance(newDrone.distanceAlongMeters)
+
+    this.ambulance.assignedDroneCode = newDrone.code
+
+    this.start()
+    return { ok: true, message: `Escort successfully relayed to ${newDrone.code}` }
+  }
+
   // --- ambulance emergency --------------------------------------------------
 
   /**

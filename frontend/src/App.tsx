@@ -1,6 +1,12 @@
+import { useEffect } from 'react'
 import { ThemeToggle } from './components/ThemeToggle'
+import { AgentActivityPanel } from './dashboard/AgentActivityPanel'
+import { AgentAuditModal } from './dashboard/AgentAuditModal'
+import { AiRecommendationCard } from './dashboard/AiRecommendationCard'
+import { AmbulanceRelayCard } from './dashboard/AmbulanceRelayCard'
 import { DroneCameraPanel } from './dashboard/DroneCameraPanel'
 import { DronePanel } from './dashboard/DronePanel'
+import { IncidentDecisionCard } from './dashboard/IncidentDecisionCard'
 import { OperationsPanel } from './dashboard/OperationsPanel'
 import { SelectionPanel } from './dashboard/SelectionPanel'
 import { AmbulancePanel } from './emergency/AmbulancePanel'
@@ -12,6 +18,8 @@ import { CameraReadout } from './map/CameraReadout'
 import { MapControls } from './map/MapControls'
 import { MapScene } from './map/MapScene'
 import { MapStatusOverlay } from './map/MapStatusOverlay'
+import { subscribeToAgentUpdates } from './services/agentService'
+import { useAgentStore } from './store/agentStore'
 
 /**
  * Application shell.
@@ -20,10 +28,20 @@ import { MapStatusOverlay } from './map/MapStatusOverlay'
  * stays the dominant element. Panels are `pointer-events-none` containers with
  * `pointer-events-auto` children, letting the map be dragged through the gaps
  * between them.
- *
- * Drone, camera-wall, emergency and SOS panels belong to later phases.
  */
 export default function App() {
+  const setAuditModalOpen = useAgentStore((state) => state.setAuditModalOpen)
+  const pendingCount = useAgentStore(
+    (state) => state.pendingRecommendations.length + state.pendingRelayRecommendations.length
+  )
+
+  useEffect(() => {
+    const unsubscribe = subscribeToAgentUpdates()
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
   return (
     <div className="flex h-full flex-col bg-slate-100 dark:bg-slate-950">
       <header className="z-30 flex shrink-0 items-center justify-between gap-4 border-b border-slate-300 bg-white px-5 py-2.5 shadow-sm dark:border-slate-800 dark:bg-slate-950">
@@ -32,11 +50,24 @@ export default function App() {
             Aeroguard 3D
           </h1>
           <span className="text-[11px] tracking-wider text-slate-500 uppercase dark:text-slate-500">
-            Krishnagiri &rarr; Hosur Corridor
+            Krishnagiri &rarr; Perandapalli &rarr; Hosur Corridor
           </span>
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setAuditModalOpen(true)}
+            className="flex items-center gap-1.5 rounded-sm border border-slate-300 bg-white px-2.5 py-1 text-[10px] font-medium tracking-wider text-slate-700 uppercase transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+          >
+            <span>&#128220;</span>
+            <span>Audit Journal</span>
+            {pendingCount > 0 && (
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[9px] font-bold text-white">
+                {pendingCount}
+              </span>
+            )}
+          </button>
           <AmbulanceTracker />
           <ThemeToggle />
         </div>
@@ -45,26 +76,25 @@ export default function App() {
       <main className="relative min-h-0 flex-1">
         <MapScene />
         <MapStatusOverlay />
+        <AgentAuditModal />
 
-        {/* Left rail: view presets, corridor navigation and fleet operations. */}
+        {/* Left rail: view presets, corridor navigation, fleet operations, and AI Agents. */}
         <div className="pointer-events-none absolute top-4 bottom-4 left-4 z-10 flex gap-3 overflow-y-auto">
           <MapControls />
-          <OperationsPanel />
+          <div className="flex flex-col gap-3">
+            <OperationsPanel />
+            <AgentActivityPanel />
+          </div>
         </div>
 
         {/*
-          Right rail. Everything status-related lives in one scrolling column
-          on the right so the map itself is never covered: the emergency
-          banners used to float over the centre of the viewport, which hid the
-          very corridor the operator was trying to watch. It starts below the
-          MapLibre zoom cluster in the same corner.
-
-          The rail takes pointer events itself rather than only passing them to
-          its panels. It has to scroll - with an emergency running it carries
-          the banner, the speaker alert, the roster and a live camera panel -
-          and a pointer-events-none container cannot be scrolled to.
+          Right rail: AI recommendations, emergency banners, incident assessments,
+          drone camera and telemetry.
         */}
         <div className="pointer-events-auto absolute top-32 right-4 bottom-12 z-20 flex w-72 flex-col gap-3 overflow-y-auto overscroll-contain [scrollbar-width:thin]">
+          <AiRecommendationCard />
+          <IncidentDecisionCard />
+          <AmbulanceRelayCard />
           <AmbulancePanel />
           <SpeakerAlert />
           <SosPanel />
