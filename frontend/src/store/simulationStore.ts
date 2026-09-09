@@ -1,5 +1,12 @@
 import { create } from 'zustand'
+import type { CameraDirection } from '../dashboard/cameraFeeds'
 import type { SimulationSnapshot } from '../types/simulation'
+
+/**
+ * A backwards tick jump larger than this means the backend restarted and
+ * began counting again, rather than a packet arriving out of order.
+ */
+const RESTART_TICK_DROP = 100
 
 /**
  * Latest simulation snapshot from the backend.
@@ -9,12 +16,6 @@ import type { SimulationSnapshot } from '../types/simulation'
  * exists for the React panels, which re-render at snapshot rate (5 Hz) rather
  * than frame rate.
  */
-/**
- * A backwards tick jump larger than this means the backend restarted and
- * began counting again, rather than a packet arriving out of order.
- */
-const RESTART_TICK_DROP = 100
-
 interface SimulationStoreState {
   snapshot: SimulationSnapshot | null
   connected: boolean
@@ -23,6 +24,8 @@ interface SimulationStoreState {
   selectedVehicleCode: string | null
   /** True while the camera is locked on the ambulance. */
   followAmbulance: boolean
+  /** Active camera direction expanded into the big screen overlay, or null. */
+  expandedFeedDirection: CameraDirection | null
 
   applySnapshot: (snapshot: SimulationSnapshot) => void
   setConnected: (connected: boolean) => void
@@ -30,6 +33,7 @@ interface SimulationStoreState {
   selectStation: (code: string | null) => void
   selectVehicle: (code: string | null) => void
   setFollowAmbulance: (following: boolean) => void
+  setExpandedFeedDirection: (direction: CameraDirection | null) => void
 }
 
 export const useSimulationStore = create<SimulationStoreState>((set) => ({
@@ -39,6 +43,7 @@ export const useSimulationStore = create<SimulationStoreState>((set) => ({
   selectedStationCode: null,
   selectedVehicleCode: null,
   followAmbulance: false,
+  expandedFeedDirection: null,
 
   applySnapshot: (snapshot) =>
     set((state) => {
@@ -62,16 +67,32 @@ export const useSimulationStore = create<SimulationStoreState>((set) => ({
       selectedDroneCode,
       selectedStationCode: null,
       selectedVehicleCode: null,
-      // If user clicks a different drone, detach ambulance camera tracking
+      // Picking a different drone detaches ambulance camera tracking; picking
+      // the escort drone itself keeps it, because that is still the ambulance.
       followAmbulance:
         selectedDroneCode !== null &&
         selectedDroneCode === state.snapshot?.ambulance.assignedDroneCode
           ? state.followAmbulance
           : false,
+      // Clearing the selection closes the big-screen feed with it; switching
+      // between drones leaves it open so the same view follows the new drone.
+      expandedFeedDirection: selectedDroneCode === null ? null : state.expandedFeedDirection,
     })),
   selectStation: (selectedStationCode) =>
-    set({ selectedStationCode, selectedDroneCode: null, selectedVehicleCode: null, followAmbulance: false }),
+    set({
+      selectedStationCode,
+      selectedDroneCode: null,
+      selectedVehicleCode: null,
+      followAmbulance: false,
+      expandedFeedDirection: null,
+    }),
   selectVehicle: (selectedVehicleCode) =>
-    set({ selectedVehicleCode, selectedDroneCode: null, selectedStationCode: null }),
+    set({
+      selectedVehicleCode,
+      selectedDroneCode: null,
+      selectedStationCode: null,
+      expandedFeedDirection: null,
+    }),
   setFollowAmbulance: (followAmbulance) => set({ followAmbulance }),
+  setExpandedFeedDirection: (expandedFeedDirection) => set({ expandedFeedDirection }),
 }))

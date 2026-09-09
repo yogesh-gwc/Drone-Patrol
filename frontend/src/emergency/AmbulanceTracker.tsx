@@ -24,6 +24,7 @@ export function AmbulanceTracker() {
   const snapshot = useSimulationStore((state) => state.snapshot)
   const following = useSimulationStore((state) => state.followAmbulance)
   const setFollowing = useSimulationStore((state) => state.setFollowAmbulance)
+  const selectDrone = useSimulationStore((state) => state.selectDrone)
 
   const active = snapshot?.ambulance.active ?? false
   const ambulance = snapshot?.vehicles.find((v) => v.code === snapshot.ambulance.vehicleCode)
@@ -91,7 +92,13 @@ export function AmbulanceTracker() {
   return (
     <button
       type="button"
-      onClick={() => setFollowing(!following)}
+      onClick={() => {
+        const next = !following
+        setFollowing(next)
+        if (next && snapshot?.ambulance.assignedDroneCode) {
+          selectDrone(snapshot.ambulance.assignedDroneCode)
+        }
+      }}
       title={
         following
           ? 'Stop following the ambulance'
