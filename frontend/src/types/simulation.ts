@@ -182,6 +182,25 @@ export interface SuspiciousVehicleState {
   startedAtIso: string
 }
 
+export interface SpeedViolationRecord {
+  violationId: string
+  timestamp: string
+  capturedDroneId: string
+  capturedDroneName: string
+  vehicleCode: string
+  vehicleKind: VehicleKind
+  measuredSpeedKmh: number
+  speedLimitKmh: number
+  excessSpeedKmh: number
+  fineAmount: string
+  section: string
+  location: {
+    chainageMeters: number
+    sectorName: string
+    coordinates: Position
+  }
+}
+
 export interface SimulationSnapshot {
   /** Monotonic tick counter; lets the client discard out-of-order frames. */
   tick: number
@@ -195,4 +214,6 @@ export interface SimulationSnapshot {
   ambulance: AmbulanceEmergencyState
   sos: SosState | null
   suspicious: SuspiciousVehicleState | null
+  latestViolation: SpeedViolationRecord | null
+  violationsCount: number
 }

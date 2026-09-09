@@ -3,6 +3,7 @@ import { DroneCameraPanel } from './dashboard/DroneCameraPanel'
 import { DronePanel } from './dashboard/DronePanel'
 import { OperationsPanel } from './dashboard/OperationsPanel'
 import { SelectionPanel } from './dashboard/SelectionPanel'
+import { ViolationToast } from './dashboard/ViolationToast'
 import { AmbulancePanel } from './emergency/AmbulancePanel'
 import { AmbulanceTracker } from './emergency/AmbulanceTracker'
 import { SosPanel } from './emergency/SosPanel'
@@ -45,6 +46,7 @@ export default function App() {
       <main className="relative min-h-0 flex-1">
         <MapScene />
         <MapStatusOverlay />
+        <ViolationToast />
 
         {/* Left rail: view presets, corridor navigation and fleet operations. */}
         <div className="pointer-events-none absolute top-4 bottom-4 left-4 z-10 flex gap-3 overflow-y-auto">
@@ -64,7 +66,7 @@ export default function App() {
           the banner, the speaker alert, the roster and a live camera panel -
           and a pointer-events-none container cannot be scrolled to.
         */}
-        <div className="pointer-events-auto absolute top-32 right-4 bottom-12 z-20 flex w-72 flex-col gap-3 overflow-y-auto overscroll-contain [scrollbar-width:thin]">
+        <div className="pointer-events-auto absolute top-32 right-4 bottom-12 z-20 flex w-72 flex-col gap-3 overflow-y-auto overscroll-contain scrollbar-thin">
           <AmbulancePanel />
           <SpeakerAlert />
           <SosPanel />
