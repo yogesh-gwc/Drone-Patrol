@@ -5,7 +5,7 @@ import { NH44_GEOJSON } from './corridorRoute.js'
 import { declutterBasemap } from './mapDeclutter.js'
 
 /**
- * AEROGUARD layers added on top of the MapTiler style.
+ * Drone Patrol layers added on top of the MapTiler style.
  *
  * These read from the style's existing OpenStreetMap-derived vector source
  * (`maptiler_planet`, OpenMapTiles schema), so no separate road data is
@@ -227,7 +227,7 @@ function addCorridorLocations(map: MapLibreMap): void {
  *
  * This is distinct from `addHighwayEmphasis`, which styles whatever trunk roads
  * the basemap happens to carry. This layer is the specific Krishnagiri to Hosur
- * carriageway AEROGUARD monitors, and it is what makes the corridor - rather
+ * carriageway Drone Patrol monitors, and it is what makes the corridor - rather
  * than the road network - the dominant element at low zoom.
  *
  * At high zoom the Three.js 3D corridor takes over visually, so these lines
@@ -278,9 +278,9 @@ function addCorridorHighway(map: MapLibreMap): void {
 }
 
 /**
- * Adds every AEROGUARD layer and reduces the basemap around them.
+ * Adds every Drone Patrol layer and reduces the basemap around them.
  *
- * Order matters: the basemap is decluttered after the AEROGUARD layers exist so
+ * Order matters: the basemap is decluttered after the Drone Patrol layers exist so
  * the declutter pass can skip them by id prefix.
  */
 export function addAeroguardLayers(map: MapLibreMap): void {

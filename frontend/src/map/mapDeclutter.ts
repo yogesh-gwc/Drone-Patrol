@@ -3,7 +3,7 @@ import type { Map as MapLibreMap } from 'maplibre-gl'
 /**
  * Reduces the MapTiler basemap to operational context.
  *
- * AEROGUARD monitors one highway corridor, not a road network, so the stock
+ * Drone Patrol monitors one highway corridor, not a road network, so the stock
  * street style carries far too much: every service road, every hamlet label,
  * shop and restaurant POIs, administrative boundaries. Left alone it reads as
  * a consumer navigation map and competes with the corridor for attention.
@@ -27,7 +27,7 @@ const MINOR_ROAD_CLASSES = new Set(['secondary', 'tertiary'])
 /**
  * No basemap place label survives.
  *
- * AEROGUARD labels its five operational corridor nodes from its own data. Any
+ * Drone Patrol labels its five operational corridor nodes from its own data. Any
  * other settlement name - Bengaluru, Kolar, Rayakottai, Attibele - makes this
  * read as a regional map rather than a dedicated NH-44 monitor, so the whole
  * `place` layer group is hidden and the corridor markers stand alone.
@@ -106,7 +106,7 @@ export function declutterBasemap(map: MapLibreMap): DeclutterResult {
 
   for (const layer of style.layers) {
     const id = layer.id
-    // Never touch AEROGUARD's own layers.
+    // Never touch Drone Patrol's own layers.
     if (id.startsWith('aeroguard-')) {
       result.kept++
       continue
@@ -185,7 +185,7 @@ export function declutterBasemap(map: MapLibreMap): DeclutterResult {
 
       // --- background context: keep, but quiet -----------------------------
       case 'building':
-        // The flat basemap footprints are hidden; AEROGUARD draws the same
+        // The flat basemap footprints are hidden; Drone Patrol draws the same
         // OSM buildings as 3D extrusions instead (see mapLayers).
         hide(id)
         continue

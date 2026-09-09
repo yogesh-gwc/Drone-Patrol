@@ -270,7 +270,7 @@ export function MapScene() {
         state.addFailure({
           stage: 'style',
           message:
-            error instanceof Error ? error.message : 'AEROGUARD map layers could not be added.',
+            error instanceof Error ? error.message : 'Drone Patrol map layers could not be added.',
         })
       }
 

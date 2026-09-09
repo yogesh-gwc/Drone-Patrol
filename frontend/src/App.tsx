@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { ThemeToggle } from './components/ThemeToggle'
 import { DroneCameraPanel } from './dashboard/DroneCameraPanel'
+import { HomeDashboard } from './dashboard/home/HomeDashboard'
 import { DronePanel } from './dashboard/DronePanel'
 import { OperationsPanel } from './dashboard/OperationsPanel'
 import { SelectionPanel } from './dashboard/SelectionPanel'
@@ -21,9 +23,17 @@ import { MapStatusOverlay } from './map/MapStatusOverlay'
  * `pointer-events-auto` children, letting the map be dragged through the gaps
  * between them.
  *
- * Drone, camera-wall, emergency and SOS panels belong to later phases.
+ * The home dashboard is an OVERLAY, not a route. `MapScene` is mounted once
+ * and never unmounted, so minimising the dashboard reveals the running
+ * corridor rather than rebuilding it: the MapLibre map, the camera position,
+ * the Three.js scene and the Socket.IO stream all survive the toggle
+ * untouched.
  */
 export default function App() {
+  // The dashboard is the landing view; the operator can drop it to work the
+  // full-width map and bring it back at any time.
+  const [dashboardOpen, setDashboardOpen] = useState(true)
+
   return (
     <div className="flex h-full flex-col bg-slate-100 dark:bg-slate-950">
       <header className="z-30 flex shrink-0 items-center justify-between gap-4 border-b border-slate-300 bg-white px-5 py-2.5 shadow-sm dark:border-slate-800 dark:bg-slate-950">
@@ -37,6 +47,15 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-3">
+          {!dashboardOpen && (
+            <button
+              type="button"
+              onClick={() => setDashboardOpen(true)}
+              className="rounded-sm border border-indigo-300 bg-indigo-50 px-2.5 py-1 text-[10px] font-medium tracking-[0.18em] text-indigo-700 uppercase transition-colors hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-500/10 dark:text-indigo-300 dark:hover:bg-indigo-500/20"
+            >
+              Open dashboard
+            </button>
+          )}
           <AmbulanceTracker />
           <ThemeToggle />
         </div>
@@ -46,11 +65,28 @@ export default function App() {
         <MapScene />
         <MapStatusOverlay />
 
-        {/* Left rail: view presets, corridor navigation and fleet operations. */}
-        <div className="pointer-events-none absolute top-4 bottom-4 left-4 z-10 flex gap-3 overflow-y-auto">
-          <MapControls />
-          <OperationsPanel />
-        </div>
+        {/*
+          Home dashboard overlay. Occupies the left of the viewport so the 3D
+          corridor stays visible beside and behind it - a full-screen dashboard
+          would hide the very thing the system monitors.
+        */}
+        {dashboardOpen && (
+          <div className="pointer-events-none absolute top-4 bottom-4 left-4 z-30 flex gap-3">
+            <HomeDashboard onMinimize={() => setDashboardOpen(false)} />
+          </div>
+        )}
+
+        {/*
+          Left rail: view presets, corridor navigation and fleet operations.
+          Yields to the dashboard, which occupies the same edge; minimising the
+          dashboard brings these straight back with no map reload.
+        */}
+        {!dashboardOpen && (
+          <div className="pointer-events-none absolute top-4 bottom-4 left-4 z-10 flex gap-3 overflow-y-auto">
+            <MapControls />
+            <OperationsPanel />
+          </div>
+        )}
 
         {/*
           Right rail. Everything status-related lives in one scrolling column

@@ -72,7 +72,7 @@ export function SosDialog({ open, onClose }: SosDialogProps) {
       }
       onClose()
     } catch {
-      setError('Could not reach the AEROGUARD backend.')
+      setError('Could not reach the Drone Patrol backend.')
     } finally {
       setSubmitting(false)
     }
