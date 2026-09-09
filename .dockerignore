@@ -1,0 +1,30 @@
+# Both images build from the repository root, so this list decides how much of
+# the working tree is shipped to the daemon. Keeping it tight matters here: the
+# camera clips alone are ~46 MB and node_modules dwarfs the source.
+
+**/node_modules
+**/dist
+**/.git
+**/.github
+
+# Local environment. The deployed values come from the root .env via
+# docker-compose, never from a file baked into an image.
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Runtime output, not input. The engine recreates this on first violation.
+backend/data/speedViolations.json
+
+# Editors, OS noise, logs
+**/.vscode
+**/.idea
+**/.DS_Store
+**/Thumbs.db
+**/*.log
+**/npm-debug.log*
+
+# Docs and scratch work are not needed to build or run either service.
+*.md
+!README.md
+scratch/

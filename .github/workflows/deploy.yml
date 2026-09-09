@@ -1,0 +1,111 @@
+name: Deploy Zero Accident Prevention
+
+# Pushing to main deploys. There is no manual step on the server: the runner
+# writes the environment file from this repository's Actions variables and
+# secrets, rebuilds both images and restarts the stack.
+#
+# REQUIRED ONE-TIME SETUP ON THE RUNNER HOST
+#   docker network create webproxy
+#   Traefik must already be running and watching that network, with `web` and
+#   `websecure` entrypoints and a `letsencrypt` certresolver.
+#
+# REQUIRED IN Settings -> Environments -> deployment
+#   Variables : PUBLIC_HOST, PUBLIC_SCHEME, BACKEND_PORT,
+#               VITE_MAP_STYLE, VITE_MAP_STYLE_DARK
+#   Secrets   : VITE_MAPTILER_API_KEY
+#
+# A name added to .env.example must be added here too, or the deployed value
+# silently falls back to the compose default instead of the one you set.
+
+on:
+  push:
+    branches:
+      - main
+  # Lets a deploy be re-run without an empty commit, e.g. after changing a
+  # variable in the environment.
+  workflow_dispatch:
+
+# A second push while a deploy is mid-build would otherwise race it and leave
+# the stack half-updated.
+concurrency:
+  group: deploy-zero-accident-prevention
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux, gwc-server]
+    environment: deployment
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create environment file
+        run: |
+          cat > .env <<'EOF'
+          PUBLIC_HOST=${{ vars.PUBLIC_HOST }}
+          # http or https - the scheme the BROWSER uses. The operator UI calls
+          # the backend directly for REST and the Socket.IO websocket, so both
+          # hostnames must share this scheme; an https page calling an http API
+          # is blocked as mixed content and the telemetry feed silently dies.
+          PUBLIC_SCHEME=${{ vars.PUBLIC_SCHEME }}
+          BACKEND_PORT=${{ vars.BACKEND_PORT }}
+          # Compiled into the browser bundle at image build time. A public,
+          # domain-restricted client key - restrict it to PUBLIC_HOST in the
+          # MapTiler console.
+          VITE_MAPTILER_API_KEY=${{ secrets.VITE_MAPTILER_API_KEY }}
+          VITE_MAP_STYLE=${{ vars.VITE_MAP_STYLE }}
+          VITE_MAP_STYLE_DARK=${{ vars.VITE_MAP_STYLE_DARK }}
+          EOF
+
+      - name: Verify required configuration
+        # Fail here, with a name, rather than 300 lines into a build. An unset
+        # MapTiler key otherwise surfaces as a deployed page showing only a
+        # configuration error, which is a slow way to find a missing secret.
+        run: |
+          set -a; . ./.env; set +a
+          missing=""
+          [ -n "${PUBLIC_HOST:-}" ] || missing="$missing PUBLIC_HOST"
+          [ -n "${VITE_MAPTILER_API_KEY:-}" ] || missing="$missing VITE_MAPTILER_API_KEY"
+          if [ -n "$missing" ]; then
+            echo "Missing required configuration:$missing"
+            echo "Set these under Settings -> Environments -> deployment."
+            exit 1
+          fi
+          echo "Deploying to ${PUBLIC_SCHEME:-https}://zero-accident.${PUBLIC_HOST}"
+          echo "Backend at    ${PUBLIC_SCHEME:-https}://zero-accident-api.${PUBLIC_HOST}"
+
+      - name: Ensure the shared proxy network exists
+        # Created once per host and shared with Traefik. Compose declares it
+        # external, so a missing network fails the run with a bare "network
+        # webproxy not found" that says nothing about how to fix it.
+        run: docker network create webproxy 2>/dev/null || true
+
+      - name: Build containers
+        run: docker compose build
+
+      - name: Start application
+        run: docker compose up -d --remove-orphans
+
+      - name: Show containers
+        run: docker compose ps
+
+      - name: Wait for the backend to answer
+        # `up -d` returns once containers are created, not once the simulation
+        # is serving. Without this a broken deploy still reports success.
+        run: |
+          for i in $(seq 1 30); do
+            if docker compose exec -T zap-backend node -e "fetch('http://127.0.0.1:'+(process.env.PORT||4000)+'/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"; then
+              echo "Backend healthy after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Backend did not become healthy. Recent logs:"
+          docker compose logs --tail=50 zap-backend
+          exit 1
+
+      - name: Prune dangling images
+        # Each deploy rebuilds both images; without this the host fills up with
+        # untagged layers over time.
+        if: always()
+        run: docker image prune -f

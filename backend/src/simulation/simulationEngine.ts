@@ -131,11 +131,11 @@ const SOS_RESOLVED_HOLD_S = 8
  * Stopped-vehicle thresholds, in SIMULATED minutes.
  *
  * Measured on the simulation clock, not the wall clock, so raising the speed
- * multiplier lets an operator reach 40 and 80 minutes in seconds. Nothing
+ * multiplier lets an operator reach 20 and 40 minutes in seconds. Nothing
  * here is a test-only shortcut - the same code path runs at 1x.
  */
-const SUSPICIOUS_THRESHOLD_MIN = 40
-const ESCALATION_THRESHOLD_MIN = 80
+const SUSPICIOUS_THRESHOLD_MIN = 20
+const ESCALATION_THRESHOLD_MIN = 40
 /** Metres from the vehicle at which the drone is considered on station. */
 const MONITOR_ARRIVAL_M = 90
 /** Drone transit speed when responding to a stopped vehicle, m/s. */

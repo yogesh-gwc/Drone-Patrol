@@ -134,7 +134,7 @@ export function OperationsPanel() {
           </div>
         )}
 
-        {/* Simulation clock. The Phase 12 thresholds are 40 and 80 SIMULATED
+        {/* Simulation clock. The Phase 12 thresholds are 20 and 40 SIMULATED
             minutes, so this is how a demo reaches them in seconds. */}
         <div className="mt-2">
           <p className="mb-1 text-[9px] tracking-[0.16em] text-slate-500 uppercase">

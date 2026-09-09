@@ -276,7 +276,7 @@ export type SuspiciousStage = 'MONITORING_PENDING' | 'SUSPICIOUS' | 'POLICE_DISP
 /**
  * A stopped-vehicle incident.
  *
- * Thresholds are measured in SIMULATED minutes, so the 40 and 80 minute stages
+ * Thresholds are measured in SIMULATED minutes, so the 20 and 40 minute stages
  * can be demonstrated in seconds by raising the simulation speed.
  */
 export interface SuspiciousVehicleState {

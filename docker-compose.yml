@@ -1,0 +1,95 @@
+name: zap # zero-accident-prevention
+
+# Zero Accident Prevention - NH-44 Krishnagiri to Hosur drone patrol simulation.
+#
+#   docker compose up -d --build
+#
+# Two services, no database. The simulation keeps all of its moving state in
+# memory and reads its fixed data from static JSON, so there is nothing to
+# migrate, back up or provision:
+#
+#   zap-backend  :4000  Express + Socket.IO simulation engine
+#                       -> zero-accident-api.${PUBLIC_HOST}
+#   zap-web      :80    nginx serving the built operator UI
+#                       -> zero-accident.${PUBLIC_HOST}
+#
+# Neither service publishes a host port. Both join the shared "webproxy"
+# network that Traefik watches and are routed by hostname, which is what keeps
+# concurrent stacks on the same box from colliding over ports. Traefik itself
+# (running separately in ~/traefik) must already be up for these hostnames to
+# resolve to anything.
+#
+# BOTH ROUTERS MUST SHARE A SCHEME. The browser calls the backend directly for
+# REST and for the Socket.IO websocket, so serving the UI over https and the
+# API over http gets the API calls blocked as mixed content - the map draws and
+# the telemetry never arrives. Each service therefore gets both a `web` and a
+# `websecure` router, and PUBLIC_SCHEME decides which one the bundle is built
+# to call.
+
+services:
+  zap-backend:
+    build:
+      # Repository root: the engine resolves map-data/ as a sibling of
+      # backend/, so a narrower context produces an image that dies on its
+      # first read of the corridor geometry.
+      context: .
+      dockerfile: backend/Dockerfile
+    networks:
+      - default
+      - webproxy
+    labels:
+      - "traefik.enable=true"
+      # HTTP
+      - "traefik.http.routers.zap-api.rule=Host(`zero-accident-api.${PUBLIC_HOST:-internal.gwcdata.ai}`)"
+      - "traefik.http.routers.zap-api.entrypoints=web"
+      # HTTPS
+      - "traefik.http.routers.zap-api-tls.rule=Host(`zero-accident-api.${PUBLIC_HOST:-internal.gwcdata.ai}`)"
+      - "traefik.http.routers.zap-api-tls.entrypoints=websecure"
+      - "traefik.http.routers.zap-api-tls.tls=true"
+      - "traefik.http.routers.zap-api-tls.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zap-api.loadbalancer.server.port=${BACKEND_PORT:-4000}"
+    environment:
+      NODE_ENV: production
+      PORT: ${BACKEND_PORT:-4000}
+      # CORS origin and the Socket.IO allow-list. This must be the address the
+      # BROWSER uses, not an internal service name: the check is made against
+      # the Origin header the browser sends.
+      CLIENT_URL: ${PUBLIC_SCHEME:-https}://zero-accident.${PUBLIC_HOST:-internal.gwcdata.ai}
+    restart: unless-stopped
+
+  zap-web:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        # Compiled into the bundle at build time. `docker compose build` runs
+        # on every deploy, so changing one of these in .env and redeploying is
+        # enough to change what the browser calls.
+        VITE_API_URL: ${PUBLIC_SCHEME:-https}://zero-accident-api.${PUBLIC_HOST:-internal.gwcdata.ai}
+        VITE_SOCKET_URL: ${PUBLIC_SCHEME:-https}://zero-accident-api.${PUBLIC_HOST:-internal.gwcdata.ai}
+        VITE_MAPTILER_API_KEY: ${VITE_MAPTILER_API_KEY:?VITE_MAPTILER_API_KEY must be set in .env - without it the basemap and 3D terrain cannot load}
+        VITE_MAP_STYLE: ${VITE_MAP_STYLE:-streets-v2-light}
+        VITE_MAP_STYLE_DARK: ${VITE_MAP_STYLE_DARK:-streets-v2-dark}
+    networks:
+      - default
+      - webproxy
+    labels:
+      - "traefik.enable=true"
+      # HTTP
+      - "traefik.http.routers.zap-web.rule=Host(`zero-accident.${PUBLIC_HOST:-internal.gwcdata.ai}`)"
+      - "traefik.http.routers.zap-web.entrypoints=web"
+      # HTTPS
+      - "traefik.http.routers.zap-web-tls.rule=Host(`zero-accident.${PUBLIC_HOST:-internal.gwcdata.ai}`)"
+      - "traefik.http.routers.zap-web-tls.entrypoints=websecure"
+      - "traefik.http.routers.zap-web-tls.tls=true"
+      - "traefik.http.routers.zap-web-tls.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zap-web.loadbalancer.server.port=80"
+    depends_on:
+      - zap-backend
+    restart: unless-stopped
+
+networks:
+  # Created once on the host, shared with Traefik and every other stack:
+  #   docker network create webproxy
+  webproxy:
+    external: true

@@ -37,3 +37,12 @@ Thumbs.db
 map-data/**/*.pbf
 map-data/**/*.osm
 map-data/**/*.mbtiles
+
+# Runtime output, not configuration.
+#
+# The engine APPENDS every E-Challan it issues to this file and reads it back
+# on boot. Committing it made every developer's local runs collide - it caused
+# a merge conflict the first time two branches were merged - and it grows
+# without bound. The engine already treats a missing file as an empty log, so
+# a fresh clone simply starts its own.
+backend/data/speedViolations.json

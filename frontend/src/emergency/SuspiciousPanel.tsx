@@ -15,7 +15,7 @@ function Row({ label, value, tone }: { label: string; value: string; tone?: stri
 /**
  * Stopped / suspicious vehicle incident.
  *
- * Times are SIMULATED minutes, so the 40 and 80 minute stages are reachable in
+ * Times are SIMULATED minutes, so the 20 and 40 minute stages are reachable in
  * seconds at a raised simulation speed. Any police dispatch shown here is
  * simulated: nothing is contacted.
  */
