@@ -325,21 +325,44 @@ export class FleetRenderer {
         this.vehicles.set(state.code, tracked)
       }
 
+      // Speeding test vehicle or speed violation (> 80 km/h) visual indicator
+      const isSpeeding = state.code.startsWith('VH-SPEED-') || state.speedKmh > 80
       // Flag the vehicle the suspicious-vehicle incident is tracking.
-      const warning =
+      const suspiciousStage =
         snapshot.suspicious?.vehicleCode === state.code ? snapshot.suspicious.stage : ''
+      const warning = isSpeeding ? 'SPEEDING' : suspiciousStage
+
       if (warning !== tracked.warning) {
         tracked.warning = warning
         tracked.handle.warningRing.visible = warning !== ''
-        tracked.handle.warningRing.material =
-          warning === 'POLICE_DISPATCH' ? MATERIALS.warningEscalated : MATERIALS.warning
+        if (warning === 'SPEEDING') {
+          tracked.handle.warningRing.material = MATERIALS.speedingRing
+          tracked.handle.bodyMesh.material = MATERIALS.speedingCar
+        } else if (warning === 'POLICE_DISPATCH') {
+          tracked.handle.warningRing.material = MATERIALS.warningEscalated
+          if (state.kind === 'CAR') tracked.handle.bodyMesh.material = MATERIALS.car
+          else if (state.kind === 'BUS') tracked.handle.bodyMesh.material = MATERIALS.bus
+          else if (state.kind === 'TRUCK') tracked.handle.bodyMesh.material = MATERIALS.truck
+          else if (state.kind === 'AMBULANCE') tracked.handle.bodyMesh.material = MATERIALS.ambulance
+        } else if (warning !== '') {
+          tracked.handle.warningRing.material = MATERIALS.warning
+          if (state.kind === 'CAR') tracked.handle.bodyMesh.material = MATERIALS.car
+          else if (state.kind === 'BUS') tracked.handle.bodyMesh.material = MATERIALS.bus
+          else if (state.kind === 'TRUCK') tracked.handle.bodyMesh.material = MATERIALS.truck
+          else if (state.kind === 'AMBULANCE') tracked.handle.bodyMesh.material = MATERIALS.ambulance
+        } else {
+          if (state.kind === 'CAR') tracked.handle.bodyMesh.material = MATERIALS.car
+          else if (state.kind === 'BUS') tracked.handle.bodyMesh.material = MATERIALS.bus
+          else if (state.kind === 'TRUCK') tracked.handle.bodyMesh.material = MATERIALS.truck
+          else if (state.kind === 'AMBULANCE') tracked.handle.bodyMesh.material = MATERIALS.ambulance
+        }
       }
 
       // Offset the vehicle across the carriageway into its lane.
       const lateral = this.lateralOffset(state.distanceAlongMeters, state.laneOffsetMeters * LANE_SCALE)
       tracked.lngLat = lateral
-      // Sit on the road surface, which now hugs the terrain (SURFACE_LIFT).
-      this.retarget(tracked, lateral, 0.6, state.headingDegrees)
+      // Sit on the road surface, which now hugs the terrain (SURFACE_LIFT = 2.8).
+      this.retarget(tracked, lateral, 2.9, state.headingDegrees)
 
       // A vehicle that wrapped from Hosur back to Krishnagiri must be PLACED
       // at its new position, never eased to it: easing sent the car flying
@@ -395,6 +418,9 @@ export class FleetRenderer {
     for (const tracked of this.vehicles.values()) {
       tracked.group.position.lerp(tracked.targetPosition, t)
       tracked.group.rotation.z = this.easeAngle(tracked.group.rotation.z, tracked.targetYaw, t)
+      if (tracked.warning === 'SPEEDING') {
+        tracked.handle.warningRing.rotation.z += 5 * Math.min(deltaSeconds, 0.25)
+      }
     }
   }
 

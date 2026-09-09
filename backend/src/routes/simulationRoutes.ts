@@ -2,6 +2,7 @@ import { Router } from 'express'
 import {
   clearSuspicious,
   getSimulationState,
+  getViolations,
   pauseSimulation,
   resetSimulation,
   resetTraffic,
@@ -9,6 +10,7 @@ import {
   startSimulation,
   startTraffic,
   stopTraffic,
+  triggerOverspeedVehicle,
 } from '../controllers/simulationController.js'
 
 export const simulationRouter = Router()
@@ -22,3 +24,5 @@ simulationRouter.post('/traffic/start', startTraffic)
 simulationRouter.post('/traffic/stop', stopTraffic)
 simulationRouter.post('/traffic/reset', resetTraffic)
 simulationRouter.post('/suspicious/clear', clearSuspicious)
+simulationRouter.post('/overspeed/trigger', triggerOverspeedVehicle)
+simulationRouter.get('/violations', getViolations)

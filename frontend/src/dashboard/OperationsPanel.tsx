@@ -113,6 +113,27 @@ export function OperationsPanel() {
           SOS
         </button>
 
+        <button
+          type="button"
+          onClick={() => {
+            void postSimulationCommand('/api/simulation/overspeed/trigger')
+            useSimulationStore.getState().selectDrone('DR-01')
+          }}
+          className="mt-1.5 w-full rounded-sm border border-amber-400 bg-amber-50 px-2 py-1.5 text-[11px] font-medium tracking-wide text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-600/50 dark:bg-amber-500/10 dark:text-amber-300"
+          title="Spawns an overspeeding vehicle (~135 km/h) heading toward DR-01"
+        >
+          ⚡ Test Overspeed Vehicle
+        </button>
+
+        {Boolean(snapshot?.violationsCount) && (
+          <div className="mt-1 flex items-center justify-between text-[10px] text-slate-500">
+            <span>E-Challans logged:</span>
+            <span className="font-mono font-semibold text-amber-600 dark:text-amber-400">
+              {snapshot?.violationsCount}
+            </span>
+          </div>
+        )}
+
         {/* Simulation clock. The Phase 12 thresholds are 40 and 80 SIMULATED
             minutes, so this is how a demo reaches them in seconds. */}
         <div className="mt-2">

@@ -1,3 +1,5 @@
+import { postSimulationCommand } from '../../services/simulationSocket'
+import { useSimulationStore } from '../../store/simulationStore'
 import type { DashboardState } from '../../types/simulation'
 import { CONGESTION_TONE, duration, rupees } from './dashboardFormat'
 
@@ -45,6 +47,10 @@ export function DepartmentDrawer({
   onClose: () => void
 }) {
   const { emergency, traffic, publicSafety, droneOperations } = dashboard
+  // The E-Challan log is its own counter on the snapshot, separate from the
+  // dashboard's seeded baseline.
+  const challans = useSimulationStore((state) => state.snapshot?.violationsCount ?? 0)
+  const selectDrone = useSimulationStore((state) => state.selectDrone)
 
   return (
     <div className="pointer-events-auto flex h-full w-[27rem] flex-col rounded-md border border-slate-300 bg-white/97 shadow-xl backdrop-blur dark:border-slate-700 dark:bg-slate-950/95">
@@ -152,6 +158,34 @@ export function DepartmentDrawer({
               Enforcement records are SIMULATED. No fine is issued and no payment or enforcement
               system is contacted. Speed limit {traffic.speedLimitKmh} km/h.
             </p>
+
+            {/*
+              The overspeed test also lives on the OperationsPanel, which the
+              home dashboard hides while it is open - so it is surfaced here
+              too, in the department it belongs to, rather than being
+              unreachable until the operator minimises the dashboard.
+            */}
+            <div className="mt-2 rounded-sm border border-slate-200 px-2 py-2 dark:border-slate-800">
+              <div className="flex items-baseline justify-between">
+                <span className="text-[9px] tracking-[0.16em] text-slate-500 uppercase">
+                  E-Challans logged
+                </span>
+                <span className="font-mono text-[11px] text-amber-600 dark:text-amber-400">
+                  {challans}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  void postSimulationCommand('/api/simulation/overspeed/trigger')
+                  selectDrone('DR-01')
+                }}
+                title="Spawns a simulated overspeeding vehicle heading toward DR-01"
+                className="mt-1.5 w-full rounded-sm border border-amber-400 bg-amber-50 px-2 py-1.5 text-[10px] font-medium tracking-wide text-amber-800 uppercase transition-colors hover:bg-amber-100 dark:border-amber-600/50 dark:bg-amber-500/10 dark:text-amber-300"
+              >
+                Test overspeed vehicle
+              </button>
+            </div>
 
             <SectionTitle>Recent speed violations</SectionTitle>
             <ul className="space-y-1">
